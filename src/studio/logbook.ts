@@ -1,4 +1,4 @@
-// The logbook: every change against the course model — and every parameter added from a
+// The logbook: every change against the example model — and every parameter added from a
 // modification index or released from an invariance equality — wants one sentence of reason.
 // The reasons travel into the lavaan code, the share link and the Quarto report, so the
 // model's history can be defended — to a supervisor, a reviewer or yourself.
@@ -37,7 +37,7 @@ function describe(d: Diagram, e: DEdge, base?: Diagram): Omit<Change, 'key' | 's
   return { text: `${what} ${a} ↔ ${b}`, code: `${a} ~~ ${b}` };
 }
 
-/** Changes against the course model (base). Without a base (the learner's own project), only the
+/** Changes against the example model (base). Without a base (the learner's own project), only the
  *  arrows that already carry a reason are listed — those added from a modification index. */
 export function changes(d: Diagram, base: Diagram | undefined, reasons: Record<string, string>, released: { key: string; text: string; code: string }[] = []): Change[] {
   const out: Change[] = [];
@@ -60,7 +60,7 @@ export const hasReason = (reasons: Record<string, string>, key: string) => (reas
 export function logComments(list: Change[], reasons: Record<string, string>): string {
   if (!list.length) return '';
   const lines = list.map(c => `#   ${c.sign} ${c.code}: ${reasons[c.key]?.trim() || 'no reason written yet'}`);
-  return `# changes against the course model, and why (η Lab logbook)\n${lines.join('\n')}`;
+  return `# changes against the example model, and why (η Lab logbook)\n${lines.join('\n')}`;
 }
 
 /** Equalities released from the invariance ladder, as logbook entries. */

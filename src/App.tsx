@@ -97,7 +97,7 @@ export function App() {
         <span className="tag">a sandbox for structural equation modeling</span>
       </header>
       <div className="shell">
-        <aside className="side" aria-label="Course">
+        <aside className="side" aria-label="Contents">
           <nav>
             <ul className="stations">
               <li><a href="#/start" className={route === 'start' ? 'on' : ''}><span className="num">η</span>Start</a></li>
@@ -106,7 +106,7 @@ export function App() {
             </ul>
             {[0, 1, 2].map(w => (
               <div key={w}>
-                <p className="part">{w === 0 ? 'Before the course' : `Week ${w} · ${w === 1 ? 'CFA' : 'SEM'}`}</p>
+                <p className="part">{w === 0 ? 'Before you start' : `Part ${w} · ${w === 1 ? 'CFA' : 'SEM'}`}</p>
                 <ul className="stations">
                   {DAYS.filter(d => d.week === w).map(d => {
                     const open = d.n === dayN, st = readiness(d).state;
@@ -139,7 +139,7 @@ export function App() {
           <YourModelPanel model={model} active={false} onOpen={() => setTrack('project')} />
         </aside>
         <main>
-          <nav className="strip" aria-label="Course days">
+          <nav className="strip" aria-label="Days">
             <a href="#/start" className={route === 'start' ? 'on' : ''}>Start</a>
             <a href="#/map" className={route === 'map' ? 'on' : ''}>Map</a>
             {DAYS.map(d => <a key={d.n} href={`#/day/${d.n}`} className={d.n === dayN ? 'on' : ''}>Day {d.n}</a>)}

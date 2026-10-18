@@ -1,4 +1,4 @@
-// Where a model strains, and how two models compare (course day 2–3):
+// Where a model strains, and how two models compare (Days 2–3):
 // modification indices with one-click additions, residual correlations, nested comparisons.
 import { useState } from 'react';
 import type { Eff, Fitted, ModIndex } from '../math/sem.ts';

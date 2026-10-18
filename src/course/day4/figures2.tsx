@@ -1,4 +1,4 @@
-// Day 4 · the course's figures, made interactive (part 2): comparing the rungs (Satorra–Bentler
+// Day 4 · the slide figures, made interactive (part 2): comparing the rungs (Satorra–Bentler
 // and Chen, 2007), the score test behind partial invariance, the release lab with its latent
 // means, the decision tree for non-invariance, and the homework solution.
 import { useState } from 'react';
@@ -179,7 +179,7 @@ export function DecisionTree() {
         {cur.next?.map(x => <button key={x.label} className="tool" onClick={() => setPath(p => [...p, x.to])}>{x.label}</button>)}
         {path.length > 1 && <button className="tool" onClick={() => setPath(['full'])}>start again</button>}
       </div>
-      <p className="hint">After the decision tree in the course slides, redrawn. Walk it for the Benelux case: two defensible readings — absolute fit or the change in fit — lead to different branches at the second box.</p>
+      <p className="hint">After the decision tree in the slides of the Essex SEM course (2024), redrawn. Walk it for the Benelux case: two defensible readings — absolute fit or the change in fit — lead to different branches at the second box.</p>
     </div>
   );
 }

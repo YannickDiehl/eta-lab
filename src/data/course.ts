@@ -1,4 +1,4 @@
-// The course data: aggregated ESS statistics (public/data/course-data.json, written by
+// The ESS data: aggregated ESS statistics (public/data/course-data.json, written by
 // scripts/course-data.R) and how to turn them into the groups the estimator works with.
 import type { GroupStats } from '../math/sem.ts';
 
@@ -40,7 +40,7 @@ export function groupsFor(data: CourseData, roundId: string, sampleId: string, g
 let cache: Promise<CourseData> | null = null;
 export function loadCourseData(): Promise<CourseData> {
   cache ??= fetch(`${import.meta.env.BASE_URL}data/course-data.json`).then(r => {
-    if (!r.ok) throw new Error(`course data: ${r.status}`);
+    if (!r.ok) throw new Error(`ESS data: ${r.status}`);
     return r.json() as Promise<CourseData>;
   });
   return cache;

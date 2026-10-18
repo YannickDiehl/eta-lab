@@ -1,4 +1,4 @@
-// Day 2 · the course's figures, made interactive (part 1): the model as a set of assumptions,
+// Day 2 · the slide figures, made interactive (part 1): the model as a set of assumptions,
 // CFA versus sum scores, the input matrices (observed, implied, residual) and ML versus MLR.
 import { useMemo, useState } from 'react';
 import { Tex } from '../../components/ui.tsx';
@@ -96,7 +96,7 @@ export function AssumptionDiagram({ d }: { d: Day2 }) {
           {cross.map(x => <button key={extraKey(x)} className={`asm-chip ${isFree(x) ? "free" : ""}`} aria-pressed={isFree(x)} onClick={() => toggle(x)}>{x.a} → {x.b}</button>)}</div>
         <div className="asm-group"><span>Error covariances = 0 ({ecov.filter(x => !isFree(x)).length} of 21)</span>
           {ecov.map(x => <button key={extraKey(x)} className={`asm-chip ${isFree(x) ? "free" : ""}`} aria-pressed={isFree(x)} onClick={() => toggle(x)}>ε {x.a} ↔ {x.b}</button>)}</div>
-        {freed.length > 0 && <button className="tool" onClick={() => setFreed([])}>Back to the course model</button>}
+        {freed.length > 0 && <button className="tool" onClick={() => setFreed([])}>Back to the example model</button>}
       </div>
       <p className="hint">Three kinds of restrictions: <b>fixed</b> parameters (a loading set to 1 for the scale; every path you do not draw, set to 0), <b>constrained</b> (equal) parameters — Day 3 — and <b>free</b> parameters, which the data estimate. Each restriction does one of three jobs: it states a <b>theoretical assumption</b> (a cross-loading of 0: ipeqopt has nothing to do with tradition), it <b>identifies</b> the model (the loading of 1 gives the factor its unit), or it is an <b>assumption of the statistical model</b> (Cov(η, ε) = 0).</p>
       <p className="hint">Careful: df ≥ 0 is necessary for an identified model, not sufficient. Free all seven cross-loadings and df is still 6 — but the two factors can no longer be told apart, and the model cannot be estimated.</p>

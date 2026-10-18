@@ -1,5 +1,5 @@
 // The R outputs of Day 3 (public/data/day3.json, written by scripts/day3-outputs.R with the
-// course's pipeline): the restriction ladder for tradition/conformity and for universalism,
+// η Lab pipeline): the restriction ladder for tradition/conformity and for universalism,
 // reliability, identification by hand, and the simultaneous CFA of tradition/conformity,
 // universalism and attitudes toward immigration (the Netherlands, ESS 2004).
 import { useEffect, useState } from 'react';

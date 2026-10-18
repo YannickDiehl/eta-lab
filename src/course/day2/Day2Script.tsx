@@ -1,8 +1,8 @@
-// Day 2 as an interactive script: estimation and fit, after the course's Day 2 slides (Essex
-// 2024), the Day 2 worksheet and homework, and the Essex 2023 / Lugano 2025 code
-// documentation. The course model joins Day 1's two constructs: tradition/conformity and
+// Day 2 as an interactive script: estimation and fit, after the Day 2 slides of the Essex SEM
+// course (2024), the Day 2 worksheet and homework, and the Essex 2023 / Lugano 2025 code
+// documentation. The example model joins Day 1's two constructs: tradition/conformity and
 // universalism in one CFA of the Dutch ESS 2004 data. All numbers come from R
-// (scripts/day2-outputs.R) with the course's own code. After a didactic review the order runs
+// (scripts/day2-outputs.R) with the code used throughout η Lab. After a didactic review the order runs
 // estimate → fit → local fit → comparison → checklist; ordinal items close the day.
 import { useState, type ReactNode } from 'react';
 import { LoadError, Predict, Tex } from '../../components/ui.tsx';
@@ -21,23 +21,23 @@ import { EstimatorChooser, FimlWidget, MlrSimulation, WlsmvPipeline } from '../m
 import { useMapData } from '../map/widgets.tsx';
 import { EvalChecklist, FitRulers, IdentHomework, MiExplorer, NestedCompare, PearsonVsPolychoric, TestingTypes, Thresholds, WaldTable } from './figures2.tsx';
 
-const SECTIONS: { title: string; goal: string; minutes: string }[] = [
-  { title: 'The model as a set of assumptions', goal: 'you can say which assumptions a path diagram makes — also through the arrows it leaves out — and why sum scores are no substitute.', minutes: '25–30' },
-  { title: 'The input: from the data matrix to the covariance matrix', goal: 'you can compare the observed and the model-implied matrix and find where the model strains.', minutes: '30' },
-  { title: 'Estimators: ML and MLR', goal: 'you know what MLR and FIML change — and what they do not.', minutes: '45–55' },
-  { title: 'Global fit', goal: 'you can judge the fit of the course model with several indices together.', minutes: '20' },
-  { title: 'Local fit: modification indices and Wald tests', goal: 'you can read a modification index, know where standard errors and tests come from, and why an index alone is no reason to change a model.', minutes: '35–40' },
-  { title: 'Nested models and model comparison', goal: 'you can compare two models with the Satorra–Bentler test and with AIC/BIC.', minutes: '25–35' },
-  { title: 'A checklist for model evaluation', goal: 'you can evaluate a CFA point by point before you interpret it.', minutes: '10–15' },
-  { title: 'Three ways to test a model', goal: 'you can tell strictly confirmatory, alternative-model and model-generating research apart.', minutes: '10–15' },
-  { title: 'Beyond continuous items: ordinality', goal: 'you know when to treat ordered answers as ordinal, what thresholds are, what WLSMV changes — and which estimator suits your data.', minutes: '45–55' },
+const SECTIONS: { title: string; goal: string }[] = [
+  { title: 'The model as a set of assumptions', goal: 'you can say which assumptions a path diagram makes — also through the arrows it leaves out — and why sum scores are no substitute.' },
+  { title: 'The input: from the data matrix to the covariance matrix', goal: 'you can compare the observed and the model-implied matrix and find where the model strains.' },
+  { title: 'Estimators: ML and MLR', goal: 'you know what MLR and FIML change — and what they do not.' },
+  { title: 'Global fit', goal: 'you can judge the fit of the example model with several indices together.' },
+  { title: 'Local fit: modification indices and Wald tests', goal: 'you can read a modification index, know where standard errors and tests come from, and why an index alone is no reason to change a model.' },
+  { title: 'Nested models and model comparison', goal: 'you can compare two models with the Satorra–Bentler test and with AIC/BIC.' },
+  { title: 'A checklist for model evaluation', goal: 'you can evaluate a CFA point by point before you interpret it.' },
+  { title: 'Three ways to test a model', goal: 'you can tell strictly confirmatory, alternative-model and model-generating research apart.' },
+  { title: 'Beyond continuous items: ordinality', goal: 'you know when to treat ordered answers as ordinal, what thresholds are, what WLSMV changes — and which estimator suits your data.' },
 ];
 
 function Sec({ n, children }: { n: number; children: ReactNode }) {
   const s = SECTIONS[n - 1];
   return (
     <section id={`s${n}`} className="sc-step">
-      <header><span className="sc-n">{n}</span><h2>{s.title}</h2><span className="hint" style={{ margin: 0 }}>about {s.minutes} min</span></header>
+      <header><span className="sc-n">{n}</span><h2>{s.title}</h2></header>
       <p className="sc-goal"><b>After this part</b> {s.goal}</p>
       {children}
     </section>
@@ -73,7 +73,7 @@ trco_univ_fit <- cfa(
   missing = "fiml.x"
 )`;
 
-const STUDIO_SAMPLE = `# eta Lab's studio uses the respondents who answered all course variables
+const STUDIO_SAMPLE = `# eta Lab's studio uses the respondents who answered all variables used in eta Lab
 NL2_studio <- NL2 %>%
   mutate(
     agea = 2004 - yrbrn,
@@ -109,13 +109,13 @@ export function Day2Script() {
       <div className="card sc-intro">
         <Eta size={56} mood="explaining" />
         <div>
-          <p><b>Today:</b> how a model is estimated — and how we decide whether it fits. On Day 1 universalism ended with df = 0: just identified, untestable. Today it joins tradition/conformity in one model, and suddenly there is something to test: 28 observed variances and covariances, 15 parameters, <b>13 degrees of freedom</b>.</p>
+          <p><b>This script:</b> how a model is estimated — and how we decide whether it fits. On Day 1 universalism ended with df = 0: just identified, untestable. Here it joins tradition/conformity in one model, and suddenly there is something to test: 28 observed variances and covariances, 15 parameters, <b>13 degrees of freedom</b>.</p>
           <p><b>How to work:</b> continue in your project with a new script <code>day2.R</code> — packages and data as on Day 1 — and run each code block as you go. The studio task and “Your turn” practise it; the stations under “Go deeper” are optional.</p>
         </div>
       </div>
 
       <section id="start" className="sc-step">
-        <header><span className="sc-n">Start</span><h2>The course model of today</h2><span className="hint" style={{ margin: 0 }}>about 10–15 min</span></header>
+        <header><span className="sc-n">Start</span><h2>The model of this script</h2></header>
         <p className="sc-goal"><b>After this part</b> the two-factor model is estimated in R.</p>
         <p>The packages and the data are the same as on Day 1 (<a href="#/day/1#data">the setup</a>). The model has two correlated factors — two lines of lavaan syntax. We estimate it right away; section 3 explains the estimator.</p>
         <Code code={MODEL} />
@@ -128,7 +128,7 @@ export function Day2Script() {
       </section>
 
       <Sec n={1}>
-        <p>A CFA states a measurement theory as equations. The course slides write them in Latin letters — X for an indicator, A for the latent variable, f for a loading, e for the error: <Tex>{'X_1 = f_1 \\cdot A + e_1'}</Tex>. Day 1 and lavaan use Greek letters: <Tex>{'y_1 = \\lambda_1 \\eta + \\varepsilon_1'}</Tex>. Both say the same. Two assumptions come with every such equation: the latent variable and the errors are uncorrelated, <Tex>{'\\mathrm{Cov}(\\eta, \\varepsilon_i) = 0'}</Tex>, and the errors have a mean of zero, <Tex>{'E(\\varepsilon_i) = 0'}</Tex>.</p>
+        <p>A CFA states a measurement theory as equations. The original slides write them in Latin letters — X for an indicator, A for the latent variable, f for a loading, e for the error: <Tex>{'X_1 = f_1 \\cdot A + e_1'}</Tex>. Day 1 and lavaan use Greek letters: <Tex>{'y_1 = \\lambda_1 \\eta + \\varepsilon_1'}</Tex>. Both say the same. Two assumptions come with every such equation: the latent variable and the errors are uncorrelated, <Tex>{'\\mathrm{Cov}(\\eta, \\varepsilon_i) = 0'}</Tex>, and the errors have a mean of zero, <Tex>{'E(\\varepsilon_i) = 0'}</Tex>.</p>
         <p><b>In the graphical input, everything that you see or do not see is an explicit assumption.</b> An arrow you draw is a parameter to estimate; an arrow you leave out is a parameter fixed to zero.</p>
         <AssumptionDiagram d={d} />
         <Transfer answer={<p>With two indicators, one factor has p = 3 pieces of information but q = 4 parameters (1 loading, 2 error variances, 1 factor variance): df = −1. You need an extra assumption — for example equal loadings — or a second factor that correlates with the first and lends it information. If the latent variable and an error were correlated, part of what the model calls the construct would be error: the loadings would be biased.</p>}>
@@ -188,12 +188,12 @@ export function Day2Script() {
           <Check label="Scaled test statistic" expect={f['chisq.scaled']} unit={`χ²(${f.df}) = ${f['chisq.scaled'].toFixed(2)}`} hint="look for “Test Statistic”, column “Scaled”" />
         </Apply>
         <h3>Why MLR? What non-normal data do to ML</h3>
-        <p>MLR gives the same estimates as ML — so why bother? A simulation answers it: thousands of samples from the course model, with normal and with non-normal data, each estimated with ML and with MLR. Guess first:</p>
+        <p>MLR gives the same estimates as ML — so why bother? A simulation answers it: thousands of samples from the example model, with normal and with non-normal data, each estimated with ML and with MLR. Guess first:</p>
         <Predict question="Severely non-normal data, n = 500, and the model is TRUE. How often does ML’s χ² test reject it at α = .05? (It should be 5 %.)" min={0} max={60} step={1} start={10} truth={47} format={v => `${v} %`}
           explain={() => <>About 47 % of the time — almost every other sample. The scaled χ² of MLR rejects about 21 %: much better, though not perfect. Look at the simulation below for the standard errors too.</>} />
         {m && <MlrSimulation mc={mc} scaling={m.est.course.scaling} />}
         <h3>Missing answers: FIML</h3>
-        <p>The course writes <code>missing = "fiml.x"</code> into every model. What does full-information ML do with a respondent who skipped a question — and when would simply dropping them go wrong?</p>
+        <p>The code here writes <code>missing = "fiml.x"</code> into every model. What does full-information ML do with a respondent who skipped a question — and when would simply dropping them go wrong?</p>
         {m && <FimlWidget d={m.est} mc={mc} />}
         {m && (
           <details className="deeper">
@@ -206,7 +206,7 @@ export function Day2Script() {
       <Sec n={4}>
         <p>Global fit, index by index:</p>
         <ul>
-          <li><b>χ²</b> measures the distance between S and Σ(θ). <b>df</b> measures how much the model risks — its falsifiability. <b>χ²/df</b> relates the two: ≤ 2 good, ≤ 3 satisfactory (course slides). Above 3 the model is called <i>underfitted</i> (it misses something); below 1 <i>overfitted</i> (more parameters than the data justify). Like χ², it grows with n.</li>
+          <li><b>χ²</b> measures the distance between S and Σ(θ). <b>df</b> measures how much the model risks — its falsifiability. <b>χ²/df</b> relates the two: ≤ 2 good, ≤ 3 satisfactory (original slides). Above 3 the model is called <i>underfitted</i> (it misses something); below 1 <i>overfitted</i> (more parameters than the data justify). Like χ², it grows with n.</li>
           <li><b>CFI</b> ≥ .95 good, ≥ .90 acceptable; <b>TLI</b> the same, with a penalty for extra parameters.</li>
           <li><b>RMSEA</b> ≤ .05 good, ≤ .08 moderate; <b>SRMR</b> ≤ .05 good, ≤ .08 moderate.</li>
           <li><b>AIC</b> and <b>BIC</b> have no cut-off: smaller is better, but only in comparison with another model of the same data (section 6).</li>
@@ -221,7 +221,7 @@ export function Day2Script() {
       </Sec>
 
       <Sec n={5}>
-        <p><b>Modification indices</b> (Lagrange multiplier tests) estimate how much χ² would drop if one fixed parameter were freed — you know them from Day 1, step 7. An MI above 3.84 is significant for one df; the course looks at MIs above 10 first — and frees nothing without a reason. Free parameters <b>stepwise</b>, one at a time, and only <b>theory-driven</b>: every freed parameter makes the model fit this sample better — and generalize worse (section 8).</p>
+        <p><b>Modification indices</b> (Lagrange multiplier tests) estimate how much χ² would drop if one fixed parameter were freed — you know them from Day 1, step 7. An MI above 3.84 is significant for one df; here we look at MIs above 10 first — and free nothing without a reason. Free parameters <b>stepwise</b>, one at a time, and only <b>theory-driven</b>: every freed parameter makes the model fit this sample better — and generalize worse (section 8).</p>
         <Apply>
           <Code code={`trco_univ_fit %>% \n  modificationindices(standardized = T, sort. = T) %>% \n  head(8)`} />
           <ROut title="R output · modificationindices()"><pre className="syntax"><code>{d.mi_text}</code></pre></ROut>
@@ -230,7 +230,7 @@ export function Day2Script() {
           <p>The <b>Wald test</b> asks the opposite question: could a free parameter be fixed to zero? Its z value is the estimate divided by its standard error (z² is the Wald χ² with one df); with |z| &lt; 1.96 the parameter is not significant and could be dropped — again, only if theory allows it.</p>
           <Code code={`parameterEstimates(trco_univ_fit, standardized = T) %>% \n  filter(op %in% c("=~", "~~"), lhs != rhs)`} />
           <WaldTable d={d} />
-          <p>All loadings and the factor correlation are far from zero. Nothing to drop — the question of today is what to add.</p>
+          <p>All loadings and the factor correlation are far from zero. Nothing to drop — the question here is what to add.</p>
         </Apply>
         <h3>Where standard errors and tests come from</h3>
         <p className="hint">The small model, as in Day 1, step 5: TRCO measured by ipfrule and ipbhprp, UNIV by ipeqopt and ipudrst. λ₂₁ is the loading of ipbhprp (item 2 on factor 1), λ₄₂ that of ipudrst (item 4 on factor 2).</p>
@@ -248,16 +248,16 @@ export function Day2Script() {
           <Check label="Δχ²_SB, one factor against two" expect={d.lrt_1v2[1].dchisq ?? 0} tol={0.05} unit={`Δχ²(${d.lrt_1v2[1].ddf}) = ${(d.lrt_1v2[1].dchisq ?? 0).toFixed(2)} — the column “Chisq diff”`} hint="“Chisq diff” is already the Satorra–Bentler difference; the column “Chisq” holds the standard values" />
           <ROut title="R output · compareFit(values_fit, trco_univ_fit)"><pre className="syntax"><code>{d.cmp_1v2_text}</code></pre></ROut>
           <p className="hint">lavaan adds a NOTE: the column “Chisq” holds the standard (not robust) χ² values. Do not report that column; “Chisq diff” is already the scaled Satorra–Bentler difference. compareFit also sorts the models by df.</p>
-          <p><b>The largest modification index, freed.</b> The model with <code>{d.freed}</code> is the course model plus one parameter:</p>
+          <p><b>The largest modification index, freed.</b> The model with <code>{d.freed}</code> is the example model plus one parameter:</p>
           <Code code={`trco_univ_fit_mod <- cfa(\n  model = "\n    TRCO =~ ipmodst + imptrad + ipfrule + ipbhprp\n    UNIV =~ ipeqopt + ipudrst + impenv\n    imptrad ~~ impenv\n  ",\n  data = NL2,\n  estimator = "MLR",\n  missing = "fiml.x"\n)\n\ncompareFit(\n  trco_univ_fit, trco_univ_fit_mod,\n  argsLRT = list(method = "satorra.bentler.2001")\n) %>% \n  summary()`} />
           <ROut title="R output · compareFit(trco_univ_fit, trco_univ_fit_mod)"><pre className="syntax"><code>{d.cmp_mod_text}</code></pre></ROut>
           <p>Why is Δχ²<sub>SB</sub> = {d.lrt_mod.find(x => x.dchisq !== null)!.dchisq!.toFixed(1)} smaller than the MI of {d.mi[0].mi.toFixed(1)}? The MI estimates the drop in the standard ML χ²; the Satorra–Bentler test corrects for the non-normal data.</p>
-          <p><b>What follows?</b> The modified model fits better — χ²({mf.df}) = {mf['chisq.scaled'].toFixed(1)}, p = {f3(mf['pvalue.scaled'])}, CFI {f3(mf['cfi.robust'])} — but it is still rejected by χ², and the freed parameter came from the data, not from theory. Whether to keep it is a question of content: what do “following traditions and customs” and “caring for nature and the environment” share beyond their values? That decision is the studio task of today. Changing a model on the same data because an index said so is <b>model generating</b> (section 8).</p>
+          <p><b>What follows?</b> The modified model fits better — χ²({mf.df}) = {mf['chisq.scaled'].toFixed(1)}, p = {f3(mf['pvalue.scaled'])}, CFI {f3(mf['cfi.robust'])} — but it is still rejected by χ², and the freed parameter came from the data, not from theory. Whether to keep it is a question of content: what do “following traditions and customs” and “caring for nature and the environment” share beyond their values? That decision is the studio task of this day. Changing a model on the same data because an index said so is <b>model generating</b> (section 8).</p>
         </Apply>
       </Sec>
 
       <Sec n={7}>
-        <p>Before a model is interpreted, it passes a checklist. Now that you know global fit, local fit and model comparison, check the course model point by point:</p>
+        <p>Before a model is interpreted, it passes a checklist. Now that you know global fit, local fit and model comparison, check the example model point by point:</p>
         <EvalChecklist d={d} />
       </Sec>
 
@@ -306,7 +306,7 @@ export function Day2Script() {
             <li>the more categories, the less bias;</li>
             <li>from five categories on, ordinal items may be treated as continuous, with a robust estimator such as MLR. Four categories are a grey zone (Brown, 2015, accepts them); with skewed answers, use WLSMV.</li>
           </ul>
-          <p>Six categories, as here, with at most 30 % of the answers in an end category, are on the safe side; the differences above are the remaining price. The course’s rule, in one place: {ESTIMATOR_RULE}</p>
+          <p>Six categories, as here, with at most 30 % of the answers in an end category, are on the safe side; the differences above are the remaining price. The rule used here, in one place: {ESTIMATOR_RULE}</p>
           <ROut title={`R output · summary(trco_univ_fit_ord) · n = ${d.n_ord}, pairwise`}><pre className="syntax"><code>{d.ord.summary}</code></pre></ROut>
         </Apply>
         <h3>Which estimator for your data?</h3>
@@ -326,7 +326,7 @@ export function Day2Script() {
             <tr><td>this script, the test to report</td><td>{d.n.toLocaleString('en')}</td><td>MLR, FIML — the scaled χ²</td><td>{f['chisq.scaled'].toFixed(2)}</td></tr>
             <tr><td>this script, the column “Standard”</td><td>{d.n.toLocaleString('en')}</td><td>ML, FIML</td><td>{f.chisq.toFixed(2)}</td></tr>
             <tr><td>Day 1, step 5 (the likelihood fold)</td><td>1,830</td><td>ML, listwise</td><td>103.02</td></tr>
-            <tr><td>the studio and its task</td><td>1,690</td><td>ML, only respondents with all course variables</td><td>103.94</td></tr>
+            <tr><td>the studio and its task</td><td>1,690</td><td>ML, only respondents with all variables used in η Lab</td><td>103.94</td></tr>
           </tbody>
         </table>
         <p>To get the studio’s numbers in R:</p>
@@ -335,7 +335,7 @@ export function Day2Script() {
       </section>
 
       <section id="yourturn" className="sc-step">
-        <header><span className="sc-n">✎</span><h2>Your turn: alternative identifications</h2><span className="hint" style={{ margin: 0 }}>about 20–30 min</span></header>
+        <header><span className="sc-n">✎</span><h2>Your turn: alternative identifications</h2></header>
         <p className="sc-goal"><b>After this part</b> you have shown yourself that scaling changes the unit, not the model — a repetition of Day 1, step 3.</p>
         <p>Estimate a one-factor CFA of tradition/conformity three times: with the first loading fixed (lavaan’s default), with the loading of the <i>fourth</i> indicator fixed instead, and with the factor variance fixed. Fill the gaps — then compare the three outputs.</p>
         <Code code={`tradition_conformity_fit <- cfa(\n  model = "TRCO =~ ipmodst + imptrad + ipfrule + ipbhprp",\n  data = NL2,\n  estimator = "MLR",\n  missing = "fiml.x"\n)\n\ntradition_conformity_fit2 <- cfa(\n  model = "TRCO =~ ____*ipmodst + imptrad + ipfrule + ____*ipbhprp",\n  data = NL2,\n  estimator = "MLR",\n  missing = "fiml.x"\n)\n\ntradition_conformity_fit3 <- cfa(\n  model = "\n  TRCO =~ ____*ipmodst + imptrad + ipfrule + ipbhprp\n  TRCO ~~ ____*TRCO\n  ",\n  data = NL2,\n  estimator = "MLR",\n  missing = "fiml.x"\n)\n\nsummary(object = tradition_conformity_fit2, fit.measures = T, standardized = T)`} />

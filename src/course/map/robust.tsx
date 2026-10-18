@@ -1,6 +1,6 @@
 // The map of SEM · when the data break ML's assumptions. A chooser for the estimator, and one
-// widget for each repair the course uses:
-//   EstimatorChooser  three questions about your items → the lavaan call in the course's style
+// widget for each repair used here:
+//   EstimatorChooser  three questions about your items → the lavaan call in the style used here
 //   MlrSimulation     non-normal data: ML's standard errors and χ² are overconfident, MLR repairs them
 //                     (Monte Carlo from R, map-mc.json)
 //   WlsmvPipeline     ordinal items: thresholds from frequencies, a polychoric correlation found by
@@ -38,7 +38,7 @@ export function EstimatorChooser() {
       {ready && <div className="chooser-out">
         <p><b>{ord ? 'WLSMV' : 'MLR'}</b> — {why} {miss ? (ord ? 'Missing answers: WLSMV uses every pair of items that was answered (pairwise).' : 'Missing answers: full-information ML keeps every respondent (fiml.x also uses incomplete covariates).') : ''}</p>
         <pre className="syntax"><code>{code}</code></pre>
-        <p className="hint">The course’s rule (Day 2, section 9). Your project step of Day 2 asks the same questions — and writes the choice into your project’s R code.</p>
+        <p className="hint">η Lab’s rule (Day 2, section 9). Your project step of Day 2 asks the same questions — and writes the choice into your project’s R code.</p>
       </div>}
     </div>
   );
@@ -66,7 +66,7 @@ export function MlrSimulation({ mc, scaling }: { mc: McData | null; scaling: num
         <div className="seg wrap" role="group" aria-label="Distribution">{Object.keys(DIST).map(k => <button key={k} aria-pressed={dist === k} onClick={() => setDist(k)}>{k}</button>)}</div>
         <div className="seg" role="group" aria-label="Sample size">{[200, 500, 1000].map(k => <button key={k} aria-pressed={n === k} onClick={() => setN(k)}>n = {k}</button>)}</div>
       </div>
-      <p className="hint">{r.reps} samples of {n} respondents, {DIST[dist]}, simulated from the course’s two-factor model; each estimated with ML and with MLR. The loading of ipbhprp (true value {r.truth.toFixed(2)}):</p>
+      <p className="hint">{r.reps} samples of {n} respondents, {DIST[dist]}, simulated from the example two-factor model; each estimated with ML and with MLR. The loading of ipbhprp (true value {r.truth.toFixed(2)}):</p>
       <svg viewBox={`0 0 ${W} ${H}`} className="fig-svg" role="img" aria-label="Histogram of the estimates with the spread ML and MLR claim">
         {r.hist.map((c, i) => <rect key={i} x={20 + i * bw + 1} y={H - 24 - (c / top) * (H - 100)} width={bw - 2} height={(c / top) * (H - 100)} className="mc-bar" />)}
         <line x1={X(r.truth)} x2={X(r.truth)} y1={66} y2={H - 24} className="mc-truth" />
@@ -93,7 +93,7 @@ export function MlrSimulation({ mc, scaling }: { mc: McData | null; scaling: num
           {dist === 'severe' && n === 200 && <p className="hint">With severe non-normality and only 200 respondents, even the scaled χ² rejects too often: robust corrections need samples of reasonable size too.</p>}
         </div>
       </div>
-      <p className="hint">In the course data the scaling factor of χ² is {scaling.toFixed(3)}: the ML χ² is divided by it — the data are moderately non-normal. Satorra & Bentler (1994) proposed the scaled χ², Yuan & Bentler (2000) the version lavaan’s MLR uses.</p>
+      <p className="hint">In the ESS data the scaling factor of χ² is {scaling.toFixed(3)}: the ML χ² is divided by it — the data are moderately non-normal. Satorra & Bentler (1994) proposed the scaled χ², Yuan & Bentler (2000) the version lavaan’s MLR uses.</p>
       <details className="deeper">
         <summary><span className="shape d" aria-hidden="true" /><span><small>Go deeper</small>The sandwich</span></summary>
         <div className="deeper-body">
@@ -182,7 +182,7 @@ export function WlsmvPipeline({ d }: { d: EstData }) {
           <summary><span className="shape d" aria-hidden="true" /><span><small>Go deeper</small>Why not full WLS? And what about missing answers?</span></summary>
           <div className="deeper-body">
             <p>Full weighted least squares (Browne’s ADF, 1984) weights with the whole covariance matrix of all polychoric correlations — for seven items that is a 21 × 21 matrix that must be estimated from the data, and it needs thousands of respondents to be stable. WLSMV uses only its diagonal for the estimates and the full matrix only for the corrections: stable with a few hundred respondents.</p>
-            <p>Because every polychoric correlation uses only one pair of items, WLSMV handles missing answers <i>pairwise</i>: each pair with all respondents who answered both (<code>missing = "pairwise"</code>, the course’s choice). This assumes that answers are missing completely at random — a stronger assumption than FIML needs.</p>
+            <p>Because every polychoric correlation uses only one pair of items, WLSMV handles missing answers <i>pairwise</i>: each pair with all respondents who answered both (<code>missing = "pairwise"</code>, the choice made here). This assumes that answers are missing completely at random — a stronger assumption than FIML needs.</p>
           </div>
         </details>
       </div>
@@ -254,7 +254,7 @@ export function FimlWidget({ d, mc }: { d: EstData; mc: McData | null }) {
         <div className="seg wrap" role="group" aria-label="Why answers are missing">{Object.keys(MECH).map(k => <button key={k} aria-pressed={mech === k} onClick={() => setMech(k)}>{k.toUpperCase()}</button>)}</div>
         <div className="seg" role="group" aria-label="Share missing">{[0.1, 0.3, 0.5].map(s => <button key={s} aria-pressed={share === s} onClick={() => setShare(s)}>{s * 100} % missing</button>)}</div>
       </div>
-      <p className="hint">Missing {MECH[mech]}. {mc ? `${mc.fiml.reps} samples of ${mc.fiml.n} each, simulated from the course’s two-factor model.` : ''}</p>
+      <p className="hint">Missing {MECH[mech]}. {mc ? `${mc.fiml.reps} samples of ${mc.fiml.n} each, simulated from the example two-factor model.` : ''}</p>
       {mc && row && <>
         <div className="fiml-row"><span>correlation of the factors</span><Dot lo={0.5} hi={0.62} truth={mc.fiml.truth_r} lw={row.r_lw} fi={row.r_fi} fmt={v => v.toFixed(2)} /></div>
         <div className="fiml-row"><span>mean of impenv</span><Dot lo={4.0} hi={4.9} truth={mc.fiml.truth_m} lw={row.m_lw} fi={row.m_fi} fmt={v => v.toFixed(2)} /></div>
@@ -267,7 +267,7 @@ export function FimlWidget({ d, mc }: { d: EstData; mc: McData | null }) {
       </>}
       </div>
       </details>
-      <p className="hint">The course data: of {c.total} Dutch respondents, {c.answered['7']} answered all seven items, {partial} some, {c.answered['0']} none. Listwise ML uses {c.n} (χ² = {c.chisq.toFixed(1)}), FIML {c.fiml_n} (χ² = {c.fiml_chisq.toFixed(1)}) — the 20 who answered nothing cannot contribute. The course writes <code>missing = "fiml.x"</code>: the “x” also keeps respondents with missing values on exogenous covariates (Week 2). Arbuckle (1996) made FIML practical for SEM.</p>
+      <p className="hint">The ESS data: of {c.total} Dutch respondents, {c.answered['7']} answered all seven items, {partial} some, {c.answered['0']} none. Listwise ML uses {c.n} (χ² = {c.chisq.toFixed(1)}), FIML {c.fiml_n} (χ² = {c.fiml_chisq.toFixed(1)}) — the 20 who answered nothing cannot contribute. The code writes <code>missing = "fiml.x"</code>: the “x” also keeps respondents with missing values on exogenous covariates (Part 2). Arbuckle (1996) made FIML practical for SEM.</p>
       <details className="deeper">
         <summary><span className="shape d" aria-hidden="true" /><span><small>Go deeper</small>The casewise likelihood</span></summary>
         <div className="deeper-body">

@@ -1,7 +1,7 @@
 // The R outputs of Day 5 (public/data/day5.json, written by scripts/day5-outputs.R): latent means
 // against mean scores, the modification cascade and its replication, alignment, a second-order
 // factor (conservation in Belgium), a bifactor model, the MTMM model on simulated data, and the
-// week-1 probe (two values across the Benelux).
+// Part 1 probe (two values across the Benelux).
 import { useEffect, useState } from 'react';
 
 export type Fit = Record<string, number>;

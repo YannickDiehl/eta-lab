@@ -1,7 +1,7 @@
 // Station 13 · Mediation
 // An effect can travel along more than one road. X → M → Y splits the total effect into a
 // direct and an indirect part; the indirect part is a product, its sampling distribution is
-// skewed, and so the course reports bootstrap intervals rather than the Sobel test.
+// skewed, and so η Lab reports bootstrap intervals rather than the Sobel test.
 import { useEffect, useMemo, useState } from 'react';
 import { Beat, Choose, Explain, Formula, Metric, Slider, StationHead, Tex, Yours, fmt } from '../components/ui.tsx';
 import { groupsFor, loadCourseData, type CourseData } from '../data/course.ts';
@@ -87,7 +87,7 @@ export function S13Mediation({ model }: { model: YourModel }) {
   const sobelSig = e.sobel[0] > 0 || e.sobel[1] < 0, mcSig = mc.ci[0] > 0 || mc.ci[1] < 0;
   const share = e.total !== 0 && Math.sign(e.ab) === Math.sign(e.total) ? e.ab / e.total : NaN;
 
-  // the course model on the ESS 2004
+  // the example model on the ESS 2004
   const data = useCourse();
   const tm = TEMPLATES.find(t => t.title.startsWith('Mediation'))!;
   const d = useMemo(() => templateDiagram(tm), [tm]);
@@ -162,7 +162,7 @@ export function S13Mediation({ model }: { model: YourModel }) {
                   </>}
                 </tbody>
               </table>
-              <p className="hint">The same model is the Day 7 course model in the studio (Data → Course models), where Results → Effects shows these numbers and the lavaan tab writes the <code>:=</code> lines and the bootstrap call.</p>
+              <p className="hint">The same model is the Day 7 example model in the studio (Data → Example models), where Results → Effects shows these numbers and the lavaan tab writes the <code>:=</code> lines and the bootstrap call.</p>
             </>
           )}
         </div>

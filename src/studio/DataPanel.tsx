@@ -1,4 +1,4 @@
-// The data panel: course data from the ESS or the learner's own CSV file, and the
+// The data panel: the ESS data or the learner's own CSV file, and the
 // variables to drag onto the sheet.
 import { useMemo, useState } from 'react';
 import { GROUPING_LABEL, variablesOf, type CourseData, type Grouping } from '../data/course.ts';
@@ -58,7 +58,7 @@ export function DataPanel({ course, courseError, choice, setChoice, own, inModel
   return (
     <div className="dp">
       <div className="seg dp-src" role="group" aria-label="Data source">
-        <button aria-pressed={src === 'course'} onClick={() => pickCourse({})}>Course data (ESS)</button>
+        <button aria-pressed={src === 'course'} onClick={() => pickCourse({})}>ESS data</button>
         <button aria-pressed={src === 'own'} onClick={() => own ? setChoice({ source: 'own', name: own.name, grouping: null }) : setChoice(choice?.source === 'own' ? choice : { source: 'own', name: '', grouping: null })}>Your own file</button>
       </div>
 
@@ -80,9 +80,9 @@ export function DataPanel({ course, courseError, choice, setChoice, own, inModel
             </select>
           </div>
           {!choice && <button className="btn primary" style={{ marginTop: 4 }} onClick={() => pickCourse({ round: round?.id, sample: sample?.id })}>Estimate on this sample</button>}
-          {choice && sample && !round?.simulated && <p className="hint">Complete cases on all course variables: {sample.all.n.toLocaleString('en')} of {sample.all.raw.toLocaleString('en')} respondents. Value items run from 1 (not like me) to 6 (very much like me).</p>}
+          {choice && sample && !round?.simulated && <p className="hint">Complete cases on all ESS variables in η Lab: {sample.all.n.toLocaleString('en')} of {sample.all.raw.toLocaleString('en')} respondents. Value items run from 1 (not like me) to 6 (very much like me).</p>}
           {round?.simulated && <p className="hint dp-sim"><b>Simulated data.</b> {round.note}</p>}
-        </> : <p className="hint">{courseError ?? 'Loading the course data…'}</p>
+        </> : <p className="hint">{courseError ?? 'Loading the ESS data…'}</p>
       )}
 
       {src === 'own' && (
@@ -109,7 +109,7 @@ export function DataPanel({ course, courseError, choice, setChoice, own, inModel
 
       {src === 'course' && course && (
         <details className="dp-models">
-          <summary className="st-h" style={{ margin: '14px 0 6px', cursor: 'pointer' }}>Course models, day by day</summary>
+          <summary className="st-h" style={{ margin: '14px 0 6px', cursor: 'pointer' }}>Example models, day by day</summary>
           <ul>
             {TEMPLATES.map(m => (
               <li key={m.title}><button onClick={() => onTemplate(m)} title={m.note}><span>{m.day}</span>{m.title}{m.round === 'panel' || m.round === 'mtmm' ? <i className="sim">simulated</i> : null}</button></li>

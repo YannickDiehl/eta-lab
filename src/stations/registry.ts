@@ -1,4 +1,4 @@
-// The built stations. Where each one sits in the course (day and number) is in course/days.ts.
+// The built stations. Where each one sits in η Lab (day and number) is in course/days.ts.
 import type { ComponentType } from 'react';
 import type { YourModel } from '../state.ts';
 import { S4MeasurementError } from './S4MeasurementError.tsx';

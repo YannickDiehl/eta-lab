@@ -32,7 +32,7 @@ function DecisionTree() {
 
 export const CARDS: Card[] = [
   {
-    id: 'cfa-steps', day: 1, title: 'A CFA in eight steps', source: 'after the course script of Day 1',
+    id: 'cfa-steps', day: 1, title: 'A CFA in eight steps', source: 'after the script of Day 1',
     body: (
       <>
         <ol className="card-steps">
@@ -59,7 +59,7 @@ export const CARDS: Card[] = [
     ),
   },
   {
-    id: 'fit', day: 2, title: 'Fit indices at a glance', source: `cut-offs: ${CUTOFF_SOURCE}; χ²/df: course slides Day 2`,
+    id: 'fit', day: 2, title: 'Fit indices at a glance', source: `cut-offs: ${CUTOFF_SOURCE}; χ²/df: Essex SEM course slides, Day 2`,
     body: (
       <>
         <table className="rp-table">
@@ -90,7 +90,7 @@ export const CARDS: Card[] = [
             <tr><td>missing answers (MAR)</td><td>FIML (with ML/MLR)</td><td className="mono">missing = "fiml.x"</td></tr>
           </tbody>
         </table>
-        <p>Four categories are a grey zone: treated as continuous by many (Brown, 2015), but simulations favour five or more (Rhemtulla, Brosseau-Liard & Savalei, 2012; Liu et al., 2017). MLR keeps ML’s estimates and corrects χ² and the standard errors. WLSMV fits polychoric correlations; it cannot use FIML — the course sets <span className="mono">missing = "pairwise"</span> (lavaan’s default would drop every incomplete respondent).</p>
+        <p>Four categories are a grey zone: treated as continuous by many (Brown, 2015), but simulations favour five or more (Rhemtulla, Brosseau-Liard & Savalei, 2012; Liu et al., 2017). MLR keeps ML’s estimates and corrects χ² and the standard errors. WLSMV fits polychoric correlations; it cannot use FIML — η Lab sets <span className="mono">missing = "pairwise"</span> (lavaan’s default would drop every incomplete respondent).</p>
       </>
     ),
   },
@@ -126,7 +126,7 @@ export const CARDS: Card[] = [
     ),
   },
   {
-    id: 'tree', day: 4, title: 'When full invariance fails', source: 'redrawn from the course’s decision tree (Day 4 slides)',
+    id: 'tree', day: 4, title: 'When full invariance fails', source: 'redrawn from the decision tree in the Essex SEM course slides (Day 4)',
     body: <DecisionTree />,
   },
   {

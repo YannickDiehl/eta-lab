@@ -1,9 +1,9 @@
-// Day 1 as an interactive script: the course's CFA procedure in eight steps (after the Lugano
+// Day 1 as an interactive script: the CFA procedure in eight steps (after the Lugano
 // 2025 / Essex 2023 code documentation), applied to tradition and conformity in the
-// Netherlands. The text follows the course scripts closely (errors corrected); the code is the
-// course's own (tidyverse, sjlabelled/sjmisc, easystats, MVN, lavaan, semPlot/semptools); the
+// Netherlands. The text follows the earlier course scripts closely (errors corrected); the code is the
+// one used throughout η Lab (tidyverse, sjlabelled/sjmisc, easystats, MVN, lavaan, semPlot/semptools); the
 // static figures are replaced by interactive ones that work with the real estimates. After a
-// didactic review: every step has a goal, a time, and a number to check against R.
+// didactic review: every step has a goal and a number to check against R.
 import { useState, type ReactNode } from 'react';
 import { LoadError, Tex } from '../../components/ui.tsx';
 import { Eta } from '../../eta/Eta.tsx';
@@ -37,22 +37,22 @@ export const LABELS: Record<string, string> = {
 };
 const CONSTRUCT: Record<string, string> = { ipmodst: 'Tradition', imptrad: 'Tradition', ipfrule: 'Conformity', ipbhprp: 'Conformity' };
 
-const STEPS: { title: string; goal: string; minutes: string }[] = [
-  { title: 'Translation of the theoretical model into a measurement model', goal: 'you can write the four items as equations of one latent variable.', minutes: '10–15' },
-  { title: 'Checking whether it is a reflective or formative construct', goal: 'you can argue why tradition and conformity are measured reflectively.', minutes: '10' },
-  { title: 'Specification of the model: a scale for the latent variable', goal: 'you know why a latent variable needs a scale, and the two ways to give it one.', minutes: '15' },
-  { title: 'Checking the model assumptions', goal: 'you have checked sample size, distributions, correlations and item statistics — and know why the course uses MLR.', minutes: '30–35' },
-  { title: 'Checking whether the model is identified — and estimating it', goal: 'you can count df, know how lavaan searches for the estimates and what its warnings mean, estimate the model and read its output.', minutes: '45–55' },
-  { title: 'Checking the fit measures', goal: 'you can judge the global fit with several indices — and know why χ² alone misleads in large samples.', minutes: '20' },
-  { title: 'Checking for misspecification', goal: 'you can read loadings, residuals and modification indices, and decide whether to change the model.', minutes: '20' },
-  { title: 'Identifying the mean structure (optional)', goal: 'you know how intercepts and the latent mean reproduce the item means.', minutes: '15' },
+const STEPS: { title: string; goal: string }[] = [
+  { title: 'Translation of the theoretical model into a measurement model', goal: 'you can write the four items as equations of one latent variable.' },
+  { title: 'Checking whether it is a reflective or formative construct', goal: 'you can argue why tradition and conformity are measured reflectively.' },
+  { title: 'Specification of the model: a scale for the latent variable', goal: 'you know why a latent variable needs a scale, and the two ways to give it one.' },
+  { title: 'Checking the model assumptions', goal: 'you have checked sample size, distributions, correlations and item statistics — and know why η Lab uses MLR.' },
+  { title: 'Checking whether the model is identified — and estimating it', goal: 'you can count df, know how lavaan searches for the estimates and what its warnings mean, estimate the model and read its output.' },
+  { title: 'Checking the fit measures', goal: 'you can judge the global fit with several indices — and know why χ² alone misleads in large samples.' },
+  { title: 'Checking for misspecification', goal: 'you can read loadings, residuals and modification indices, and decide whether to change the model.' },
+  { title: 'Identifying the mean structure (optional)', goal: 'you know how intercepts and the latent mean reproduce the item means.' },
 ];
 
 function Step({ n, children }: { n: number; children: ReactNode }) {
   const s = STEPS[n - 1];
   return (
     <section id={`step${n}`} className="sc-step">
-      <header><span className="sc-n">Step {n}</span><h2>{s.title}</h2><span className="hint" style={{ margin: 0 }}>about {s.minutes} min</span></header>
+      <header><span className="sc-n">Step {n}</span><h2>{s.title}</h2></header>
       <p className="sc-goal"><b>After this step</b> {s.goal}</p>
       {children}
     </section>
@@ -128,14 +128,14 @@ export function Day1Script() {
       <div className="card sc-intro">
         <Eta size={56} mood="explaining" />
         <div>
-          <p><b>Today:</b> one construct, four items, eight steps. We follow the course’s CFA procedure from the theoretical idea to an estimated, checked measurement model — tradition and conformity in the Netherlands (ESS 2004). Every figure can be operated; every number comes from R with the course code shown next to it.</p>
-          <p><b>How to work:</b> open your <code>sem-course</code> project, create a new script <code>day1.R</code>, and copy each code block into it as you go. Run it line by line and compare what R prints with the boxes “R output” and the numbers to check. “Your turn” at the end applies the whole procedure to a second construct.</p>
-          <p className="hint">The code is the course’s: tidyverse, sjlabelled and sjmisc for the data, easystats and MVN for the checks, lavaan with MLR and FIML for the model.</p>
+          <p><b>This script:</b> one construct, four items, eight steps. We follow the CFA procedure from the theoretical idea to an estimated, checked measurement model — tradition and conformity in the Netherlands (ESS 2004). Every figure can be operated; every number comes from R with the code shown next to it.</p>
+          <p><b>How to work:</b> open your <code>sem-lab</code> project, create a new script <code>day1.R</code>, and copy each code block into it as you go. Run it line by line and compare what R prints with the boxes “R output” and the numbers to check. “Your turn” at the end applies the whole procedure to a second construct.</p>
+          <p className="hint">The code is the one used throughout η Lab: tidyverse, sjlabelled and sjmisc for the data, easystats and MVN for the checks, lavaan with MLR and FIML for the model.</p>
         </div>
       </div>
 
       <section id="constructs" className="sc-step">
-        <header><span className="sc-n">Start</span><h2>Hypothetical constructs and the classic test theory</h2><span className="hint" style={{ margin: 0 }}>about 10–15 min</span></header>
+        <header><span className="sc-n">Start</span><h2>Hypothetical constructs and the classic test theory</h2></header>
         <p className="sc-goal"><b>After this part</b> you can say what a latent variable is and why measurement error matters.</p>
         <p>Many variables in the social and behavioral sciences represent <b>hypothetical constructs</b> — traits, attitudes, values. We rarely observe them directly: most constructs can only be captured by several observable indicators, for example the questions of a questionnaire. We assume that these indicators are manifestations of the construct. <b>Manifest indicators</b> are directly observable; <b>latent variables</b> are not.</p>
         <p>So we need a model of the relationship between manifest indicators and latent variables. Its starting point is the classic test theory (Novick, 1966): an observed score is a true score plus error.</p>
@@ -143,8 +143,8 @@ export function Day1Script() {
       </section>
 
       <section id="data" className="sc-step">
-        <header><span className="sc-n">Setup</span><h2>Packages and data</h2><span className="hint" style={{ margin: 0 }}>about 15–20 min</span></header>
-        <p className="sc-goal"><b>After this part</b> the course data are loaded in R, with the value items reversed.</p>
+        <header><span className="sc-n">Setup</span><h2>Packages and data</h2></header>
+        <p className="sc-goal"><b>After this part</b> the ESS data are loaded in R, with the value items reversed.</p>
         <Code code={PACKAGES} />
         <p className="hint">Red messages about functions that are “masked” are normal (Day 0). semTools is loaded now for later days.</p>
         <p>The data: the Dutch respondents of ESS round 2 (2004), the file <code>NL2.sav</code> you saved on Day 0. <code>read_spss()</code> from sjlabelled keeps the variable labels; <code>rec()</code> from sjmisc reverses the 21 value items so that higher values mean “more important”.</p>
@@ -300,7 +300,7 @@ export function Day1Script() {
           <Code code={`tradition_conformity_fit %>% \n  modificationindices(standardized = T, sort. = T)\n\n# correlation residuals: observed minus model-implied\nresiduals(tradition_conformity_fit, type = "cor")`} />
           <p className="hint">lhs/rhs: the variables of the suggested parameter · op: the operator (~~ a covariance) · mi: the expected drop in χ² · epc: the expected parameter change · sepc.all: the expected change, fully standardized (read it like a correlation).</p>
           <ResidualCorrelation s={s} labels={LABELS} />
-          <p>The largest suggested modification is an error correlation between {s.mi[0].lhs} and {s.mi[0].rhs} (MI = {s.mi[0].mi.toFixed(3)}, correlation = {f3(s.mi[0].sepc)}). It is below 3.84, the critical χ² value for one degree of freedom, and far below the course’s threshold of 10: there is no substantial improvement to gain. Any change would need a theoretical reason, not just an index.</p>
+          <p>The largest suggested modification is an error correlation between {s.mi[0].lhs} and {s.mi[0].rhs} (MI = {s.mi[0].mi.toFixed(3)}, correlation = {f3(s.mi[0].sepc)}). It is below 3.84, the critical χ² value for one degree of freedom, and far below the threshold of 10 used here: there is no substantial improvement to gain. Any change would need a theoretical reason, not just an index.</p>
           <p>Finally, do the items represent the factor well? All standardized loadings reach the cut-off of ≥ .40:</p>
           <LoadingBars s={s} />
           <p>Together with the fit indices: an appropriate measurement model. We keep it as it is.</p>
@@ -308,7 +308,7 @@ export function Day1Script() {
       </Step>
 
       <Step n={8}>
-        <p>With item intercepts τ, the formal model also reproduces the item <b>means</b> — from the intercepts, the loadings and the latent mean κ. (At the start of the day τ was the true score; from here on it is an intercept. The notation of the course reuses the letter.)</p>
+        <p>With item intercepts τ, the formal model also reproduces the item <b>means</b> — from the intercepts, the loadings and the latent mean κ. (At the start of the day τ was the true score; from here on it is an intercept. The notation used here reuses the letter.)</p>
         <div className="sc-formula"><Tex block>{'y_i = \\tau_i + \\lambda_i\\,\\eta + \\varepsilon_i \\qquad E(y_i) = \\tau_i + \\lambda_i\\,\\kappa'}</Tex></div>
         <p>To identify the mean structure, either the intercept of the reference indicator or the latent mean is fixed to zero. lavaan fixes the latent mean κ to 0 by default — so each intercept equals the item’s mean.</p>
         <MeanStructure s={s} />
@@ -320,7 +320,7 @@ export function Day1Script() {
       </Step>
 
       <section id="yourturn" className="sc-step">
-        <header><span className="sc-n">✎</span><h2>Your turn: universalism</h2><span className="hint" style={{ margin: 0 }}>about 20–30 min</span></header>
+        <header><span className="sc-n">✎</span><h2>Your turn: universalism</h2></header>
         <p className="sc-goal"><b>After this part</b> you can run steps 5 and 6 on your own — and you know what df = 0 means.</p>
         <p>Another construct: universalism with three items — <code>ipeqopt</code> (“{LABELS.ipeqopt}”), <code>ipudrst</code> (“{LABELS.ipudrst}”) and <code>impenv</code> (“{LABELS.impenv}”).</p>
         <MiniTask question="Before you run anything: how many degrees of freedom will the one-factor model of three items have?" options={['df = 2', 'df = 0', 'df = −1']} answer={1}

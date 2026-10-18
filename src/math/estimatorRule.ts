@@ -1,4 +1,4 @@
-// One source for the course's rule of thumb on ordered answers (Day 2, section 9), so that the
+// One source for η Lab's rule of thumb on ordered answers (Day 2, section 9), so that the
 // estimator chooser, the project step, the transfer answer and station 2.4 never disagree.
 // After Rhemtulla, Brosseau-Liard & Savalei (2012) and Brown (2015): from five categories on,
 // continuous with MLR; four categories a grey zone; two or three ordinal with WLSMV. "Piled up"
@@ -16,7 +16,7 @@ export function chooseEstimator(cats: Categories, piledUp: boolean): EstimatorAd
     : { estimator: 'MLR', check: 'WLSMV', why: 'Four categories are a grey zone. Without a pile-up, the continuous treatment with MLR is defensible (Brown, 2015) — report WLSMV as a check.' };
   if (cats === '5–6') return piledUp
     ? { estimator: 'WLSMV', check: 'MLR', why: 'Five or six categories are usually treated as continuous — but with the answers piled up at one end the correlations shrink noticeably: WLSMV, with MLR as a check.' }
-    : { estimator: 'MLR', check: null, why: 'Five or six categories without a strong pile-up: continuous, with MLR for the remaining non-normality. The course’s value items are this case (at most 30 % in an end category).' };
+    : { estimator: 'MLR', check: null, why: 'Five or six categories without a strong pile-up: continuous, with MLR for the remaining non-normality. The ESS value items used here are this case (at most 30 % in an end category).' };
   return { estimator: 'MLR', check: null, why: 'Seven or more categories: continuous. MLR corrects χ² and the standard errors for skew; with symmetric answers it costs nothing.' };
 }
 

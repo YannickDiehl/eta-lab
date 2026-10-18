@@ -1,4 +1,4 @@
-// Day 2 · the course's figures, made interactive (part 2): ordinal items and thresholds, the
+// Day 2 · the slide figures, made interactive (part 2): ordinal items and thresholds, the
 // global fit rulers, the worksheet's evaluation checklist, local fit (modification indices and
 // Wald tests), nested model comparisons, Jöreskog's three situations, and the homework.
 import { useState } from 'react';
@@ -239,8 +239,8 @@ export function NestedCompare({ d }: { d: Day2 }) {
   const lrt = c === '1v2' ? d.lrt_1v2 : d.lrt_mod;
   const row = lrt.find(x => x.dchisq !== null)!;
   const models = c === '1v2'
-    ? [{ name: 'values_fit', what: 'one factor: all seven items', fit: d.one.fit }, { name: 'trco_univ_fit', what: 'two factors (the course model)', fit: d.mlr.fit }]
-    : [{ name: 'trco_univ_fit', what: 'two factors (the course model)', fit: d.mlr.fit }, { name: 'trco_univ_fit_mod', what: `two factors + ${d.freed}`, fit: d.mod.fit }];
+    ? [{ name: 'values_fit', what: 'one factor: all seven items', fit: d.one.fit }, { name: 'trco_univ_fit', what: 'two factors (the example model)', fit: d.mlr.fit }]
+    : [{ name: 'trco_univ_fit', what: 'two factors (the example model)', fit: d.mlr.fit }, { name: 'trco_univ_fit_mod', what: `two factors + ${d.freed}`, fit: d.mod.fit }];
   const restricted = models.reduce((a, b) => (a.fit.df > b.fit.df ? a : b));
   return (
     <div className="fig">
@@ -255,7 +255,7 @@ export function NestedCompare({ d }: { d: Day2 }) {
       <p className="idrow big"><Tex>{`\\Delta\\chi^2_{SB}(${row.ddf}) = ${row.dchisq!.toFixed(1)},\\; p ${row.p! < 0.001 ? '< .001' : '= ' + f3(row.p!)}`}</Tex></p>
       <p className="hint">{c === '1v2'
         ? 'The one-factor model is the two-factor model with the factor correlation fixed to 1: it is nested, with one degree of freedom more. The restriction costs far more than one df is worth — and AIC and BIC agree: tradition/conformity and universalism are two values.'
-        : `The course model is the modified model with ${d.freed} fixed to 0. Freeing it improves the fit significantly, and AIC and BIC drop. Statistically clear — whether it is justified is a question of content (section 5).`}</p>
+        : `The example model is the modified model with ${d.freed} fixed to 0. Freeing it improves the fit significantly, and AIC and BIC drop. Statistically clear — whether it is justified is a question of content (section 5).`}</p>
     </div>
   );
 }

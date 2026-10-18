@@ -1,6 +1,6 @@
 // Compare decisions: several people did the same studio task — a study group, a seminar, a
 // reading circle. Each shares a link (it carries the model, the releases and the reasons); the
-// board reads all links, refits every model on the course data and sets the decisions side by side.
+// board reads all links, refits every model on the ESS data and sets the decisions side by side.
 // No server: everything is decoded and estimated in the browser.
 import { useEffect, useMemo, useState } from 'react';
 import { Eta } from '../eta/Eta.tsx';
@@ -89,10 +89,10 @@ export function Board({ task: taskId }: { task?: string }) {
         <textarea rows={4} value={text} onChange={e => setText(e.target.value)} placeholder="https://…#/model?m=…" />
       </label>
       {bad > 0 && <p className="hint">{bad} link{bad > 1 ? 's' : ''} could not be read.</p>}
-      {!data && models.length > 0 && <p className="hint">Loading the course data…</p>}
+      {!data && models.length > 0 && <p className="hint">Loading the ESS data…</p>}
       {rows.length > 0 && (
         <>
-          <p className="ws-sum"><b>{rows.length}</b> decision{rows.length > 1 ? 's' : ''} · {rows.filter(r => !r.list.length).length} kept the course model</p>
+          <p className="ws-sum"><b>{rows.length}</b> decision{rows.length > 1 ? 's' : ''} · {rows.filter(r => !r.list.length).length} kept the example model</p>
           {tally.length > 0 && (
             <div className="ws-tally">
               {tally.map(([what, n]) => (
@@ -112,7 +112,7 @@ export function Board({ task: taskId }: { task?: string }) {
               {rows.map(r => (
                 <tr key={r.i}>
                   <td>{r.i}</td>
-                  <td>{r.list.length ? r.list.map((x, k) => <div key={k}><b>{x.text}</b>{x.reason ? <> — <i>{x.reason}</i></> : <span className="ws-noreason"> — no reason</span>}</div>) : <i>kept the course model</i>}</td>
+                  <td>{r.list.length ? r.list.map((x, k) => <div key={k}><b>{x.text}</b>{x.reason ? <> — <i>{x.reason}</i></> : <span className="ws-noreason"> — no reason</span>}</div>) : <i>kept the example model</i>}</td>
                   <td>{r.fit ? f3(r.fit.cfi) : '–'}</td>
                   {grouped && <><td className={r.dcfi !== null && r.dcfi < -0.01 ? 'poor' : 'good'}>{r.dcfi === null ? '–' : f3(r.dcfi)}</td><td>{r.means.length > 1 ? r.means.slice(1).map(f3).join(' / ') : '–'}</td></>}
                 </tr>

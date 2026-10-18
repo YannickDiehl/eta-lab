@@ -1,5 +1,5 @@
 // The R outputs of Day 1 (public/data/day1.json, written by scripts/day1-outputs.R with the
-// course's own pipeline: sjlabelled/sjmisc, easystats, MVN, lavaan with MLR and FIML).
+// pipeline used throughout η Lab: sjlabelled/sjmisc, easystats, MVN, lavaan with MLR and FIML).
 import { useEffect, useState } from 'react';
 
 export interface Frq { item: string; label: string; counts: number[]; missing: number }

@@ -1,4 +1,4 @@
-// η — the course character as a React component (same drawing as the course website).
+// η — the η Lab character as a React component (same drawing as the course website).
 // The letterform has two eyes on its arch; expression comes from eyes, lids, brows and tilt.
 import { useEffect, useId } from 'react';
 

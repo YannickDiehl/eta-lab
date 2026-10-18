@@ -1,4 +1,4 @@
-// A model as a link (or a small file): the drawing, the question, groups, the course data
+// A model as a link (or a small file): the drawing, the question, groups, the ESS data
 // it runs on and the R options, compressed into the URL hash — #/model?m=…
 // Nothing goes to a server: the link itself carries the model. Own data files are never
 // part of it (they stay in the tab that opened them).

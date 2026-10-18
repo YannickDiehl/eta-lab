@@ -150,7 +150,7 @@ export function quartoReport(i: ReportInput): string {
   if (i.log?.length) {
     out.push('## Changes and reasons', '');
     out.push(table(['Change', 'lavaan', 'Reason'], i.log.map(l => [`${l.sign} ${md(l.text)}`, `\`${l.code}\``, l.reason.trim() ? md(l.reason.trim()) : '*no reason written*']), 'lll'), '');
-    out.push(': Every change against the course model or added from a modification index, with the reason recorded in η Lab.', '');
+    out.push(': Every change against the example model or added from a modification index, with the reason recorded in η Lab.', '');
   }
 
   // ---- R
@@ -158,7 +158,7 @@ export function quartoReport(i: ReportInput): string {
   out.push(`The final analysis uses ${ESTIMATOR_TEXT[i.r.estimator]}`
     + (i.r.missing === 'fiml' ? (i.r.estimator === 'WLSMV' ? ', with pairwise deletion of missing values' : ', with full information maximum likelihood (FIML) for missing values') : ', with listwise deletion of incomplete cases')
     + ` in the R package lavaan (Rosseel, 2012)${ordinalLadder ? ' and semTools, identifying the ordinal invariance models as Wu & Estabrook (2016) propose' : ''}.`, '');
-  out.push('::: {.callout-note}', `The chunks below run when the data file \`my_data.csv\` lies next to this report (change \`params: data\` in the header for another file). Without it, the report shows η Lab’s numbers only.${i.data && !i.data.own ? ' The course data come from the European Social Survey; η Lab only holds their correlations, so use your own copy of the ESS file.' : ''}`, ':::', '');
+  out.push('::: {.callout-note}', `The chunks below run when the data file \`my_data.csv\` lies next to this report (change \`params: data\` in the header for another file). Without it, the report shows η Lab’s numbers only.${i.data && !i.data.own ? ' The ESS data come from the European Social Survey; η Lab only holds their correlations, so use your own copy of the ESS file.' : ''}`, ':::', '');
   out.push('```{r}', '#| label: data', '#| eval: !expr file.exists(params$data)', 'library(lavaan)', 'my_data <- read.csv(params$data)', '```', '');
   out.push('```{r}', '#| label: model', '#| eval: !expr file.exists(params$data)', i.syntax.trim(), '```', '');
 

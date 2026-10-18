@@ -18,12 +18,12 @@ export function Beat({ kind, title, children }: { kind: keyof typeof SHAPE; titl
   );
 }
 
-/** Where the station sits in the course ("Day 2 · 2.1"), provided by the page around it. */
+/** Where the station sits in η Lab ("Day 2 · 2.1"), provided by the page around it. */
 export const StationPlace = createContext<string | null>(null);
 
 export function StationHead({ kicker, title, lead }: { kicker: string; title: string; lead: ReactNode }) {
   const place = useContext(StationPlace);
-  // stations are numbered by course day; the topic is what follows the old "Station NN ·"
+  // stations are numbered by day; the topic is what follows the old "Station NN ·"
   const topic = kicker.replace(/^Station \d+\s*·\s*/, '');
   return <header className="station-head"><span className="kicker">{place ? `${place} · ${topic}` : kicker}</span><h1>{title}</h1><p>{lead}</p></header>;
 }

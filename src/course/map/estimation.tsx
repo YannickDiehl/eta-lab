@@ -236,7 +236,7 @@ export function LikelihoodGap({ d }: { d: EstData }) {
   const lo = c.logl - 40, hi = c.unrestricted + 10, W = (x: number) => ((x - lo) / (hi - lo)) * 100;
   return (
     <div className="fig">
-      <p className="hint" style={{ marginTop: 0 }}>The two-factor model of the course (tradition/conformity and universalism, seven items; plain ML, {c.n} respondents with complete answers).</p>
+      <p className="hint" style={{ marginTop: 0 }}>The example two-factor model (tradition/conformity and universalism, seven items; plain ML, {c.n} respondents with complete answers).</p>
       <div className="lk-gap">
         <div><span>a perfect model (Σ = S, every covariance free)</span><i style={{ width: `${W(c.unrestricted)}%` }} className="obs" /><b>log L = {c.unrestricted.toFixed(2)}</b></div>
         <div><span>your model ({c.df} claims: df = {c.df})</span><i style={{ width: `${W(c.logl)}%` }} className="lat" /><b>log L = {c.logl.toFixed(2)}</b></div>

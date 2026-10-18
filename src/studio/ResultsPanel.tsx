@@ -34,7 +34,7 @@ export function ResultsPanel({ est, d, group, setGroup, std, setStd, groupLabels
   probe?: ProbeRow[] | null; probing?: boolean; onProbe?: () => void; onRelease?: (key: string) => void;
   children?: ReactNode;
 }) {
-  if (!hasData) return <p className="hint">Choose data in the <b>Data</b> tab — the course data from the ESS or your own file — and the model is estimated as you draw.</p>;
+  if (!hasData) return <p className="hint">Choose data in the <b>Data</b> tab — the ESS data or your own file — and the model is estimated as you draw.</p>;
   if (!est) return <p className="hint">Estimating…</p>;
   const m = est.main;
   if (!m.ok) return (
@@ -166,7 +166,7 @@ export function ResultsPanel({ est, d, group, setGroup, std, setStd, groupLabels
           <tbody>{Object.entries(m.r2[group]).map(([id, v]) => <tr key={id}><td>{label(id)}</td><td>{fmtNum(v, true)}</td></tr>)}</tbody>
         </table>
       )}
-      <p className="hint">Maximum likelihood, standard errors from the expected information — the defaults of lavaan’s <code>sem()</code>. Checked against lavaan on the course data. {est.ms < 1000 ? `Estimated in ${Math.max(1, Math.round(est.ms))} ms.` : ''}</p>
+      <p className="hint">Maximum likelihood, standard errors from the expected information — the defaults of lavaan’s <code>sem()</code>. Checked against lavaan on the ESS data. {est.ms < 1000 ? `Estimated in ${Math.max(1, Math.round(est.ms))} ms.` : ''}</p>
     </div>
   );
 }

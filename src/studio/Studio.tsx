@@ -51,7 +51,7 @@ interface StudioProps {
   steps?: ProjectSteps;
 }
 
-/** A course model in the practice workspace: the course's version is kept as the base for the logbook. */
+/** An example model in the practice workspace: its original version is kept as the base for the logbook. */
 function practiceFrom(diagram: Diagram, patch: Partial<YourModel> = {}): YourModel {
   // every field is set, so nothing of the previous exercise (a task, its answers) survives the merge
   return { ...EMPTY, task: undefined, diagram, base: diagram, ...patch };
@@ -77,7 +77,7 @@ export function Studio({ project, practice, updateProject, updatePractice, track
   const [selected, setSelected] = useState<string[]>([]);
   const selectedFactor = selected.length === 1 ? d.nodes.find(n => n.id === selected[0] && n.kind === 'latent')?.label ?? null : null;
 
-  // ---- data: the course data (loaded when needed) or the learner's own file (memory only)
+  // ---- data: the ESS data (loaded when needed) or the learner's own file (memory only)
   const choice = model.data;
   const [course, setCourse] = useState<CourseData | null>(null);
   const [courseError, setCourseError] = useState<string | null>(null);
@@ -86,7 +86,7 @@ export function Studio({ project, practice, updateProject, updatePractice, track
   const wantCourse = choice?.source === 'course' || tab === 'data';
   useEffect(() => {
     if (!wantCourse || course) return;
-    loadCourseData().then(setCourse).catch(e => setCourseError(`The course data could not be loaded (${(e as Error).message}).`));
+    loadCourseData().then(setCourse).catch(e => setCourseError(`The ESS data could not be loaded (${(e as Error).message}).`));
   }, [wantCourse, course]);
   const stats: GroupStats[] | null = useMemo(() => {
     if (!choice) return null;
@@ -166,7 +166,7 @@ export function Studio({ project, practice, updateProject, updatePractice, track
         : { id: uid('e'), kind: 'cov' as const, from: q.lhs, to: q.rhs };
     update({ diagram: { ...d, edges: [...d.edges, edge] }, reasons: { ...model.reasons, [edgeKey(d, edge)]: reason } });
   };
-  // ---- the logbook: changes against the course model (or added from an index), each with a reason
+  // ---- the logbook: changes against the example model (or added from an index), each with a reason
   const reasons = model.reasons ?? {};
   const released = useMemo(() => (g.on ? releases(d, lad.locks, g.free) : []), [d, lad.locks, g.free, g.on]);
   const log = useMemo(() => listChanges(d, model.base, reasons, released), [d, model.base, reasons, released]);
@@ -205,7 +205,7 @@ export function Studio({ project, practice, updateProject, updatePractice, track
     window.addEventListener('hashchange', take);
     return () => window.removeEventListener('hashchange', take);
   }, []);   // eslint-disable-line react-hooks/exhaustive-deps
-  /** A course model opens in the practice workspace: the project stays untouched. */
+  /** An example model opens in the practice workspace: the project stays untouched. */
   const loadTemplate = (tm: Template, data: CourseData | null = course) => {
     const base = { ...practice.groups, free: [] };
     stashPractice(practice);                                  // a task in progress waits in its slot
@@ -225,7 +225,7 @@ export function Studio({ project, practice, updateProject, updatePractice, track
     updatePractice({ data: c, groups });
     setTimeout(() => canvas.current?.fit(), 80);
   };
-  // #/model?template=<title>: a course model from a day page
+  // #/model?template=<title>: an example model from a day page
   useEffect(() => {
     const take = () => {
       const m = /[?&]template=([^&]+)/.exec(window.location.hash);
@@ -239,7 +239,7 @@ export function Studio({ project, practice, updateProject, updatePractice, track
     return () => window.removeEventListener('hashchange', take);
   }, []);   // eslint-disable-line react-hooks/exhaustive-deps
   const setAnswer = (step: string, value: string) => update({ task: { id: model.task!.id, answers: { ...(model.task?.answers ?? {}), [step]: value } } });
-  // the course model's own fit, for the task's comparisons (small models: fine on the main thread)
+  // the example model's own fit, for the task's comparisons (small models: fine on the main thread)
   const baseFit = useMemo(() => {
     if (!task || !model.base || !stats) return null;
     const r = fitModel(model.base, { groups: stats });
@@ -352,7 +352,7 @@ export function Studio({ project, practice, updateProject, updatePractice, track
     const image = png ? await new Promise<string>(res => { const fr = new FileReader(); fr.onload = () => res(String(fr.result)); fr.readAsDataURL(png); }) : undefined;
     const round = choice?.source === 'course' ? course?.rounds.find(x => x.id === choice.round) : undefined;
     const sample = choice?.source === 'course' ? round?.samples.find(x => x.id === choice.sample) : undefined;
-    const data = choice?.source === 'course' ? { label: [round?.label, sample?.label].filter(Boolean).join(' · ') || 'the course data', own: false }
+    const data = choice?.source === 'course' ? { label: [round?.label, sample?.label].filter(Boolean).join(' · ') || 'the ESS data', own: false }
       : choice?.source === 'own' ? { label: `your file ${choice.name}`, own: true } : undefined;
     const plan: { label: string; text: string }[] = [];
     if (track === 'project') {
@@ -392,7 +392,7 @@ export function Studio({ project, practice, updateProject, updatePractice, track
     answers: model.task?.answers ?? {}, snapshots: snapshots.length, label: labelOf,
     g, locks: lad.locks, rungs: est?.rungs ?? null, refit,
   } : null;
-  const keepCourse = () => { if (model.base) update({ snapshots: [...snapshots, { id: uid('s'), name: 'Course model', diagram: model.base }] }); };
+  const keepCourse = () => { if (model.base) update({ snapshots: [...snapshots, { id: uid('s'), name: 'Example model', diagram: model.base }] }); };
 
   const empty = (
     <div className="st-empty card">
@@ -411,10 +411,10 @@ export function Studio({ project, practice, updateProject, updatePractice, track
   return (
     <div className="st">
       <header className="st-top">
-        <a className="st-back" href={`#/${back}${back.startsWith('day/') ? '#try' : ''}`} title="Back to the course"><Eta size={30} mood="neutral" /><span>← Course</span></a>
+        <a className="st-back" href={`#/${back}${back.startsWith('day/') ? '#try' : ''}`} title={back.startsWith('day/') ? 'Back to the day' : 'Back'}><Eta size={30} mood="neutral" /><span>← {back.startsWith('day/') ? `Day ${back.slice(4)}` : back === 'start' ? 'Start' : 'Back'}</span></a>
         <span className="seg st-track" role="group" aria-label="Workspace">
           <button aria-pressed={track === 'project'} onClick={() => setTrack('project')} title="Your own research model — the stations apply their ideas to it">My project</button>
-          <button aria-pressed={track === 'practice'} onClick={() => setTrack('practice')} title="Course models and the day's task — your project stays untouched">Course exercise</button>
+          <button aria-pressed={track === 'practice'} onClick={() => setTrack('practice')} title="Example models and the day's task — your project stays untouched">Exercises</button>
         </span>
         <input className="st-q" type="text" value={model.question} onChange={e => update({ question: e.target.value })}
           placeholder={track === 'project' ? 'Your research question…' : 'The question of this exercise…'} aria-label="Research question" />
@@ -442,7 +442,7 @@ export function Studio({ project, practice, updateProject, updatePractice, track
           )}
           {track === 'practice' && !task && !d.nodes.length && (
             <div className="st-toast" role="status"><Eta size={30} mood="curious" />
-              <span>The course exercise: open a day’s task, or load a course model from the Data tab.</span>
+              <span>The exercise: open a day’s task, or load an example model from the Data tab.</span>
               {TASKS.map(t => <button key={t.id} className="tool" onClick={() => startTask(t.id)}>Day {t.day}: {t.title}</button>)}
             </div>
           )}

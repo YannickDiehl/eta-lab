@@ -28,7 +28,7 @@ export function S9Data({ model }: { model: YourModel }) {
   const [skew, setSkew] = useState(1.2);
   const [rho, setRho] = useState(0.6);
   const r = useMemo(() => pearsonOfCategories(rho, c, skew), [rho, c, skew]);
-  const rule = chooseEstimator(c <= 3 ? '2–3' : c === 4 ? '4' : c <= 6 ? '5–6' : '7+', (() => { const sh = shares(c, skew); return Math.max(sh[0], sh[c - 1]) > PILE_UP; })());   // the course's rule
+  const rule = chooseEstimator(c <= 3 ? '2–3' : c === 4 ? '4' : c <= 6 ? '5–6' : '7+', (() => { const sh = shares(c, skew); return Math.max(sh[0], sh[c - 1]) > PILE_UP; })());   // the rule used here
   const advice = `${rule.estimator}${rule.check ? `, with ${rule.check} as a check` : ''}: ${rule.why}`;
   const chosen = model.r?.estimator ?? 'ML';
 
@@ -60,7 +60,7 @@ export function S9Data({ model }: { model: YourModel }) {
               <Slider label="Pile-up at the top" min={0} max={1.5} step={0.1} value={skew} onChange={v => { setSkew(v); touch(); }} format={v => v.toFixed(1)} />
               <Slider label="True correlation" min={0.2} max={0.9} step={0.05} value={rho} onChange={v => { setRho(v); touch(); }} />
               <p className="verdict" style={{ marginTop: 12 }}><b>η suggests:</b> {advice}</p>
-              <p className="hint">The ESS value items have six boxes and pile up moderately at the top (“like me”). Set 6 categories and a pile-up of 0.5 — a skewness of about −0.6, typical of the Dutch value items: some 8% is lost. Tolerable, which is why the course treats them as continuous and estimates with MLR.</p>
+              <p className="hint">The ESS value items have six boxes and pile up moderately at the top (“like me”). Set 6 categories and a pile-up of 0.5 — a skewness of about −0.6, typical of the Dutch value items: some 8% is lost. Tolerable, which is why η Lab treats them as continuous and estimates with MLR.</p>
             </div>
           </div>
         </div>
@@ -69,7 +69,7 @@ export function S9Data({ model }: { model: YourModel }) {
       <Beat kind="explain" title="Three estimators, three promises">
         <Explain>
           <p><b>ML</b> treats the answers as continuous and normal. With non-normal answers its estimates are still fine, but its χ² is too large and its standard errors too small — it is overconfident. <b>MLR</b> keeps ML’s estimates and corrects exactly that: a scaled χ² and robust standard errors. It cannot undo shrunken correlations, though. <b>WLSMV</b> goes behind the boxes: it estimates thresholds and the correlations of the latent responses (polychoric correlations), and fits the model to those.</p>
-          <p>The course’s rule (Rhemtulla, Brosseau-Liard & Savalei, 2012): {ESTIMATOR_RULE} In R, on the Dutch data of today’s task (n = 1,830), MLR lowers χ² from 103.0 to 81.5 and raises the standard error of one loading from .111 to .140 — same estimates, honest uncertainty.</p>
+          <p>η Lab’s rule of thumb (Rhemtulla, Brosseau-Liard & Savalei, 2012): {ESTIMATOR_RULE} In R, on the Dutch data of the Day 2 task (n = 1,830), MLR lowers χ² from 103.0 to 81.5 and raises the standard error of one loading from .111 to .140 — same estimates, honest uncertainty.</p>
         </Explain>
       </Beat>
 
@@ -89,7 +89,7 @@ export function S9Data({ model }: { model: YourModel }) {
 
       <Beat kind="yours" title="Your items, your estimator">
         <Yours>
-          <p>Your project’s R code currently uses <b>{chosen}</b>{model.r?.missing === 'fiml' ? ' with FIML' : ''}. Today’s project step asks how your items are answered and suggests the estimator.</p>
+          <p>Your project’s R code currently uses <b>{chosen}</b>{model.r?.missing === 'fiml' ? ' with FIML' : ''}. The project step of Day 2 asks how your items are answered and suggests the estimator.</p>
           <p><a href="#/day/2#project">Go to the project step of Day 2 →</a></p>
         </Yours>
       </Beat>

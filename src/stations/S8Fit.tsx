@@ -120,15 +120,15 @@ export function S8Fit({ model }: { model: YourModel }) {
         <Formula plug={<Tex block>{`\\chi^2 = ${n} \\times ${F.toFixed(4)} = ${atN.chisq.toFixed(1)}, \\qquad \\text{RMSEA} = \\sqrt{\\tfrac{\\max(${atN.chisq.toFixed(1)} - ${atN.df},\\,0)}{${atN.df} \\times ${n}}} = ${atN.rmsea.toFixed(3)}`}</Tex>}>
           <Tex block>{'\\chi^2 = n\\,F_{ML}, \\qquad \\text{RMSEA} = \\sqrt{\\frac{\\max(\\chi^2 - df,\\,0)}{df \\cdot n}}'}</Tex>
           <Tex block>{'\\text{CFI} = 1 - \\frac{\\max(\\chi^2_M - df_M,\\,0)}{\\max(\\chi^2_B - df_B,\\ \\chi^2_M - df_M,\\ 0)}, \\qquad \\text{SRMR} = \\sqrt{\\overline{r_{ij}^2}}'}</Tex>
-          <p className="hint">B is the baseline model in which all items are uncorrelated; r<sub>ij</sub> are the residual correlations, averaged over the lower triangle. The course’s rules of thumb — {CUTOFF_TEXT} — are conventions from simulations, not laws.</p>
+          <p className="hint">B is the baseline model in which all items are uncorrelated; r<sub>ij</sub> are the residual correlations, averaged over the lower triangle. η Lab’s rules of thumb — {CUTOFF_TEXT} — are conventions from simulations, not laws.</p>
         </Formula>
       </Beat>
 
       <Beat kind="yours" title={`What your ${model.n.toLocaleString('en')} respondents will do to χ²`}>
-        <Yours task={{ id: 'd2-strain', label: 'Today’s task: where does the two-factor model strain?' }}>
+        <Yours task={{ id: 'd2-strain', label: 'The day’s task: where does the two-factor model strain?' }}>
           <p>If {constructName(model)} had the same small misfit as the {ds.label} model, your sample would give χ²({base.fit.df}) = <b>{yourFit.chisq.toFixed(1)}</b> (p {chisqP(yourFit.chisq, yourFit.df) < 0.001 ? '< .001' : '= ' + fmt(chisqP(yourFit.chisq, yourFit.df), 3)}) and RMSEA = <b>{fmt(yourFit.rmsea, 3)}</b>.</p>
           <p className="verdict">Report χ², but judge with RMSEA, CFI, SRMR and the residual matrix together — and write down, before you look, which residual covariances you would accept on substantive grounds (Day 2’s project step asks exactly that).</p>
-          <p>On the Dutch data of 2004, the one-factor model of tradition and conformity fits almost exactly. The strain appears once universalism joins it in one model — that is today’s task in the studio.</p>
+          <p>On the Dutch data of 2004, the one-factor model of tradition and conformity fits almost exactly. The strain appears once universalism joins it in one model — that is the day’s task in the studio.</p>
         </Yours>
       </Beat>
     </article>

@@ -1,6 +1,6 @@
 // Two workspaces, stored only in this browser (localStorage):
 //   project   "Your model" — the learner's own research model, carried through every station
-//   practice  the course exercise of the day — course models and tasks load here, never into the project
+//   practice  the exercise of the day — example models and tasks load here, never into the project
 // plus the answers to the daily project steps.
 import { useCallback, useEffect, useState } from 'react';
 import { ML, tidy, uid, type Diagram, type DEdge, type DNode, type ROptions } from './model/diagram.ts';
@@ -19,7 +19,7 @@ export interface Snapshot { id: string; name: string; diagram: Diagram }
 export interface TaskState { id: string; answers: Record<string, string> }
 
 /** r: how the R code estimates (the studio itself always uses ML on complete cases).
- *  base: the model as the course gave it — changes against it need a reason (the logbook).
+ *  base: the example model as loaded — changes against it need a reason (the logbook).
  *  reasons: why a change was made, by change key (see studio/logbook.ts). */
 export interface YourModel {
   question: string; n: number; diagram: Diagram; groups: Groups; data: DataChoice | null; snapshots: Snapshot[]; r: ROptions;
@@ -114,7 +114,7 @@ export const outcomeName = (m: YourModel) => {
   return e ? m.diagram.nodes.find(n => n.id === e.to)?.label ?? '' : '';
 };
 
-// The practice workspace holds one model at a time. Before a task or course model replaces it,
+// The practice workspace holds one model at a time. Before a task or example model replaces it,
 // the current one is kept in a slot per task (or "free"), so going back to a task resumes it.
 const SLOTS = 'eta-lab.practice-slots.v1';
 export function stashPractice(m: YourModel) {

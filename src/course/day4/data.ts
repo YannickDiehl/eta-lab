@@ -1,5 +1,5 @@
 // The R outputs of Day 4 (public/data/day4.json, written by scripts/day4-outputs.R with the
-// course's pipeline): tradition/conformity across Belgium, Luxembourg and the Netherlands —
+// η Lab pipeline): tradition/conformity across Belgium, Luxembourg and the Netherlands —
 // baseline models per country, configural, metric, scalar and partial scalar models, score
 // tests, latent means, and the universalism/benevolence ladder for the homework.
 import { useEffect, useState } from 'react';

@@ -1,4 +1,4 @@
-// Day 1 · the course's figures, made interactive (part 2): assumptions and item statistics,
+// Day 1 · the figures, made interactive (part 2): assumptions and item statistics,
 // identification, the annotated lavaan output, fit, misspecification and the mean structure.
 import { useMemo, useState } from 'react';
 import { Tex } from '../../components/ui.tsx';
@@ -177,7 +177,7 @@ export function FitTable({ s }: { s: ItemSet }) {
         <thead><tr><th>Index</th><th>Asks</th><th>Type</th><th>Good (acceptable)</th><th>Depends on N</th><th>Penalty for complexity</th><th>This model</th></tr></thead>
         <tbody>{rows.map(r => <tr key={r.idx}><td>{r.idx}</td><td>{r.ask}</td><td>{r.type}</td><td>{r.cut}</td><td>{r.n}</td><td>{r.pen}</td><td className={r.ok ? 'good' : 'poor'}>{r.idx === 'χ²/df' ? r.v.toFixed(2) : f3(r.v)}</td></tr>)}</tbody>
       </table>
-      <p className="hint"><b>badness</b>: 0 is perfect, larger is worse · <b>goodness</b>: 1 is perfect · <b>depends on N</b>: the value changes with the sample size alone · <b>penalty</b>: the index gets worse when parameters are added without improving the fit. Cut-offs: {CUTOFF_SOURCE}; χ²/df after the course slides.</p>
+      <p className="hint"><b>badness</b>: 0 is perfect, larger is worse · <b>goodness</b>: 1 is perfect · <b>depends on N</b>: the value changes with the sample size alone · <b>penalty</b>: the index gets worse when parameters are added without improving the fit. Cut-offs: {CUTOFF_SOURCE}; χ²/df after the slides of the Essex SEM course.</p>
     </>
   );
 }
@@ -245,7 +245,7 @@ export function ResidualCorrelation({ s, labels }: { s: ItemSet; labels: Record<
             <thead><tr><th>lhs ~~ rhs</th><th>mi</th><th>sepc.all</th></tr></thead>
             <tbody>{cov.slice(0, 5).map((x, i) => <tr key={i} className={i === k ? 'on' : ''} onClick={() => setK(i)} style={{ cursor: 'pointer' }}><td>{x.lhs} ~~ {x.rhs}</td><td>{x.mi.toFixed(2)}</td><td>{f3(x.sepc)}</td></tr>)}</tbody>
           </table>
-          {m && <p className="hint">An <b>error correlation</b> between “{labels[m.lhs]}” and “{labels[m.rhs]}” would be a new parameter: part of what the two share would come from something other than the factor. MI = {m.mi.toFixed(2)} — below the χ² critical value of 3.84 for one df, and far below the course’s threshold of 10; the expected correlation would be {f2(m.sepc)}.</p>}
+          {m && <p className="hint">An <b>error correlation</b> between “{labels[m.lhs]}” and “{labels[m.rhs]}” would be a new parameter: part of what the two share would come from something other than the factor. MI = {m.mi.toFixed(2)} — below the χ² critical value of 3.84 for one df, and far below the threshold of 10 used here; the expected correlation would be {f2(m.sepc)}.</p>}
         </div>
       </div>
       <p className="hint">Possible reasons for an error correlation: {REASONS.join(', ')}. The largest residual correlation in this model is {f3(big.v)} ({big.a}, {big.c}) — nothing the model leaves unexplained. Two different things: the <b>correlation residual</b> (observed minus model-implied correlation, from <code>residuals()</code>) shows what the model misses; the <b>error correlation</b> (what a modification index proposes) is a parameter you could add. The MIs come in identical pairs because with df = 2 two different changes can produce exactly the same fit — the data cannot tell them apart, only theory can.</p>

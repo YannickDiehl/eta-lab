@@ -1,5 +1,5 @@
 // Day 0 · the interactive pieces: checks against numbers R must print, small tasks with a
-// right answer, the course's R idioms on a toy table, the statistics a CFA builds on (variance,
+// right answer, the R idioms used here on a toy table, the statistics a CFA builds on (variance,
 // covariance, correlation, regression — and the covariance matrix a CFA explains), the values
 // circle, the symbols of Day 1, and the self-test.
 import { useMemo, useState, type ReactNode } from 'react';
@@ -47,7 +47,7 @@ export function MiniTask({ question, options, answer, explain, done, onRight, ch
   );
 }
 
-// ---------------------------------------------------------------- the course's R idioms on a toy table
+// ---------------------------------------------------------------- the R idioms used here on a toy table
 const TOY = [
   { idno: 1, cntry: 'NL', imptrad: 2, ipfrule: 3, agea: 34 },
   { idno: 2, cntry: 'NL', imptrad: 5, ipfrule: 4, agea: 71 },
@@ -72,7 +72,7 @@ export function PipelineToy() {
   const frqView = k === 3;
   const valid = rows.filter(r => r.imptrad !== null).length;
   let cum = 0;
-  // two blocks, as the course writes them: prepare and save the data once, then look at it
+  // two blocks, as the code here writes them: prepare and save the data once, then look at it
   const lines: { text: string; stage: number | null }[] = [
     { text: 'NL2 <- ', stage: null }, { text: `  ${STAGES[0].code} %>%`, stage: 0 }, { text: `  ${STAGES[1].code}`, stage: 1 },
     { text: '', stage: null },
@@ -121,7 +121,7 @@ export function ReverseItem() {
         ))}
       </div>
       <p className="hint">Mean {f3(mean)} on the scale 1–6. {rev
-        ? 'Now higher values mean that tradition is more important — the direction all course models assume. The same people, the same answers: only the numbers attached to them changed.'
+        ? 'Now higher values mean that tradition is more important — the direction all models here assume. The same people, the same answers: only the numbers attached to them changed.'
         : 'In the original coding a low value means “like me”: easy to misread. A factor of these items would measure how unimportant tradition is, and every correlation with other variables would have the opposite sign.'}</p>
     </div>
   );
@@ -192,7 +192,7 @@ export function WhatSEMSees({ stats, items }: { stats: GroupStats; items: string
         {items.map((a, i) => [<div key={`r-${a}`} className="h">{a}</div>, ...items.map((b2, j) => <div key={`${a}-${b2}`} className={j > i ? '' : i === j ? 'var' : 'cov'}>{j > i ? '' : cor && i === j ? '1' : (cor ? f2(val(i, j)) : val(i, j).toFixed(2))}</div>)])}
       </div>
       <p className="hint"><b>{n} numbers</b> — {p} variances (on the diagonal) and {n - p} covariances (below it) of the four tradition and conformity items. The part above the diagonal is the same, so it is left empty. These {n} numbers are the <i>p</i> of Day 1, step 5: the pieces of information a model has to explain.</p>
-      <p className="hint">The Netherlands, ESS 2004, the {stats.n.toLocaleString('en')} respondents who answered all course questions (the sample η Lab uses). In R, with every respondent who answered these items, the numbers differ in the second decimal.</p>
+      <p className="hint">The Netherlands, ESS 2004, the {stats.n.toLocaleString('en')} respondents who answered all questions used here (the sample η Lab uses). In R, with every respondent who answered these items, the numbers differ in the second decimal.</p>
     </div>
   );
 }
@@ -229,7 +229,7 @@ export const PVQ: { name: string; value: string; label: string }[] = [
   { name: 'ipudrst', value: 'Universalism', label: 'Important to understand different people' },
   { name: 'impenv', value: 'Universalism', label: 'Important to care for nature and environment' },
 ];
-const COURSE_DAYS: Record<string, string> = { Tradition: 'Days 1–5', Conformity: 'Days 1–5', Universalism: 'Days 1–4 and 6–8', Benevolence: 'Day 4 (homework)' };
+const COURSE_DAYS: Record<string, string> = { Tradition: 'Days 1–5', Conformity: 'Days 1–5', Universalism: 'Days 1–4 and 6–8', Benevolence: 'Day 4 (Your turn)' };
 
 export function ValuesCircle() {
   const [sel, setSel] = useState('Tradition');
@@ -257,7 +257,7 @@ export function ValuesCircle() {
           <text x={C} y={C + 10} className="f-lbl c">ten values</text>
         </svg>
         <div className="fig-text">
-          <p><b>{sel}</b> · higher-order value: {hi}{COURSE_DAYS[sel] ? <> · in the course: {COURSE_DAYS[sel]}</> : null}</p>
+          <p><b>{sel}</b> · higher-order value: {hi}{COURSE_DAYS[sel] ? <> · in η Lab: {COURSE_DAYS[sel]}</> : null}</p>
           <ul className="v-items">{items.map(i => <li key={i.name}><code>{i.name}</code> “{i.label}”</li>)}</ul>
           <div className="v-legend">{Object.entries(HI_CLASS).map(([h, c]) => <span key={h}><i className={c} />{h}</span>)}</div>
           <p className="hint">Neighbouring values are compatible, opposite ones conflict: tradition and conformity sit next to each other (conservation), opposite self-direction and stimulation (openness to change). Hedonism shares elements of openness to change and self-enhancement. The item texts are the ESS variable labels — exactly what R shows you.</p>

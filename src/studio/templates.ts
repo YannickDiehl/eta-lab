@@ -1,4 +1,4 @@
-// The course's models, day by day: ready to load onto the sheet, with the data they belong to
+// The example models, day by day: ready to load onto the sheet, with the data they belong to
 // and a layout that shows their idea (waves side by side, methods under traits, …).
 import { fromLavaan, type Diagram } from '../model/diagram.ts';
 import type { Grouping } from '../data/course.ts';

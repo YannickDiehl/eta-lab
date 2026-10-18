@@ -1,7 +1,7 @@
 // One source for the rules of thumb, so the badge, the results, the stations, the report and
-// the course pages never disagree. CFI/TLI after Hu & Bentler (1999); RMSEA .05/.08 after
-// Browne & Cudeck (1993); SRMR .08 after Hu & Bentler (1999), .05 as the course's "good";
-// χ²/df after the course slides and worksheet (Day 2); ΔCFI after Chen (2007).
+// the pages never disagree. CFI/TLI after Hu & Bentler (1999); RMSEA .05/.08 after
+// Browne & Cudeck (1993); SRMR .08 after Hu & Bentler (1999), .05 as η Lab's "good";
+// χ²/df after the Essex SEM course slides and worksheet (Day 2); ΔCFI after Chen (2007).
 export const CUTOFFS = {
   cfi: { good: 0.95, fair: 0.90 },
   tli: { good: 0.95, fair: 0.90 },
@@ -31,7 +31,7 @@ export const CUTOFF_SOURCE = 'Hu & Bentler (1999); Browne & Cudeck (1993) for RM
 export const CUTOFF_TEXT = `good: CFI/TLI ≥ ${d2(CUTOFFS.cfi.good)}, RMSEA ≤ ${d2(CUTOFFS.rmsea.good)}, SRMR ≤ ${d2(CUTOFFS.srmr.good)} · acceptable: CFI/TLI ≥ ${d2(CUTOFFS.cfi.fair)}, RMSEA and SRMR ≤ ${d2(CUTOFFS.rmsea.fair)}`;
 
 /** Chen's (2007) rule in one sentence, for every place that judges a step of a ladder. */
-/** The course's line on observed sum or mean scores across groups (Days 4 and 5). With the sum
+/** η Lab's line on observed sum or mean scores across groups (Days 4 and 5). With the sum
  *  S = Σ y_i of k items: E(S_g) = Σ τ_ig + (Σ λ_ig) κ_g and Var(S_g) = (Σ λ_ig)² φ_g + Σ θ_ig.
  *  A mean difference in S reflects κ only if intercepts and loadings are equal for every item in
  *  the score; a released item shifts the sum. Variances, reliabilities, correlations and

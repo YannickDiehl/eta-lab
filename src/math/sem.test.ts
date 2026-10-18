@@ -1,4 +1,4 @@
-// The studio's estimator against lavaan 0.6-21 on the course data (scripts/sem-reference.R).
+// The studio's estimator against lavaan 0.6-21 on the ESS data (scripts/sem-reference.R).
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';

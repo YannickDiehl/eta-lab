@@ -35,7 +35,7 @@ export function MeanEquation() {
           <p className={`est-goal ${Math.abs(obs - lat) < 0.005 ? 'ok' : ''}`}>{Math.abs(obs - lat) < 0.005
             ? <>The item mean differs by {f2(obs)} — exactly the latent difference times the loading. With equal intercepts and slopes (scalar invariance), the observed difference speaks for the construct.</>
             : <>The item mean differs by {f2(obs)}, the construct by {f2(lat)} (in the item’s unit). The rest — {f2(obs - lat)} — is the item, not the people. Here the model is at most <b>{level}</b>.</>}</p>
-          <p className="hint">The exercise of the course slides: draw equal intercepts and slopes; then unequal intercepts with equal slopes; then both unequal. In which case does a difference in item means tell you something about the latent means?</p>
+          <p className="hint">The exercise of the original slides: draw equal intercepts and slopes; then unequal intercepts with equal slopes; then both unequal. In which case does a difference in item means tell you something about the latent means?</p>
         </div>
       </div>
     </div>
@@ -136,7 +136,7 @@ export function HigherOrder({ d }: { d: Day5 }) {
             : <>Three first-order factors, three correlations: {f2(c[1][0])}, {f2(c[2][0])}, {f2(c[2][1])}. High — something they share.</>}</p>
           <p>Fit: χ²<sub>scaled</sub>({h.first.fit.df}) = {h.first.fit['chisq.scaled'].toFixed(2)} for <i>both</i> models, CFI {f3(h.first.fit['cfi.robust'])}. With three first-order factors the second-order part is just identified: three correlations, three second-order parameters (two loadings, one variance — one loading is the marker). The two models are equivalent; the second one adds an interpretation, not a test. With four or more first-order factors it becomes testable.</p>
           <p className="hint">Watch the disturbances: conformity keeps a residual variance of {h.second.disturbance.find(x => x.factor === 'Conformity')!.est.toFixed(3)} (p = {f2(h.second.disturbance.find(x => x.factor === 'Conformity')!.p)}) — a standardized second-order loading of {f2(load('Conformity'))} means conservation and conformity are almost the same factor here.</p>
-          <p className="hint">Belgium, ESS 2004. In the Netherlands the same model breaks: tradition and conformity correlate {f2(h.nl.cor[1][0])} — above 1 — and lavaan warns that the covariance matrix of the latent variables is not positive definite. Two items each cannot tell the two values apart there; that is why the course measures them as one factor, TRCO.</p>
+          <p className="hint">Belgium, ESS 2004. In the Netherlands the same model breaks: tradition and conformity correlate {f2(h.nl.cor[1][0])} — above 1 — and lavaan warns that the covariance matrix of the latent variables is not positive definite. Two items each cannot tell the two values apart there; that is why η Lab measures them as one factor, TRCO.</p>
         </div>
       </div>
     </div>

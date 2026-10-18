@@ -62,7 +62,7 @@ export function ProjectDay2({ step, set, project, updateProject }: {
         <textarea rows={3} value={step.accept ?? ''} onChange={e => set({ accept: e.target.value })}
           placeholder="e.g. a residual covariance between items 3 and 4, because both are worded negatively. No cross-loadings: the constructs are defined apart." />
       </label>
-      <p className="hint" style={{ marginTop: 4 }}>This list is your defence against index fishing: a change you named today needs no excuse later. It goes into your report.</p>
+      <p className="hint" style={{ marginTop: 4 }}>This list is your defence against index fishing: a change you name in advance needs no excuse later. It goes into your report.</p>
       {done && <p className="ps-done">✓ Step 2 done</p>}
     </div>
   );

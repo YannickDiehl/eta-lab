@@ -1,4 +1,4 @@
-// One course day as a playlist: understand → try → your project → in R → check → read.
+// One day as a playlist: understand → try → your project → in R → check → read.
 // Built items link into stations and the studio; planned items show what is coming.
 import type { ReactNode } from 'react';
 import { Eta } from '../eta/Eta.tsx';
@@ -25,14 +25,14 @@ import { ShareDecision } from './Compare.tsx';
 
 const MOVES: { id: string; move: Item['move']; title: string; shape: string; what: string }[] = [
   { id: 'understand', move: 'understand', title: 'Understand', shape: 'e', what: 'Stations: a question, a sandbox, η’s explanation' },
-  { id: 'try', move: 'try', title: 'Try it', shape: 'r', what: 'The course model in the studio, with a task' },
+  { id: 'try', move: 'try', title: 'Try it', shape: 'r', what: 'The example model in the studio, with a task' },
   { id: 'project', move: 'project', title: 'Your project', shape: 'y', what: 'One step in your own model' },
   { id: 'r', move: 'r', title: 'In R', shape: 'f', what: 'The same model in lavaan' },
 ];
 
 export function DayRail({ current }: { current?: number }) {
   return (
-    <ol className="day-rail" aria-label="Course days">
+    <ol className="day-rail" aria-label="Days">
       {DAYS.map(d => {
         const st = readiness(d).state;
         return <li key={d.n} className={d.n === 1 || d.n === 6 ? 'gap' : ''}>{d.n === 1 && <small>measurement</small>}{d.n === 6 && <small>structure</small>}<a href={`#/day/${d.n}`} className={`${d.n === current ? 'on' : ''} ${st}`} aria-current={d.n === current ? 'page' : undefined} title={`Day ${d.n} · ${d.title}`}>{d.n}</a></li>;
@@ -50,53 +50,13 @@ function ItemCard({ item, label, children }: { item: Item; label?: string; child
   const href = item.status === 'ready' && item.station ? `#/${item.station}` : undefined;
   const body = (
     <>
-      <span className="ic-top">{label && <b className="ic-num">{label}</b>}{item.mini && <span className="badge">mini</span>}{item.minutes && <span className="ic-min">{item.minutes} min</span>}<Status item={item} /></span>
+      <span className="ic-top">{label && <b className="ic-num">{label}</b>}{item.mini && <span className="badge">mini</span>}<Status item={item} /></span>
       <span className="ic-title">{item.title}</span>
       <span className="ic-blurb">{item.blurb}</span>
       {children}
     </>
   );
   return href ? <a className="card item-card" href={href}>{body}</a> : <div className={`card item-card ${item.status}`}>{body}</div>;
-}
-
-// How to work with a day: the script, the practice, the project step — and what goes deeper.
-// No times and no class: η Lab works on its own, courses that use it plan their sessions themselves.
-const YOUR_TURN: Record<number, string> = { 1: '20–30', 2: '20–30', 3: '30–40', 4: '30', 5: '75–90' };
-const SCRIPT_START: Record<number, string> = { 1: 'constructs', 2: 'start', 3: 'setup', 4: 'start', 5: 'setup' };
-function WorkBox({ day }: { day: Day }) {
-  const task = day.items.find(i => i.move === 'try' && i.task);
-  const script = day.items.find(i => i.move === 'understand' && !i.station);
-  const stations = day.items.filter(i => i.station);
-  const deeper = stations.reduce((s, i) => s + (i.minutes ?? 0), 0);
-  return (
-    <section className="card today" aria-label="How to work with this day">
-      <h2>How to work with this day</h2>
-      <div className="today-cols">
-        <div>
-          <h3>Work through</h3>
-          <ul>
-            <li><a href={`#/day/${day.n}#${SCRIPT_START[day.n]}`}>The script</a>{script?.minutes ? <> · about {Math.round(script.minutes / 30) / 2} h</> : null}, step by step, with the code running in R next to it</li>
-            <li className="hint">The number checks in the script tell you whether your R gives the same result.</li>
-          </ul>
-        </div>
-        <div>
-          <h3>Practise</h3>
-          <ul>
-            {task && <li><a href={`#/day/${day.n}#try`}>“{task.title}”</a> in the studio{task.minutes ? ` · ${task.minutes} min` : ''}</li>}
-            <li><a href={`#/day/${day.n}#yourturn`}>Your turn</a> in R · {YOUR_TURN[day.n]} min</li>
-            <li><a href={`#/day/${day.n}#check`}>Check it</a> · 10 min</li>
-          </ul>
-        </div>
-        <div>
-          <h3>Your project</h3>
-          <ul>
-            <li><a href={`#/day/${day.n}#project`}>Step {day.n}: {day.project.title.charAt(0).toLowerCase() + day.project.title.slice(1)}</a> · 20–30 min</li>
-          </ul>
-        </div>
-      </div>
-      <p className="hint" style={{ margin: '10px 0 0' }}>Going deeper, whenever you like: {stations.length > 0 && <><a href={`#/day/${day.n}#deeper`}>{stations.length} station{stations.length === 1 ? '' : 's'}</a> ({deeper} min), </>}the folded “Go deeper” parts of the script{day.reading.essential.length > 0 && <>, and <a href={`#/day/${day.n}#read`}>the reading</a> ({day.reading.essential[0]})</>}.</p>
-    </section>
-  );
 }
 
 export function DayPage({ day, project, practice, steps, setStep, updateProject, setTrack, done }: {
@@ -111,7 +71,6 @@ export function DayPage({ day, project, practice, steps, setStep, updateProject,
   const check = day.items.find(i => i.move === 'check');
   const cards = cardsFor(day.n);
   const prev = DAYS.find(d => d.n === day.n - 1), next = DAYS.find(d => d.n === day.n + 1);
-  const minutes = day.items.reduce((s, i) => s + (i.minutes ?? 0), 0);
   const stepId = `d${day.n}`;
   const step = steps[stepId] ?? {};
   const pa = analyse(project.diagram);
@@ -141,7 +100,7 @@ export function DayPage({ day, project, practice, steps, setStep, updateProject,
   return (
     <article className="day">
       <header className="station-head day-head">
-        <span className="kicker">Week {day.week} · {day.week === 1 ? 'Confirmatory factor analysis' : 'Structural equation models'} · Day {day.n}</span>
+        <span className="kicker">Part {day.week} · {day.week === 1 ? 'Confirmatory factor analysis' : 'Structural equation models'} · Day {day.n}</span>
         <h1>{day.title}</h1>
         <p>{day.subtitle}</p>
         <DayRail current={day.n} />
@@ -159,7 +118,6 @@ export function DayPage({ day, project, practice, steps, setStep, updateProject,
       )}
 
       {day.n >= 1 && day.n <= 5 ? <>
-        <WorkBox day={day} />
         {day.n === 1 ? <Day1Script /> : day.n === 2 ? <Day2Script /> : day.n === 3 ? <Day3Script /> : day.n === 4 ? <Day4Script /> : <Day5Script />}
         {understand.some(i => i.station) && <section id="deeper" className="day-sec">
           <h2><span className="shape e" aria-hidden="true" />Go deeper</h2>
@@ -176,7 +134,7 @@ export function DayPage({ day, project, practice, steps, setStep, updateProject,
             return (
               <ItemCard key={i.title} item={i}>
                 <span className="row" style={{ marginTop: 10 }}>
-                  {tpl && <a className="btn primary" href={`#/model?template=${encodeURIComponent(tpl.title)}`}>Open the course model →</a>}
+                  {tpl && <a className="btn primary" href={`#/model?template=${encodeURIComponent(tpl.title)}`}>Open the example model →</a>}
                   {t && <a className="btn primary" href={`#/model?task=${t.id}`}>{done.has(t.id) ? '✓ Done — open again' : practice.task?.id === t.id ? 'Continue the task' : 'Start the task'} →</a>}
                 </span>
                 {t && <span className="row" style={{ marginTop: 10, alignItems: 'center' }}>
@@ -188,7 +146,7 @@ export function DayPage({ day, project, practice, steps, setStep, updateProject,
           })}</div>
         </section>
       </> : <>
-      <nav className="moves" aria-label="Today">
+      <nav className="moves" aria-label="This day">
         {MOVES.filter(m => m.move === 'project' || day.items.some(i => i.move === m.move)).map(m => (
           <a key={m.id} href={`#/day/${day.n}#${m.id}`} className="card move">
             <span className={`shape ${m.shape}`} aria-hidden="true" />
@@ -196,7 +154,6 @@ export function DayPage({ day, project, practice, steps, setStep, updateProject,
           </a>
         ))}
       </nav>
-      {minutes > 0 && <p className="hint">About {Math.round(minutes / 5) * 5} minutes in η Lab, plus R and your project.</p>}
 
       {understand.length > 0 && <section id="understand" className="day-sec">
         <h2><span className="shape e" aria-hidden="true" />Understand</h2>
@@ -218,7 +175,7 @@ export function DayPage({ day, project, practice, steps, setStep, updateProject,
                 <span className="row" style={{ marginTop: 10 }}>
                   {t && i.status === 'ready' && <a className="btn primary" href={`#/model?task=${t.id}`}>{finished ? '✓ Done — open again' : inProgress ? 'Continue the task' : 'Start the task'} →</a>}
                   {!t && i.title === 'Your report' && <a className="btn primary" href="#/model" onClick={() => setTrack('project')}>Open your project → lavaan tab → Report .qmd</a>}
-                  {tpl && i.status === 'planned' && <a className="btn" href={`#/model?template=${encodeURIComponent(tpl.title)}`}>The course model is ready: open it →</a>}
+                  {tpl && i.status === 'planned' && <a className="btn" href={`#/model?template=${encodeURIComponent(tpl.title)}`}>The example model is ready: open it →</a>}
                 </span>
               </ItemCard>
             );
@@ -247,7 +204,7 @@ export function DayPage({ day, project, practice, steps, setStep, updateProject,
                 <label className="ps-field">Notes for this step
                   <textarea rows={3} value={step.note ?? ''} onChange={e => setStep(stepId, { note: e.target.value })} placeholder={day.n === 1 ? 'Your construct and its items. Reflective or formative — why? How many items (at least 3, better 4)? Expected n, and N:q for your model?' : 'What you decided, and why.'} />
                 </label>
-                <label className="chk"><input type="checkbox" checked={step.done === 'yes'} onChange={e => setStep(stepId, { done: e.target.checked ? 'yes' : '' })} /> Done for today</label>
+                <label className="chk"><input type="checkbox" checked={step.done === 'yes'} onChange={e => setStep(stepId, { done: e.target.checked ? 'yes' : '' })} /> Step done</label>
               </>
             )}
           <p style={{ margin: '12px 0 0' }}><a href="#/model" onClick={() => setTrack('project')}>Open your project in the studio →</a></p>

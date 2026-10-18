@@ -1,8 +1,8 @@
 // Day 3 as an interactive script: restrictions, identification and the simultaneous CFA, after
-// the course's Day 3 slides (Essex 2024), the worksheet and homework Day 3, the R code Day 3 and
+// the Day 3 slides of the Essex SEM course (2024), the worksheet and homework Day 3, the R code Day 3 and
 // the Lugano 2025 code documentation. The data: tradition/conformity, universalism and attitudes
 // toward immigration in the Netherlands, ESS 2004. All numbers come from R
-// (scripts/day3-outputs.R) with the course's own code: MLR, FIML, compareFit with Satorra–Bentler.
+// (scripts/day3-outputs.R) with the code used throughout η Lab: MLR, FIML, compareFit with Satorra–Bentler.
 import { useState, type ReactNode } from 'react';
 import { LoadError, Tex } from '../../components/ui.tsx';
 import { Eta } from '../../eta/Eta.tsx';
@@ -15,24 +15,24 @@ import { ALLOW_ITEMS, pick, sgn, TRCO_ITEMS, UNIV_ITEMS, useDay3 } from './data.
 import { LadderExplorer, LadderTable, TwoWaysTau } from './figures1.tsx';
 import { AlphaOmega, ByHand, ScfaView, SCFA_LABELS, SeparateVsSimultaneous, StdConverter } from './figures2.tsx';
 
-const SECTIONS: { title: string; goal: string; minutes: string }[] = [
-  { title: 'Restrictions: fixed, constrained, free', goal: 'you know the three kinds of parameters and the four nested models of classical test theory — and what each one claims about the items.', minutes: '15' },
-  { title: 'Identification: are there enough numbers?', goal: 'you can count the degrees of freedom of a model, name its identification status, and know what the information matrix adds.', minutes: '25' },
-  { title: 'Solving a model by hand', goal: 'you can compute the loadings of a three-item factor from its correlations — and see why two items are not enough.', minutes: '20' },
-  { title: 'Equality constraints in lavaan', goal: 'you can fix a parameter, set parameters equal with labels, and free a marker loading.', minutes: '15' },
-  { title: 'The restriction ladder for tradition and conformity', goal: 'you have estimated the four models, compared them, and can say how far the items are interchangeable.', minutes: '35–40' },
-  { title: 'Reliability: alpha, omega and sum scores', goal: 'you know why alpha needs tau-equivalence, and how to compute omega in lavaan.', minutes: '15' },
-  { title: 'The simultaneous CFA', goal: 'you have estimated three constructs in one model and can judge convergent and discriminant validity.', minutes: '30–35' },
-  { title: 'Local misfit: cross-loadings or correlated errors?', goal: 'you can read modification indices with their expected change, and know what a cross-loading and an error covariance claim.', minutes: '25' },
-  { title: 'Reading the estimates: standardized and unstandardized', goal: 'you can convert a loading between its unstandardized and standardized form, and know which standardized solution a study reports.', minutes: '15' },
-  { title: 'A strategy for your measurement models', goal: 'you have a five-step plan for the measurement models of your own project.', minutes: '10' },
+const SECTIONS: { title: string; goal: string }[] = [
+  { title: 'Restrictions: fixed, constrained, free', goal: 'you know the three kinds of parameters and the four nested models of classical test theory — and what each one claims about the items.' },
+  { title: 'Identification: are there enough numbers?', goal: 'you can count the degrees of freedom of a model, name its identification status, and know what the information matrix adds.' },
+  { title: 'Solving a model by hand', goal: 'you can compute the loadings of a three-item factor from its correlations — and see why two items are not enough.' },
+  { title: 'Equality constraints in lavaan', goal: 'you can fix a parameter, set parameters equal with labels, and free a marker loading.' },
+  { title: 'The restriction ladder for tradition and conformity', goal: 'you have estimated the four models, compared them, and can say how far the items are interchangeable.' },
+  { title: 'Reliability: alpha, omega and sum scores', goal: 'you know why alpha needs tau-equivalence, and how to compute omega in lavaan.' },
+  { title: 'The simultaneous CFA', goal: 'you have estimated three constructs in one model and can judge convergent and discriminant validity.' },
+  { title: 'Local misfit: cross-loadings or correlated errors?', goal: 'you can read modification indices with their expected change, and know what a cross-loading and an error covariance claim.' },
+  { title: 'Reading the estimates: standardized and unstandardized', goal: 'you can convert a loading between its unstandardized and standardized form, and know which standardized solution a study reports.' },
+  { title: 'A strategy for your measurement models', goal: 'you have a five-step plan for the measurement models of your own project.' },
 ];
 
 function Sec({ n, children }: { n: number; children: ReactNode }) {
   const s = SECTIONS[n - 1];
   return (
     <section id={`s${n}`} className="sc-step">
-      <header><span className="sc-n">{n}</span><h2>{s.title}</h2><span className="hint" style={{ margin: 0 }}>about {s.minutes} min</span></header>
+      <header><span className="sc-n">{n}</span><h2>{s.title}</h2></header>
       <p className="sc-goal"><b>After this part</b> {s.goal}</p>
       {children}
     </section>
@@ -189,7 +189,7 @@ const LOCAL = `values_immigration_fit %>%
 # standardized residuals: |z| > 2 points to local misfit
 lavResiduals(values_immigration_fit)$cov.z`;
 
-const STUDIO_SAMPLE = (n: number, f: Record<string, number>) => `# eta Lab's studio uses the respondents who answered all course variables
+const STUDIO_SAMPLE = (n: number, f: Record<string, number>) => `# eta Lab's studio uses the respondents who answered all variables used in eta Lab
 NL2_studio <- NL2 %>%
   mutate(
     agea = 2004 - yrbrn,
@@ -236,8 +236,8 @@ export function Day3Script() {
       <div className="card sc-intro">
         <Eta size={56} mood="explaining" />
         <div>
-          <p><b>Today:</b> what a model claims beyond its arrows. Restrictions say <i>how</i> items relate to their factor — equally strongly, equally reliably, equally difficult. Identification asks whether the data hold enough numbers to estimate a model at all. And the simultaneous CFA puts all constructs of a question into one measurement model — tradition/conformity, universalism and attitudes toward immigration in the Netherlands (ESS 2004).</p>
-          <p className="hint">The matrix workshop on <a href="#/map#matrices">the map of SEM</a> (part 5) is a good warm-up: it is today’s identification lesson in miniature. The studio task and “Your turn” (30–40 min) practise it.</p>
+          <p><b>This script:</b> what a model claims beyond its arrows. Restrictions say <i>how</i> items relate to their factor — equally strongly, equally reliably, equally difficult. Identification asks whether the data hold enough numbers to estimate a model at all. And the simultaneous CFA puts all constructs of a question into one measurement model — tradition/conformity, universalism and attitudes toward immigration in the Netherlands (ESS 2004).</p>
+          <p className="hint">The matrix workshop on <a href="#/map#matrices">the map of SEM</a> (part 5) is a good warm-up: it is the identification lesson of this script in miniature. The studio task and “Your turn” practise it.</p>
         </div>
       </div>
       <div className="sc-apply" id="setup">
@@ -272,7 +272,7 @@ export function Day3Script() {
 
       <Sec n={2}>
         <p>A model is <b>identified</b> if the variances and covariances of the data hold enough information to estimate every free parameter. In short: more restrictions make identification easier, more free parameters make it harder.</p>
-        <p>Three cases, by comparing the number p of observed variances and covariances with the number q of free parameters (as on Day 1, step 5; the course slides write t for q):</p>
+        <p>Three cases, by comparing the number p of observed variances and covariances with the number q of free parameters (as on Day 1, step 5; the original slides write t for q):</p>
         <ul>
           <li><b>just identified</b> — as many as parameters: df = 0. The model reproduces the data exactly and cannot be tested;</li>
           <li><b>overidentified</b> — more: df &gt; 0. The model makes claims the data can reject;</li>
@@ -350,7 +350,7 @@ export function Day3Script() {
           <Check label="Scaled χ² of the strictly parallel model" expect={t.fits.strict['chisq.scaled']} tol={0.01} unit={`χ²(${t.fits.strict.df}) = ${t.fits.strict['chisq.scaled'].toFixed(2)}`} />
           <Deeper title="Partially tau-equivalent: release one loading">
             <p>If one item breaks the equality, release it: <code>TRCO =~ 1*ipmodst + 1*imptrad + 1*ipfrule + ipbhprp</code>. The adapted model has χ²<sub>scaled</sub>({t.tau_adapted.df}) = {t.tau_adapted['chisq.scaled'].toFixed(2)}, CFI {f3(t.tau_adapted['cfi.robust'])}, RMSEA {f3(t.tau_adapted['rmsea.robust'])}. Against the congeneric model: Δχ²<sub>SB</sub>({t.lrt.adapted?.ddf}) = {t.lrt.adapted?.dchisq.toFixed(2)}, {pTxt(t.lrt.adapted?.p ?? 1)}, and ΔCFI {sgn(adaptedDcfi)}.</p>
-            <p>The two criteria disagree: the χ² difference rejects the equal loadings of the first three items at α = .05; the change in CFI stays within −.010. With {d.n.toLocaleString('en')} respondents the χ² test detects small differences — the course reads such cases with Chen’s criterion, as you will on Day 4, and reports both. Substantively: ipmodst, imptrad and ipfrule are about equally strong measures; “behave properly” is the strongest.</p>
+            <p>The two criteria disagree: the χ² difference rejects the equal loadings of the first three items at α = .05; the change in CFI stays within −.010. With {d.n.toLocaleString('en')} respondents the χ² test detects small differences — here we read such cases with Chen’s criterion, as you will on Day 4, and report both. Substantively: ipmodst, imptrad and ipfrule are about equally strong measures; “behave properly” is the strongest.</p>
           </Deeper>
         </Apply>
       </Sec>
@@ -371,7 +371,7 @@ export function Day3Script() {
           <li>estimates the correlations between the constructs <b>corrected for measurement error</b>;</li>
           <li>tests the <b>number of factors</b> — are two constructs really two?</li>
           <li>tests <b>cross-loadings</b> and <b>error correlations between items of different constructs</b> (method effects; Podsakoff et al., 2003);</li>
-          <li>prepares the structural model of Week 2: a structural model can only be as good as this measurement model.</li>
+          <li>prepares the structural model of Part 2: a structural model can only be as good as this measurement model.</li>
         </ul>
         <p className="hint">Alternatives to correlated factors — a factor above the factors (higher-order) or a general factor beside them (bifactor) — follow on Day 5.</p>
         <p>In matrix form, with two factors and six items, the zeros are the cross-loadings that were not drawn:</p>
@@ -388,11 +388,11 @@ export function Day3Script() {
           <ROut title="R output · summary(values_immigration_fit)"><pre className="syntax"><code>{s.summary}</code></pre></ROut>
           <Check label="Number of observations" expect={d.n_scfa} tol={0.5} unit="every respondent with at least one of the ten answers" hint="the line “Number of observations” at the top of the summary" />
           <p className="hint"><b>Check the direction of the allow items:</b> the correlation UNIV–ALLOW must be positive (+{fc('UNIV', 'ALLOW').toFixed(2).replace(/^0/, '')}). Negative? The allow items were not reversed — run the setup block again, from <code>read_spss</code> on.</p>
-          <p><b>Validity</b>, read from the standardized solution, with the course’s criteria:</p>
+          <p><b>Validity</b>, read from the standardized solution, with the criteria used here:</p>
           <ul>
             <li><b>convergent</b> — loadings of at least .5, at minimum .4: {(['ALLOW', 'TRCO', 'UNIV'] as const).map(f => { const v = (f === 'ALLOW' ? ALLOW_ITEMS : f === 'TRCO' ? TRCO_ITEMS : UNIV_ITEMS).map(i => std(f, i)); return `${f} ${r2(Math.min(...v))}–${r2(Math.max(...v))}`; }).join('; ')}. The value items are borderline — ipmodst and ipeqopt below .5;</li>
             <li><b>discriminant</b> — factor correlations below .85: the largest is TRCO–UNIV with {r2(fc('TRCO', 'UNIV'))}; and no substantial cross-loadings (below .3): the largest expected one, TRCO → impenv, is about {r2(s.mi.find(m => m.op === '=~')!.sepc)} (standardized) — borderline; freed, it is {r2(s.cross.est[0].std)} (section 8);</li>
-            <li><b>nomological</b> — correlations that make sense: universalism goes with more openness to immigration ({r2(fc('UNIV', 'ALLOW'))}), tradition/conformity with less ({r2(fc('TRCO', 'ALLOW'))}). That the two values correlate positively ({r2(fc('TRCO', 'UNIV'))}), although Schwartz’s circle puts them on different sides, is partly a response style: some respondents rate every value as important. Schwartz recommends centering the value ratings on each person’s mean before such comparisons. Week 2 turns these correlations into effects.</li>
+            <li><b>nomological</b> — correlations that make sense: universalism goes with more openness to immigration ({r2(fc('UNIV', 'ALLOW'))}), tradition/conformity with less ({r2(fc('TRCO', 'ALLOW'))}). That the two values correlate positively ({r2(fc('TRCO', 'UNIV'))}), although Schwartz’s circle puts them on different sides, is partly a response style: some respondents rate every value as important. Schwartz recommends centering the value ratings on each person’s mean before such comparisons. Part 2 turns these correlations into effects.</li>
           </ul>
         </Apply>
       </Sec>
@@ -410,19 +410,19 @@ export function Day3Script() {
           <table className="rp-table">
             <thead><tr><th>added</th><th>Δχ²<sub>SB</sub> (1)</th><th>CFI</th><th>RMSEA</th></tr></thead>
             <tbody>
-              <tr><td>— the course model</td><td>—</td><td>{f3(s.fit['cfi.robust'])}</td><td>{f3(s.fit['rmsea.robust'])}</td></tr>
+              <tr><td>— the example model</td><td>—</td><td>{f3(s.fit['cfi.robust'])}</td><td>{f3(s.fit['rmsea.robust'])}</td></tr>
               <tr><td>error covariance <code>{s.cov.par}</code></td><td>{s.cov.lrt.dchisq.toFixed(1)}, {pTxt(s.cov.lrt.p)}</td><td>{f3(s.cov.fit['cfi.robust'])}</td><td>{f3(s.cov.fit['rmsea.robust'])}</td></tr>
               <tr><td>cross-loading <code>{s.cross.par}</code></td><td>{s.cross.lrt.dchisq.toFixed(1)}, {pTxt(s.cross.lrt.p)}</td><td>{f3(s.cross.fit['cfi.robust'])}</td><td>{f3(s.cross.fit['rmsea.robust'])}</td></tr>
             </tbody>
           </table>
           <p className="hint">Why is Δχ²<sub>SB</sub> smaller than the modification index ({s.mi[0].mi.toFixed(1)} → {s.cov.lrt.dchisq.toFixed(1)}, {s.mi.find(m => m.op === '=~')!.mi.toFixed(1)} → {s.cross.lrt.dchisq.toFixed(1)})? The MI approximates the drop in the standard ML χ²; the robust difference test corrects for the non-normal data (as on Day 2). The same for the EPC: the expected standardized cross-loading was about {s.mi.find(m => m.op === '=~')!.sepc.toFixed(2)}, freely estimated it is {s.cross.est[0].std.toFixed(2)}. Both are approximations — the estimated model has the last word.</p>
-          <p>Both improve the fit; neither is needed for an acceptable model. The decision is about the items: does caring for nature belong partly to tradition — as preserving what is handed down — or do “follow traditions and customs” and “care for nature and environment” share something else? Whatever you decide, decide it once for Day 2’s model and today’s, and write the reason down.</p>
+          <p>Both improve the fit; neither is needed for an acceptable model. The decision is about the items: does caring for nature belong partly to tradition — as preserving what is handed down — or do “follow traditions and customs” and “care for nature and environment” share something else? Whatever you decide, decide it once for Day 2’s model and this one, and write the reason down.</p>
           <ROut title="R output · modificationindices(values_immigration_fit)"><pre className="syntax"><code>{s.mi_text}</code></pre></ROut>
           <Task question={`Third on the list: TRCO =~ ipeqopt, MI ${s.mi[2].mi.toFixed(1)}, standardized EPC ${s.mi[2].sepc.toFixed(2).replace('-', '−')}. What would freeing it claim?`}
             options={['That equal opportunities is a traditional value too.', 'That the more traditional a person, the less they endorse equal opportunities — beyond what universalism explains: an item of one construct measuring the opposite of another.', 'Nothing about the constructs — only that the fit improves.']} answer={1}
             explain={<>A negative cross-loading: “treated equally” would partly measure the absence of tradition/conformity. Possible — but hard to defend from the item text alone, and the index is not a reason. Leave it unless your theory predicts it.</>} />
         </Apply>
-        <Deeper title="CFA step by step: the course’s checklist for exploring a measurement structure">
+        <Deeper title="CFA step by step: a checklist for exploring a measurement structure">
           <ol>
             <li><b>The base model.</b> Inspect the correlation matrix; fix the number of factors; let the factors covary; fix one loading per factor to 1; one loading per item (no cross-loadings); error covariances 0, error variances free; estimate unstandardized and standardized coefficients, MIs and EPCs.</li>
             <li><b>Evaluate it.</b> Identified (df ≥ 0, no error message)? Factor and error covariance matrices positive definite? Correlations of estimates above .9? Global fit? Misspecification by MIs, standardized residuals above 2? A substantive interpretation for every path, error covariance and factor correlation?</li>
@@ -443,7 +443,7 @@ export function Day3Script() {
       </Sec>
 
       <Sec n={10}>
-        <p>For the measurement models of every structural model, the course follows five steps:</p>
+        <p>For the measurement models of every structural model, η Lab follows five steps:</p>
         <ol>
           <li>Test every scale with several items <b>separately</b>.</li>
           <li><b>Modify</b> where MIs, EPCs and minimum loadings (above .5, at least .4) say so — with reasons.</li>
@@ -451,19 +451,19 @@ export function Day3Script() {
           <li>Check for <b>cross-loadings and error correlations</b>. If possible, drop the items concerned and estimate again; with too few items, allow the cross-loading or error correlation and justify it theoretically.</li>
           <li>Test for <b>differential item functioning</b> with multi-group models (Day 4) and MIMIC models (Day 7).</li>
         </ol>
-        <Transfer answer={<p>For the course question “do universalism and tradition/conformity relate to openness to immigration?”: (1) the three scales separately — TRCO testable, UNIV and ALLOW just identified; (2) no modification without a reason; (3) the simultaneous CFA above; (4) the imptrad–impenv strain, decided by the item texts; (5) invariance across the Benelux countries (Day 4) before comparing them, and age or education as MIMIC covariates (Day 7).</p>}>
+        <Transfer answer={<p>For the guiding question “do universalism and tradition/conformity relate to openness to immigration?”: (1) the three scales separately — TRCO testable, UNIV and ALLOW just identified; (2) no modification without a reason; (3) the simultaneous CFA above; (4) the imptrad–impenv strain, decided by the item texts; (5) invariance across the Benelux countries (Day 4) before comparing them, and age or education as MIMIC covariates (Day 7).</p>}>
           <p>Write down all five steps for your own research project, as an analysis plan. Which step do you expect to be the hardest?</p>
         </Transfer>
       </Sec>
 
       <section id="studio" className="sc-step">
         <header><span className="sc-n">Studio</span><h2>Before the studio task: why its numbers differ slightly</h2></header>
-        <p>The studio estimates with ML from the covariances of the {d.studio.n.toLocaleString('en')} Dutch respondents who answered <i>all</i> course variables; this script uses FIML and every respondent with at least one answer: {d.n.toLocaleString('en')} for tradition/conformity, {d.n_scfa.toLocaleString('en')} for the three-construct model. To get the studio’s numbers in R:</p>
+        <p>The studio estimates with ML from the covariances of the {d.studio.n.toLocaleString('en')} Dutch respondents who answered <i>all</i> variables used in η Lab; this script uses FIML and every respondent with at least one answer: {d.n.toLocaleString('en')} for tradition/conformity, {d.n_scfa.toLocaleString('en')} for the three-construct model. To get the studio’s numbers in R:</p>
         <Code code={STUDIO_SAMPLE(d.studio.n, d.studio.fit)} />
       </section>
 
       <section id="yourturn" className="sc-step">
-        <header><span className="sc-n">✎</span><h2>Your turn: the ladder for universalism</h2><span className="hint" style={{ margin: 0 }}>about 30–40 min</span></header>
+        <header><span className="sc-n">✎</span><h2>Your turn: the ladder for universalism</h2></header>
         <p className="sc-goal"><b>After this part</b> you have tested the restrictions for a second construct on your own — and decided which one to release.</p>
         <p>Write your own syntax for the tau-equivalent, parallel and strictly parallel model of universalism (<code>ipeqopt</code>, <code>ipudrst</code>, <code>impenv</code>), with MLR and FIML. Compare the models with the Satorra–Bentler test. Which is the highest level of equality you can assume? And which restriction would you release to improve the model that is too restrictive?</p>
         <Code code={`universalism_tau <- cfa(\n  model = "UNIV =~ ____*ipeqopt + ____*ipudrst + ____*impenv",\n  data = NL2,\n  estimator = "MLR",\n  missing = "fiml.x"\n)\n\n# parallel: add equal error variances; strictly parallel: add equal intercepts\n\ncompFit.universalism <- compareFit(\n  tau = universalism_tau,\n  parallel = ____,\n  strictly_parallel = ____,\n  argsLRT = list(method = "satorra.bentler.2001")\n)\n\n# which equality breaks the strict model?\nlavTestScore(universalism_strictly_parallel)`} />

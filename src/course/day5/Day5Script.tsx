@@ -1,8 +1,8 @@
-// Day 5 as an interactive script: latent means and beyond one factor, after the course's Day 5
-// slides (Essex 2024), the alignment deck, the active session and consolidation task of 2022, the
+// Day 5 as an interactive script: latent means and beyond one factor, after the Day 5
+// slides of the Essex SEM course (2024), the alignment deck, the active session and consolidation task of 2022, the
 // R code Day 5 and the higher-order example, and Brown's reporting checklist. The data: ESS 2004
 // Benelux (values, attitudes toward immigration) and a simulated MTMM design. All numbers come from
-// R (scripts/day5-outputs.R) with the course's own code.
+// R (scripts/day5-outputs.R) with the code used throughout η Lab.
 import { useState, type ReactNode } from 'react';
 import { LoadError, Predict, Tex } from '../../components/ui.tsx';
 import { Eta } from '../../eta/Eta.tsx';
@@ -14,22 +14,22 @@ import { CHEN_RULE } from '../../math/cutoffs.ts';
 import { LABELS } from '../day1/Day1Script.tsx';
 import { BifactorView, CascadeView, HigherOrder, MeanEquation, MeansCompare, MtmmMatrix, ProbeTable } from './figures.tsx';
 
-const SECTIONS: { title: string; goal: string; minutes: string }[] = [
-  { title: 'Comparing means: latent or observed?', goal: 'you can say what a difference in item means is made of, and why a t-test on sum scores can mislead.', minutes: '30' },
-  { title: 'Testing strategies — and when modifying becomes chasing the sample', goal: 'you know the classical strategies for invariance testing, and why the later steps of a modification cascade rarely replicate.', minutes: '25' },
-  { title: 'Alignment: means without full invariance', goal: 'you know the idea of alignment, and can run it in R for a few groups.', minutes: '20' },
-  { title: 'A factor above the factors: second-order models', goal: 'you can specify a second-order factor, count its identification, and know when it is testable.', minutes: '20' },
-  { title: 'One general factor and its facets: bifactor models', goal: 'you know what a bifactor model claims, how to read omega hierarchical, and why better fit alone is no argument for it.', minutes: '20' },
-  { title: 'Traits and methods: MTMM', goal: 'you can read a multitrait-multimethod matrix and model method variance in two ways.', minutes: '25' },
-  { title: 'Reporting a CFA', goal: 'you know what a report of a measurement model contains.', minutes: '10' },
-  { title: 'Week 1 in one page', goal: 'you have a strategy for testing measurement models in comparative research — from one factor to latent means.', minutes: '10' },
+const SECTIONS: { title: string; goal: string }[] = [
+  { title: 'Comparing means: latent or observed?', goal: 'you can say what a difference in item means is made of, and why a t-test on sum scores can mislead.' },
+  { title: 'Testing strategies — and when modifying becomes chasing the sample', goal: 'you know the classical strategies for invariance testing, and why the later steps of a modification cascade rarely replicate.' },
+  { title: 'Alignment: means without full invariance', goal: 'you know the idea of alignment, and can run it in R for a few groups.' },
+  { title: 'A factor above the factors: second-order models', goal: 'you can specify a second-order factor, count its identification, and know when it is testable.' },
+  { title: 'One general factor and its facets: bifactor models', goal: 'you know what a bifactor model claims, how to read omega hierarchical, and why better fit alone is no argument for it.' },
+  { title: 'Traits and methods: MTMM', goal: 'you can read a multitrait-multimethod matrix and model method variance in two ways.' },
+  { title: 'Reporting a CFA', goal: 'you know what a report of a measurement model contains.' },
+  { title: 'Part 1 in one page', goal: 'you have a strategy for testing measurement models in comparative research — from one factor to latent means.' },
 ];
 
 function Sec({ n, children }: { n: number; children: ReactNode }) {
   const s = SECTIONS[n - 1];
   return (
     <section id={`s${n}`} className="sc-step">
-      <header><span className="sc-n">{n}</span><h2>{s.title}</h2><span className="hint" style={{ margin: 0 }}>about {s.minutes} min</span></header>
+      <header><span className="sc-n">{n}</span><h2>{s.title}</h2></header>
       <p className="sc-goal"><b>After this part</b> {s.goal}</p>
       {children}
     </section>
@@ -270,26 +270,26 @@ export function Day5Script() {
     <article className="script">
       <nav className="sec-rail" aria-label="Sections">
         {SECTIONS.map((x, i) => <a key={i} href={`#/day/5#s${i + 1}`} title={x.title}>{i + 1}</a>)}
-        <a href="#/day/5#yourturn" title="Your turn: the week-1 probe">✎</a>
+        <a href="#/day/5#yourturn" title="Your turn: the Part 1 probe">✎</a>
       </nav>
 
       <div className="card sc-intro">
         <Eta size={56} mood="explaining" />
         <div>
-          <p><b>Today:</b> the end of week 1 — and its payoff. With invariant measures we can compare what we actually care about: the means of constructs. Then three ways beyond one factor per construct — a factor above the factors, a general factor beside them, and method factors — and how to report a measurement model. The day ends with the week-1 probe: the whole procedure, once more, on your own, with two new constructs.</p>
-          <p><b>How to work:</b> a new script <code>day5.R</code> in your project, the three country files from Day 0. Sections 1–8 are the core, the studio task practises section 6, and the probe (75–90 min) brings the whole first week together.</p>
+          <p><b>This script:</b> the end of Part 1 — and its payoff. With invariant measures we can compare what we actually care about: the means of constructs. Then three ways beyond one factor per construct — a factor above the factors, a general factor beside them, and method factors — and how to report a measurement model. The day ends with the Part 1 probe: the whole procedure, once more, on your own, with two new constructs.</p>
+          <p><b>How to work:</b> a new script <code>day5.R</code> in your project, the three country files from Day 0. Sections 1–8 are the core, the studio task practises section 6, and the probe brings the whole of Part 1 together.</p>
         </div>
       </div>
       <div className="sc-apply" id="setup">
         <span className="sc-tag">Before you start in R</span>
-        <p>The packages (sirt is new today: <code>install.packages("sirt")</code>) and the three countries:</p>
+        <p>The packages (sirt is new here: <code>install.packages("sirt")</code>) and the three countries:</p>
         <Code code={SETUP} />
       </div>
 
       <Sec n={1}>
         <p>Why go to such lengths for invariance? Because the question behind most comparisons is about <b>means</b>: are the Dutch less traditional than the Belgians? An item mean answers it only under conditions. For one item in two groups the model says</p>
         <div className="sc-formula"><Tex block>{'E(y_{g}) = \\tau_{g} + \\lambda_{g}\\,\\kappa_{g}'}</Tex></div>
-        <p>— the item mean is the intercept plus the loading times the latent mean. A recap of Day 4, now with the means in front: draw the four cases of the course slides — equal intercepts and slopes; unequal intercepts, equal slopes; equal intercepts, unequal slopes; both unequal. In which does a difference in item means speak for the latent means?</p>
+        <p>— the item mean is the intercept plus the loading times the latent mean. A recap of Day 4, now with the means in front: draw the four cases of the original slides — equal intercepts and slopes; unequal intercepts, equal slopes; equal intercepts, unequal slopes; both unequal. In which does a difference in item means speak for the latent means?</p>
         <MeanEquation />
         <p>A t-test on sum or mean scores therefore assumes, silently, what Day 4 tested: equal loadings <i>and</i> equal intercepts. It weights every item equally, and it carries the measurement error into the comparison, which shrinks standardized differences such as Cohen’s d — comparing those, or correlations of sum scores, also needs equal error variances (strict invariance).</p>
         <Task question="By the mean score, Luxembourg is as traditional as Belgium. What will the latent means say, once the two bent intercepts of Day 4 are released?"
@@ -314,7 +314,7 @@ export function Day5Script() {
               <tr><td>error variances Θ</td><td>strict</td><td>with equal factor variances, equal reliabilities: needed for standardized differences and correlations of sum scores</td></tr>
             </tbody>
           </table>
-          <p className="hint">After the course slides; Day 4 shows the same ladder. Three ways to give the latent means an origin are on Day 4 (section 9). All three need (partial) scalar invariance; none of them makes non-invariant intercepts comparable.</p>
+          <p className="hint">After the original slides; Day 4 shows the same ladder. Three ways to give the latent means an origin are on Day 4 (section 9). All three need (partial) scalar invariance; none of them makes non-invariant intercepts comparable.</p>
         </Deeper>
         <Transfer answer={<p>Most studies compare indices or sum scores with a t-test or ANOVA — which assumes scalar (for d: strict) invariance without testing it. If the groups are countries, survey modes or waves, test the ladder first; if they are, say, men and women in one country, the question is the same, only less often asked.</p>}>
           <p>How have you compared means so far — with indices or sum scores? What would you need to test before the comparison means what you want it to mean?</p>
@@ -322,12 +322,12 @@ export function Day5Script() {
       </Sec>
 
       <Sec n={2}>
-        <p>Day 4 climbed the ladder from configural to scalar and released single equalities. Two classical strategies frame this (course slides). <b>Backward</b>: start with the fully invariant model and release the invariance of one item at a time, each with a likelihood-ratio test. <b>Forward</b>: start with the fully non-invariant model and set items invariant one by one.</p>
-        <p>Each step is judged with the scaled χ² difference and with Chen’s criteria: {CHEN_RULE} Beyond this course: JRule (modification indices judged together with their expected change) and Bayesian approximate invariance. The trouble starts when the release of equalities and the addition of parameters are left to the indices alone.</p>
+        <p>Day 4 climbed the ladder from configural to scalar and released single equalities. Two classical strategies frame this (original slides). <b>Backward</b>: start with the fully invariant model and release the invariance of one item at a time, each with a likelihood-ratio test. <b>Forward</b>: start with the fully non-invariant model and set items invariant one by one.</p>
+        <p>Each step is judged with the scaled χ² difference and with Chen’s criteria: {CHEN_RULE} Beyond what η Lab covers: JRule (modification indices judged together with their expected change) and Bayesian approximate invariance. The trouble starts when the release of equalities and the addition of parameters are left to the indices alone.</p>
         <Apply what="Tradition/conformity and universalism in the Benelux, ESS 2004">
           <p>The two values of Days 2 and 3, all three countries, the scalar model — and then six steps, each taking the largest index at the time: a score test for an equality, or a modification index for a cross-loading or error covariance. Move the slider step by step; before each step, ask yourself: would I free this — and why?</p>
           <CascadeView d={d} />
-          <p>The course slides show the same pattern on other data (χ² from 758 to 36 in six steps). The lesson is not “never modify” — the first steps here, the intercepts of “rules” and “modest” and the imptrad ↔ impenv covariance, are the ones Days 2 and 4 argued about. It is that every later step needs a reason given <i>before</i> the index, or a test in new data: half of the sample, another country, another round.</p>
+          <p>The original slides show the same pattern on other data (χ² from 758 to 36 in six steps). The lesson is not “never modify” — the first steps here, the intercepts of “rules” and “modest” and the imptrad ↔ impenv covariance, are the ones Days 2 and 4 argued about. It is that every later step needs a reason given <i>before</i> the index, or a test in new data: half of the sample, another country, another round.</p>
           <Predict question={`In half A, steps 4–6 lower χ² by ${(d.cascade.half_a[3].fit['chisq.scaled'] - d.cascade.half_a[6].fit['chisq.scaled']).toFixed(0)} (from ${d.cascade.half_a[3].fit['chisq.scaled'].toFixed(0)} to ${d.cascade.half_a[6].fit['chisq.scaled'].toFixed(0)}). The same three steps in half B: by how much will they lower χ² there?`} min={0} max={60} step={1} start={40} truth={Math.round(d.cascade.half_b[3].fit['chisq.scaled'] - d.cascade.half_b[6].fit['chisq.scaled'])} format={v => v.toFixed(0)}
             explain={() => <>By only {(d.cascade.half_b[3].fit['chisq.scaled'] - d.cascade.half_b[6].fit['chisq.scaled']).toFixed(0)} — the late steps fitted half A, not the countries. Switch the figure to “found in half A, tested in half B”.</>} />
           <Deeper title="The six steps in R">
@@ -350,7 +350,7 @@ export function Day5Script() {
           </table>
           <p>Only “behave properly” ends up equal across the three countries; the other three intercepts stay far apart. Alignment has in effect found a one-item anchor — the 25 % rule is clearly broken here, and the aligned means are as uncertain as the partial ones. sirt also prints an R² (here {f3(d.alignment.r2[1])} for the intercepts); it is computed relative to the raw size of the parameters and comes out near 1 almost always, so it says little about invariance.</p>
           <Check label="Aligned latent mean of the Netherlands" expect={d.alignment.means[2]} tol={0.005} unit={`${sgn(d.alignment.means[2], 3)} — alpha0 for NL`} hint="tradition_conformity_aligned$pars, column alpha0" />
-          <p className="hint">With three countries alignment is a demonstration; it is designed for many groups (the course slides: 15 ESS countries). Fixed alignment (as here) sets the first group’s mean to 0 and variance to 1; free alignment estimates them too. Bayesian approximate invariance — equalities allowed to deviate a little through priors — is the third way; in R, with <code>blavaan</code>.</p>
+          <p className="hint">With three countries alignment is a demonstration; it is designed for many groups (the original slides: 15 ESS countries). Fixed alignment (as here) sets the first group’s mean to 0 and variance to 1; free alignment estimates them too. Bayesian approximate invariance — equalities allowed to deviate a little through priors — is the third way; in R, with <code>blavaan</code>.</p>
         </Apply>
       </Sec>
 
@@ -362,7 +362,7 @@ export function Day5Script() {
         <Apply what="Conservation in Belgium, ESS 2004">
           <HigherOrder d={d} />
           <Code code={HIGHER} />
-          <p className="hint">The general rule: with k first-order factors, a second-order factor replaces k(k + 1)/2 variances and covariances by 2k parameters (k − 1 loadings, its variance, k disturbances) and gains k(k − 3)/2 degrees of freedom — 0 for three factors, 2 for four, 5 for five. The course slides show the syndrome of group-focused enmity as a large example: some eight to ten prejudices, from xenophobia to sexism, as facets of one second-order factor.</p>
+          <p className="hint">The general rule: with k first-order factors, a second-order factor replaces k(k + 1)/2 variances and covariances by 2k parameters (k − 1 loadings, its variance, k disturbances) and gains k(k − 3)/2 degrees of freedom — 0 for three factors, 2 for four, 5 for five. The original slides show the syndrome of group-focused enmity as a large example: some eight to ten prejudices, from xenophobia to sexism, as facets of one second-order factor.</p>
           <Check label="Second-order loading of Conformity (standardized)" expect={h.second.est.find(e => e.op === '=~' && e.lhs === 'Conservation' && e.rhs === 'Conformity')!.std} tol={0.005} unit="Std.all of Conservation =~ Conformity — almost 1: a warning sign" />
         </Apply>
       </Sec>
@@ -384,7 +384,7 @@ export function Day5Script() {
       </Sec>
 
       <Sec n={6}>
-        <p>Every measurement shares something with every other measurement made the same way. Campbell and Fiske (1959) turned this into a design: measure several <b>traits</b> with several <b>methods</b>, and read the correlations. Today the multitrait-multimethod matrix is modelled — with method factors or with correlated uniquenesses (CU). The same logic lies behind common method variance in surveys (Podsakoff et al., 2003): items in the same format, the same block or the same wording share variance that is neither construct.</p>
+        <p>Every measurement shares something with every other measurement made the same way. Campbell and Fiske (1959) turned this into a design: measure several <b>traits</b> with several <b>methods</b>, and read the correlations. In current practice the multitrait-multimethod matrix is modelled — with method factors or with correlated uniquenesses (CU). The same logic lies behind common method variance in surveys (Podsakoff et al., 2003): items in the same format, the same block or the same wording share variance that is neither construct.</p>
         <Apply what="Trust in institutions, three formats — simulated data">
           <MtmmMatrix d={d} />
           <Code code={MTMM} />
@@ -407,13 +407,13 @@ export function Day5Script() {
       </Sec>
 
       <Sec n={7}>
-        <p>A CFA is only as convincing as its report. The checklist after Brown (2015, pp. 127–129), in our words — it is also the project step of today:</p>
+        <p>A CFA is only as convincing as its report. The checklist after Brown (2015, pp. 127–129), in our words — it is also the project step of this day:</p>
         <ol>{REPORT.map(r => <li key={r}>{r}</li>)}</ol>
         <p className="hint">The studio drafts most of this for your project: lavaan tab → Report .qmd, with the reasons from your logbook.</p>
       </Sec>
 
       <Sec n={8}>
-        <p>Week 1 in one page — Day 3’s five steps, now with groups and means. For each step: what to do, how to tell it worked, and what to do if not.</p>
+        <p>Part 1 in one page — Day 3’s five steps, now with groups and means. For each step: what to do, how to tell it worked, and what to do if not.</p>
         <table className="rp-table left week1-tab">
           <thead><tr><th>step</th><th>how to tell it worked</th><th>if not</th></tr></thead>
           <tbody>
@@ -426,18 +426,18 @@ export function Day5Script() {
             <tr><td><b>6 · Validate and report</b></td><td>modifications replicate in a holdout half or another sample; the whole path is in the report</td><td>say which steps were data-driven</td></tr>
           </tbody>
         </table>
-        <p>Never compare raw mean scores without scalar invariance — and not their standardized differences or correlations without strict invariance. Week 2 builds structural models on these measurement models: a path between two latent variables is only as good as the measurement of both.</p>
+        <p>Never compare raw mean scores without scalar invariance — and not their standardized differences or correlations without strict invariance. Part 2 builds structural models on these measurement models: a path between two latent variables is only as good as the measurement of both.</p>
       </Sec>
 
       <section id="studio" className="sc-step">
-        <header><span className="sc-n">Studio</span><h2>The studio task of today</h2></header>
+        <header><span className="sc-n">Studio</span><h2>The studio task of this day</h2></header>
         <p>“Traits and methods” runs on the simulated MTMM data of section 6 — the same population and seed, so the studio and R give the same numbers for the same model.</p>
         <p><a className="btn primary" href="#/model?task=d5-mtmm">Start the studio task →</a></p>
       </section>
 
       <section id="yourturn" className="sc-step">
-        <header><span className="sc-n">✎</span><h2>Your turn: the week-1 probe</h2><span className="hint" style={{ margin: 0 }}>about 75–90 min · evening or weekend</span></header>
-        <p className="sc-goal"><b>After this part</b> you have run the whole procedure of week 1 on your own, on two constructs you have not analysed before.</p>
+        <header><span className="sc-n">✎</span><h2>Your turn: the Part 1 probe</h2></header>
+        <p className="sc-goal"><b>After this part</b> you have run the whole procedure of Part 1 on your own, on two constructs you have not analysed before.</p>
         <p>Attitudes toward immigration in Belgium, Luxembourg and the Netherlands: <b>ALLOW</b> (<code>imsmetn</code>, <code>imdfetn</code>, <code>impcntr</code> — reversed in the setup, higher = allow more) and <b>EFFECTS</b> (<code>imbgeco</code> “{LABELS.imbgeco}”, <code>imueclt</code> “{LABELS.imueclt}”, <code>imwbcnt</code> “{LABELS.imwbcnt}”; 0–10, higher = more positive). The rules: no cross-loadings and no error covariances; per factor you may release at most <b>one</b> intercept, the same in all countries — and only with a reason about the item’s wording. Then:</p>
         <ol>
           <li>Fit the two-factor model in each country. Does it hold everywhere?</li>

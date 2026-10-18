@@ -1,5 +1,5 @@
 // Day 4 · what invariance does, to look at and to touch (part 3):
-//  · InvarianceExplorer — the course figure (Y over η, one line per group, τ, λ, κ, E) as a
+//  · InvarianceExplorer — the slide figure (Y over η, one line per group, τ, λ, κ, E) as a
 //    schematic with sliders; the levels lock λ and τ and the lines move into line;
 //  · ItemLines — the same picture with the Benelux estimates, animated, with each country's
 //    latent distribution on the η axis and the gap between expected and observed item means;
@@ -12,7 +12,7 @@ import { f2 } from '../day1/data.ts';
 import { GROUP_COLOR, interceptOf, loadingOf, meanOf, pe, type Day4, type ModelKey } from './data.ts';
 import { GroupLegend, Marker } from './figures1.tsx';
 
-// ---------------------------------------------------------------- 1a · the course figure, schematic
+// ---------------------------------------------------------------- 1a · the slide figure, schematic
 type Lvl = 'configural' | 'metric' | 'scalar';
 const G1 = { lam: 1.0, tau: 1.2, kap: 1.1 };
 const ALLOW: Record<Lvl, string> = {
@@ -73,14 +73,14 @@ export function InvarianceExplorer() {
           {slider('tau', 'intercept τ', 0.2, 3, scalarOn, G1.tau)}
           {slider('kap', 'latent mean κ', 0.2, 2.8, false, 0)}
           <p className="inv-allow">{ALLOW[lvl]}</p>
-          <p className="hint">E = τ + λ·κ: the expected answer of the group’s average person — the dashed lines, as in the course figure. Group 2’s E is {f2(t2 + l2 * k2)}, group 1’s {f2(t1 + l1 * k1)}.</p>
+          <p className="hint">E = τ + λ·κ: the expected answer of the group’s average person — the dashed lines, as in the original slide figure. Group 2’s E is {f2(t2 + l2 * k2)}, group 1’s {f2(t1 + l1 * k1)}.</p>
         </div>
       </div>
     </div>
   );
 }
 
-/** The two path diagrams of the course figure; the boxes light up as the level sets them equal. */
+/** The two path diagrams of the slide figure; the boxes light up as the level sets them equal. */
 function InvariancePaths({ lvl }: { lvl: Lvl }) {
   const lam = lvl !== 'configural', tau = lvl === 'scalar';
   const one = (x0: number, g: string) => (

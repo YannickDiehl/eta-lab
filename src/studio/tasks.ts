@@ -1,4 +1,4 @@
-// Task cards: the course exercise of a day, laid over the free studio. A card is a lens, not a
+// Task cards: the exercise of a day, laid over the free studio. A card is a lens, not a
 // lock — the sheet stays fully editable, and the card only reads what the learner does.
 //   strict checks   mechanics only (estimated, identified, df > 0, a reason written)
 //   reflective      decisions: any answer counts once it is argued; η mirrors what changed
@@ -89,7 +89,7 @@ export const TASKS: Task[] = [
     steps: [
       {
         id: 'predict', title: 'Guess first',
-        prompt: () => 'In Schwartz’s theory tradition and conformity are neighbours on the circle of values. Here they are two factors with two items each, and the factors correlate. The one-factor model of today’s script has df = 2.',
+        prompt: () => 'In Schwartz’s theory tradition and conformity are neighbours on the circle of values. Here they are two factors with two items each, and the factors correlate. The one-factor model of the Day 1 script has df = 2.',
         choice: () => ({
           question: 'How many degrees of freedom does this two-factor model have?',
           options: ['1 — the factor correlation costs one', '2 — the same as one factor', '0 — two items per factor use everything up'],
@@ -108,7 +108,7 @@ export const TASKS: Task[] = [
             question: `The two factors correlate ${r !== null ? d2s(r) : '…'}. What does that say?`,
             options: ['They are clearly two different values.', 'They cannot be told apart in these data: a correlation of about 1 — even slightly above 1, which no real correlation can be.', 'The model is not identified.'],
             answer: 1,
-            explain: () => 'A correlation at or above 1 means the two factors measure the same thing — or that two items each are too few to separate them. The model is identified (df = 1), but the data do not support two values. That is why the course measures tradition and conformity as one factor, TRCO; Day 5 shows that in Belgium the two can be told apart.',
+            explain: () => 'A correlation at or above 1 means the two factors measure the same thing — or that two items each are too few to separate them. The model is identified (df = 1), but the data do not support two values. That is why the example model measures tradition and conformity as one factor, TRCO; Day 5 shows that in Belgium the two can be told apart.',
           };
         },
       },
@@ -135,7 +135,7 @@ export const TASKS: Task[] = [
       },
       {
         id: 'r', title: 'Check it in R',
-        prompt: () => 'Run the two-factor model in R with the course’s pipeline (MLR, FIML). The correlation of the factors comes out above 1 there too — and lavaan warns that the covariance matrix of the latent variables is not positive definite.',
+        prompt: () => 'Run the two-factor model in R with the usual pipeline here (MLR, FIML). The correlation of the factors comes out above 1 there too — and lavaan warns that the covariance matrix of the latent variables is not positive definite.',
         action: 'confirm-r',
         deeper: { href: '#/day/1#yourturn', label: 'Your turn of Day 1 — the same pipeline for another construct' },
         check: c => (c.answers.r === 'done' ? true : 'Run it in R, then tick it off.'),
@@ -166,7 +166,7 @@ export const TASKS: Task[] = [
         hint: `Rules of thumb — ${CUTOFF_TEXT}.`,
         check: c => (!c.fit ? 'Waiting for the estimates…' : !c.fit.converged ? 'The model did not converge.' : c.fit.df <= 0 ? 'With df = 0 there is nothing to judge.' : true),
         choice: c => (c.baseFit ? {
-          question: 'Your verdict on the course model?',
+          question: 'Your verdict on the example model?',
           options: ['Good fit', 'Borderline — acceptable, but not clean', 'Poor fit'],
           answer: ['good', 'fair', 'poor'].indexOf(fitVerdict(c.baseFit)),
           explain: x => `CFI ${f3(x.baseFit!.cfi)}, RMSEA ${f3(x.baseFit!.rmsea)}, SRMR ${f3(x.baseFit!.srmr)}. CFI sits exactly on the line, RMSEA is above .05 — the model is usable, but something is not reproduced.`,
@@ -194,7 +194,7 @@ export const TASKS: Task[] = [
       },
       {
         id: 'decide', title: 'Decide: free it or leave it',
-        prompt: () => 'Both can be right. Add a parameter on the sheet (or with “Add” in Results), or keep the course model — and write one sentence why. The reason is what you will have to defend.',
+        prompt: () => 'Both can be right. Add a parameter on the sheet (or with “Add” in Results), or keep the example model — and write one sentence why. The reason is what you will have to defend.',
         hint: 'A shared wording, a common response format or a substantive overlap are reasons. “The index was large” is not.',
         decide: true,
         check: c => {
@@ -209,10 +209,10 @@ export const TASKS: Task[] = [
       },
       {
         id: 'compare', title: 'Keep both versions',
-        prompt: () => 'Keep the course model next to yours (Results → Compare models). AIC and BIC weigh the better fit against the extra parameter.',
+        prompt: () => 'Keep the example model next to yours (Results → Compare models). AIC and BIC weigh the better fit against the extra parameter.',
         panel: 'results',
         action: 'keep-course-model',
-        check: c => (c.snapshots > 0 ? true : 'Keep the course model for comparison.'),
+        check: c => (c.snapshots > 0 ? true : 'Keep the example model for comparison.'),
       },
       {
         id: 'r', title: 'Check it in R',
@@ -249,7 +249,7 @@ export const TASKS: Task[] = [
         choice: c => (c.baseFit ? {
           question: 'Your verdict on the simultaneous model?',
           options: ['Good fit', 'Borderline — acceptable, but not clean', 'Poor fit'],
-          explain: (x, picked) => `CFI ${f3(x.baseFit!.cfi)}, RMSEA ${f3(x.baseFit!.rmsea)}, SRMR ${f3(x.baseFit!.srmr)}, with χ²(${x.baseFit!.df}) = ${x.baseFit!.chisq.toFixed(1)}. ${picked === 2 ? 'Poor is too harsh: CFI and SRMR are good. ' : ''}CFI and SRMR say good; RMSEA is just above .05 — by the course’s table “borderline”, in R with MLR and FIML it is .046. Good or borderline: both are defensible readings — a cut-off is a convention, not a cliff. Thirty new claims, and the model holds.`,
+          explain: (x, picked) => `CFI ${f3(x.baseFit!.cfi)}, RMSEA ${f3(x.baseFit!.rmsea)}, SRMR ${f3(x.baseFit!.srmr)}, with χ²(${x.baseFit!.df}) = ${x.baseFit!.chisq.toFixed(1)}. ${picked === 2 ? 'Poor is too harsh: CFI and SRMR are good. ' : ''}CFI and SRMR say good; RMSEA is just above .05 — by the table used here “borderline”, in R with MLR and FIML it is .046. Good or borderline: both are defensible readings — a cut-off is a convention, not a cliff. Thirty new claims, and the model holds.`,
         } : null),
       },
       {
@@ -312,7 +312,7 @@ export const TASKS: Task[] = [
       },
       {
         id: 'compare', title: 'Keep both versions',
-        prompt: () => 'Optional: keep the course model next to yours (Results → Compare models) — AIC and BIC weigh the better fit against the extra parameter.',
+        prompt: () => 'Optional: keep the example model next to yours (Results → Compare models) — AIC and BIC weigh the better fit against the extra parameter.',
         panel: 'results',
         action: 'keep-course-model',
       },
@@ -417,7 +417,7 @@ export const TASKS: Task[] = [
           const head = `${freed.length} intercept${freed.length > 1 ? 's' : ''} released: scalar CFI ${f3(r[2].cfi)}, ΔCFI to metric ${sgn3(d)}.`;
           if (d >= -CUTOFFS.deltaCfi) return `${head} Chen’s criterion holds.`;
           if (r[2].cfi < CUTOFFS.cfi.fair) return `${head} Still far from acceptable — is there a second intercept you can explain?`;
-          return `${head} By Chen’s ΔCFI this still fails; by the absolute CFI it looks ${r[2].cfi >= CUTOFFS.cfi.good ? 'good' : 'acceptable'}. Two defensible readings — absolute fit or the change in fit — lead to different conclusions here. The course follows Chen; if you take the other reading, write down why.`;
+          return `${head} By Chen’s ΔCFI this still fails; by the absolute CFI it looks ${r[2].cfi >= CUTOFFS.cfi.good ? 'good' : 'acceptable'}. Two defensible readings — absolute fit or the change in fit — lead to different conclusions here. η Lab follows Chen; if you take the other reading, write down why.`;
         },
       },
       {

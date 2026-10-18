@@ -1,10 +1,10 @@
-// Day 4 as an interactive script: multi-group CFA and measurement invariance, after the course's
-// Day 4 slides (Essex 2024), the worksheet Day 4 (levels, Chen's criteria), the Essex 2023 R code
+// Day 4 as an interactive script: multi-group CFA and measurement invariance, after the
+// Day 4 slides of the Essex SEM course (2024), the worksheet Day 4 (levels, Chen's criteria), the Essex 2023 R code
 // and the Lugano 2025 code documentation (MI and partial MI for tradition and conformity). The
 // data: tradition/conformity in Belgium, Luxembourg and the Netherlands, ESS 2004. All numbers
-// come from R (scripts/day4-outputs.R) with the course's own code. After a didactic review:
-// goals and times per section, checkpoints, a label primer that recalls Day 3, the iterative
-// score test, and one course position on partial invariance (Chen, robust indices).
+// come from R (scripts/day4-outputs.R) with the code used throughout η Lab. After a didactic review:
+// goals per section, checkpoints, a label primer that recalls Day 3, the iterative
+// score test, and one position on partial invariance (Chen, robust indices).
 import { useState, type ReactNode } from 'react';
 import { LoadError, Tex } from '../../components/ui.tsx';
 import { Eta } from '../../eta/Eta.tsx';
@@ -18,24 +18,24 @@ import { BaselineLoadings, ItemMeansByCountry, LevelsGrid } from './figures1.tsx
 import { InvarianceExplorer, ItemLines, PointCloud } from './figures3.tsx';
 import { DecisionTree, ReleaseLab, RungTable, ScoreTable, UnbeSolution } from './figures2.tsx';
 
-const SECTIONS: { title: string; goal: string; minutes: string }[] = [
-  { title: 'Are measurements comparable across groups?', goal: 'you know the levels of invariance, what each one allows you to compare — and how lavaan sets a parameter equal across groups.', minutes: '20' },
-  { title: 'Step 1: the measurement model in each country', goal: 'you have checked that the model works in each country on its own.', minutes: '20' },
-  { title: 'Step 2: configural invariance', goal: 'you have estimated all countries in one model, without equalities.', minutes: '10' },
-  { title: 'Step 3: metric invariance', goal: 'you have tested equal loadings — and know what they allow.', minutes: '15' },
-  { title: 'Step 4: scalar invariance', goal: 'you have tested equal intercepts and can see why the model collapses.', minutes: '20' },
-  { title: 'Comparing the models', goal: 'you can decide about each rung with the χ² difference and Chen’s criteria.', minutes: '25' },
-  { title: 'Partial invariance: which equality breaks?', goal: 'you can find the equality that costs most with the score test.', minutes: '25' },
-  { title: 'Releasing intercepts — and who the anchors are', goal: 'you can release an intercept step by step, judge the result, and see what the anchors do to the means.', minutes: '30' },
-  { title: 'Latent means', goal: 'you know three ways to give latent means an origin, and how to read the result.', minutes: '20' },
-  { title: 'When invariance fails', goal: 'you know the options when full invariance fails.', minutes: '15' },
+const SECTIONS: { title: string; goal: string }[] = [
+  { title: 'Are measurements comparable across groups?', goal: 'you know the levels of invariance, what each one allows you to compare — and how lavaan sets a parameter equal across groups.' },
+  { title: 'Step 1: the measurement model in each country', goal: 'you have checked that the model works in each country on its own.' },
+  { title: 'Step 2: configural invariance', goal: 'you have estimated all countries in one model, without equalities.' },
+  { title: 'Step 3: metric invariance', goal: 'you have tested equal loadings — and know what they allow.' },
+  { title: 'Step 4: scalar invariance', goal: 'you have tested equal intercepts and can see why the model collapses.' },
+  { title: 'Comparing the models', goal: 'you can decide about each rung with the χ² difference and Chen’s criteria.' },
+  { title: 'Partial invariance: which equality breaks?', goal: 'you can find the equality that costs most with the score test.' },
+  { title: 'Releasing intercepts — and who the anchors are', goal: 'you can release an intercept step by step, judge the result, and see what the anchors do to the means.' },
+  { title: 'Latent means', goal: 'you know three ways to give latent means an origin, and how to read the result.' },
+  { title: 'When invariance fails', goal: 'you know the options when full invariance fails.' },
 ];
 
 function Sec({ n, children }: { n: number; children: ReactNode }) {
   const s = SECTIONS[n - 1];
   return (
     <section id={`s${n}`} className="sc-step">
-      <header><span className="sc-n">{n}</span><h2>{s.title}</h2><span className="hint" style={{ margin: 0 }}>about {s.minutes} min</span></header>
+      <header><span className="sc-n">{n}</span><h2>{s.title}</h2></header>
       <p className="sc-goal"><b>After this part</b> {s.goal}</p>
       {children}
     </section>
@@ -168,7 +168,7 @@ tradition_conformity_fit_scalar2 <- cfa(
   missing = "fiml.x"
 )`;
 
-const STUDIO_SAMPLE = `# eta Lab's studio uses the respondents who answered all course variables
+const STUDIO_SAMPLE = `# eta Lab's studio uses the respondents who answered all variables used in eta Lab
 ESS_studio <- ESS %>%
   mutate(
     agea = 2004 - yrbrn,
@@ -212,14 +212,14 @@ export function Day4Script() {
       <div className="card sc-intro">
         <Eta size={56} mood="explaining" />
         <div>
-          <p><b>Today:</b> do the mean levels of tradition and conformity differ between Belgium, Luxembourg and the Netherlands? Before we can answer, we have to ask whether the four items measure the same thing in all three countries — with the same ruler. We climb the course’s ladder of measurement invariance, step by step.</p>
-          <p><b>How to work:</b> a new script <code>day4.R</code> in your project, packages as on Day 1, and the three country files from Day 0. Sections 1–8 are the core; section 9 and the folded parts go deeper. The studio task practises section 8, “Your turn” (30 min) the whole procedure. Chen (2007) is reading to skim.</p>
+          <p><b>This script:</b> do the mean levels of tradition and conformity differ between Belgium, Luxembourg and the Netherlands? Before we can answer, we have to ask whether the four items measure the same thing in all three countries — with the same ruler. We climb the ladder of measurement invariance, step by step.</p>
+          <p><b>How to work:</b> a new script <code>day4.R</code> in your project, packages as on Day 1, and the three country files from Day 0. Sections 1–8 are the core; section 9 and the folded parts go deeper. The studio task practises section 8, “Your turn” the whole procedure. Chen (2007) is reading to skim.</p>
         </div>
       </div>
 
       <section id="start" className="sc-step">
-        <header><span className="sc-n">Start</span><h2>Three countries, four items</h2><span className="hint" style={{ margin: 0 }}>about 15 min</span></header>
-        <p className="sc-goal"><b>After this part</b> the three countries are in one data set, and you have seen why their raw means cannot answer today’s question.</p>
+        <header><span className="sc-n">Start</span><h2>Three countries, four items</h2></header>
+        <p className="sc-goal"><b>After this part</b> the three countries are in one data set, and you have seen why their raw means cannot answer the question of this script.</p>
         <p>The data: the Belgian, Luxembourgish and Dutch respondents of ESS round 2 — the three files you saved on Day 0 — bound into one data set.</p>
         <Code code={DATA} />
         <p className="hint">You should see a table with three rows: BE, LU, NL. Later, lavaan warns that “some cases are empty”: 36 of the 5,294 respondents answered none of the four items. FIML uses the other {d.n.toLocaleString('en')}.</p>
@@ -241,15 +241,15 @@ export function Day4Script() {
               <tr><td>tools</td><td colSpan={2}>labels for equal parameters, nested models, Δχ²<sub>SB</sub>, ΔCFI — the same as on Day 3</td></tr>
             </tbody>
           </table>
-          <p className="hint">Two names to keep apart: “strictly parallel” (Day 3: equal intercepts and error variances across the items) and “strict invariance” (today: equal error variances across the groups).</p>
+          <p className="hint">Two names to keep apart: “strictly parallel” (Day 3: equal intercepts and error variances across the items) and “strict invariance” (in current usage: equal error variances across the groups).</p>
         </div>
         <p>A parameter that carries the same label in every group is estimated once — equal across groups:</p>
         <Code code={LABEL_PRIMER} />
         <p className="hint">lavaan writes such labels for you when you use <code>group.equal</code>. In its output and in <code>lavTestScore()</code> they appear as automatic labels like <code>.p12.</code> (section 7).</p>
-        <p className="hint">A warm-up with a known truth: “Bend one ruler” in <a href="#/s11">station 4.2</a> (10 min) bends one item in one country and shows what each rung catches.</p>
+        <p className="hint">A warm-up with a known truth: “Bend one ruler” in <a href="#/s11">station 4.2</a> bends one item in one country and shows what each rung catches.</p>
         <p>The superscript is the group: λ¹ is a loading in Belgium, λ² the same loading in Luxembourg, up to group G. “Equal across groups” is an <b>equality constraint</b>: lavaan estimates one value and uses it in every group. That costs no parameters but gains degrees of freedom — and makes the model testable.</p>
         <LevelsGrid />
-        <p>What setting a parameter equal does, in the course’s picture: the expected answer Y of a group over the latent variable η — one line per group, with its intercept τ, its slope λ, and the latent mean κ of the group. Switch the levels:</p>
+        <p>What setting a parameter equal does, in the picture of the original slides: the expected answer Y of a group over the latent variable η — one line per group, with its intercept τ, its slope λ, and the latent mean κ of the group. Switch the levels:</p>
         <InvarianceExplorer />
         <table className="rp-table left">
           <thead><tr><th>Invariance of …</th><th>also called</th><th>parameters</th></tr></thead>
@@ -333,7 +333,7 @@ export function Day4Script() {
           </tbody>
         </table>
         <p className="hint">{CHEN_RULE} Note −.010, not −.10.</p>
-        <p><b>Robust or scaled?</b> With MLR, lavaan reports two corrected versions of CFI and RMSEA: <code>cfi.scaled</code> — what Mplus prints (scalar CFI {f3(f.scalar['cfi.scaled'])}) — and <code>cfi.robust</code>, the newer version used in this course ({f3(f.scalar['cfi.robust'])}). Pick one, use it for every rung, and say which. Here: robust.</p>
+        <p><b>Robust or scaled?</b> With MLR, lavaan reports two corrected versions of CFI and RMSEA: <code>cfi.scaled</code> — what Mplus prints (scalar CFI {f3(f.scalar['cfi.scaled'])}) — and <code>cfi.robust</code>, the newer version used in η Lab ({f3(f.scalar['cfi.robust'])}). Pick one, use it for every rung, and say which. Here: robust.</p>
         <Apply>
           <Code code={`compFit.tradition_conformity <- compareFit(\n  scalar = tradition_conformity_fit_scalar,\n  metric = tradition_conformity_fit_metric,\n  config = tradition_conformity_fit_config,\n  argsLRT = list(method = "satorra.bentler.2001")\n)\n\nsummary(\n  object = compFit.tradition_conformity,\n  fit.measures = c("chisq.scaled", "df.scaled", "pvalue.scaled",\n                   "rmsea.robust", "cfi.robust", "tli.robust",\n                   "srmr", "aic", "bic")\n)`} />
           <RungTable d={d} />
@@ -376,7 +376,7 @@ export function Day4Script() {
           <ROut title="R output · lavTestScore() after the first release"><pre className="syntax"><code>{d.score_partial_text}</code></pre></ROut>
           <ScoreTable d={d} labels={LABELS} rows={d.score_partial} />
           <p>Now <code>{next.item}</code> ({next.g1} = {next.g2}) is on top, X2 = {next.X2.toFixed(1)}, followed by <code>{next2.item}</code> (X2 = {next2.X2.toFixed(1)}).</p>
-          <p className="hint">Before you read on: which intercept would <i>you</i> release, in which direction is it off — and why? Decide in the studio task first; the second release, all combinations and the course’s verdict are folded below.</p>
+          <p className="hint">Before you read on: which intercept would <i>you</i> release, in which direction is it off — and why? Decide in the studio task first; the second release, all combinations and our verdict are folded below.</p>
           <Deeper title="After your own decision: the second release, all combinations and the verdict">
           <h3>Release 2 · ipmodst</h3>
           <Code code={fitCall('tradition_conformity_fit_scalar_partial3', '\n  group.equal = c("loadings", "intercepts"),\n  group.partial = c("ipfrule~1", "ipmodst~1"),')} />
@@ -387,7 +387,7 @@ export function Day4Script() {
           <ReleaseLab d={d} labels={LABELS} />
           <ItemLines d={d} labels={LABELS} initial="partial3" item0="ipmodst" models={['metric', 'scalar', 'partial', 'partial3']} />
           <div className="card decision-box">
-            <p><b>The course’s reading.</b> Chen asks whether the new equalities cost fit — and with both intercepts released they still do, on all three criteria: ΔCFI = {sgn(dP3)}, ΔRMSEA = {sgn(f.partial3['rmsea.robust'] - f.metric['rmsea.robust'], 3)} (limit .015), ΔSRMR = {sgn(f.partial3.srmr - f.metric.srmr, 3)} (limit .010 for intercepts). A good absolute CFI ({f3(f.partial3['cfi.robust'])}) answers a different question. So partial scalar invariance is <b>not supported</b> for tradition and conformity across the Benelux; only the comparisons that metric invariance allows are safe. The latent means below are shown as a sensitivity analysis, not as a finding.</p>
+            <p><b>Our reading.</b> Chen asks whether the new equalities cost fit — and with both intercepts released they still do, on all three criteria: ΔCFI = {sgn(dP3)}, ΔRMSEA = {sgn(f.partial3['rmsea.robust'] - f.metric['rmsea.robust'], 3)} (limit .015), ΔSRMR = {sgn(f.partial3.srmr - f.metric.srmr, 3)} (limit .010 for intercepts). A good absolute CFI ({f3(f.partial3['cfi.robust'])}) answers a different question. So partial scalar invariance is <b>not supported</b> for tradition and conformity across the Benelux; only the comparisons that metric invariance allows are safe. The latent means below are shown as a sensitivity analysis, not as a finding.</p>
             <p className="hint">The other reading — accepting the model by its absolute fit — is defensible too — which one you take is a decision to write down, with its reason.</p>
           </div>
           </Deeper>
@@ -413,7 +413,7 @@ export function Day4Script() {
             <thead><tr><th></th><th>units of ipmodst</th><th>SD of Belgium</th><th>effects coding (1–6)</th></tr></thead>
             <tbody>{d.groups.map((g, i) => <tr key={g}><td>{g}</td><td>{i === 0 ? '0' : sgn(raw3[i].est, 2)}</td><td>{i === 0 ? '0' : sgn(d.means.partial3[i].std, 2)}</td><td>{d.effect_means[i].est.toFixed(2)}</td></tr>)}</tbody>
           </table>
-          <p>Same model, three units. In standard deviations of Belgium: Luxembourg {sgn(lu3.std, 2)}, the Netherlands {sgn(nl3.std, 2)}. With only <code>ipfrule</code> free, the Netherlands would be at {sgn(d.means.partial[2].std, 2)}; with only <code>ipmodst</code> free, at {sgn(d.means.partial2[2].std, 2)}. The answer to today’s question depends on the anchors — that is why they have to be named and argued in every report.</p>
+          <p>Same model, three units. In standard deviations of Belgium: Luxembourg {sgn(lu3.std, 2)}, the Netherlands {sgn(nl3.std, 2)}. With only <code>ipfrule</code> free, the Netherlands would be at {sgn(d.means.partial[2].std, 2)}; with only <code>ipmodst</code> free, at {sgn(d.means.partial2[2].std, 2)}. The answer to the question of this script depends on the anchors — that is why they have to be named and argued in every report.</p>
           <Deeper title="The scalar model written out, group by group">
             <Code code={SCALAR_EXPLICIT} />
           </Deeper>
@@ -421,7 +421,7 @@ export function Day4Script() {
       </Sec>
 
       <Sec n={10}>
-        <p>What if full invariance fails? The course’s decision tree:</p>
+        <p>What if full invariance fails? A decision tree:</p>
         <DecisionTree />
         <Transfer>
           <ul>
@@ -433,12 +433,12 @@ export function Day4Script() {
 
       <section id="studio" className="sc-step">
         <header><span className="sc-n">Studio</span><h2>Before the studio task: why its numbers differ slightly</h2></header>
-        <p>The studio estimates with ML from the covariances of the {(4579).toLocaleString('en')} respondents who answered all course variables; the script uses FIML and all {d.n.toLocaleString('en')} respondents with at least one answer. To get the studio’s numbers in R:</p>
+        <p>The studio estimates with ML from the covariances of the {(4579).toLocaleString('en')} respondents who answered all variables used in η Lab; the script uses FIML and all {d.n.toLocaleString('en')} respondents with at least one answer. To get the studio’s numbers in R:</p>
         <Code code={STUDIO_SAMPLE} />
       </section>
 
       <section id="yourturn" className="sc-step">
-        <header><span className="sc-n">✎</span><h2>Your turn: universalism and benevolence</h2><span className="hint" style={{ margin: 0 }}>about 30 min · evening</span></header>
+        <header><span className="sc-n">✎</span><h2>Your turn: universalism and benevolence</h2></header>
         <p className="sc-goal"><b>After this part</b> you can run the whole procedure on your own.</p>
         <p>Do the mean levels of universalism and benevolence differ across Belgium, Luxembourg and the Netherlands? The five items: <code>ipeqopt</code> (“{LABELS.ipeqopt}”), <code>ipudrst</code> (“{LABELS.ipudrst}”), <code>impenv</code> (“{LABELS.impenv}”), <code>iphlppl</code> (“{LABELS.iphlppl}”) and <code>iplylfr</code> (“{LABELS.iplylfr}”).</p>
         <p>Run the core of the procedure for <code>UNBE =~ ipeqopt + ipudrst + impenv + iphlppl + iplylfr</code>: configural, metric, scalar — and if scalar fails, one score test to find the intercept you would release. The solution shows the rest (baselines, partial model, means). Fill the gaps:</p>

@@ -1,5 +1,5 @@
 // The R outputs of Day 2 (public/data/day2.json, written by scripts/day2-outputs.R with the
-// course's pipeline): the two-factor model of tradition/conformity and universalism with ML,
+// η Lab pipeline): the two-factor model of tradition/conformity and universalism with ML,
 // MLR and WLSMV, its observed and implied matrices, local fit, nested comparisons, and the
 // homework on alternative identifications.
 import { useEffect, useState } from 'react';

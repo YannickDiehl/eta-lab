@@ -154,7 +154,7 @@ export function S11TwoRulers({ model }: { model: YourModel }) {
 
       <Beat kind="play" title="The Benelux, for real">
         <div className="card play">
-          {error && <LoadError what="The course data" error={error} />}
+          {error && <LoadError what="The ESS data" error={error} />}
           {!real && !error && <p className="hint">Loading the ESS 2004…</p>}
           {real && groups && (
             <div className="play-grid">
@@ -194,7 +194,7 @@ export function S11TwoRulers({ model }: { model: YourModel }) {
       <Beat kind="explain" title="Four rungs, four promises">
         <Explain>
           <p><b>Configural</b>: the same items load on the same factors everywhere. <b>Metric</b>: the loadings are equal — a one-point change in tradition means the same change in the answers, so relations (correlations, regressions) can be compared. <b>Scalar</b>: the intercepts are equal too — people with the same tradition give the same average answer, so factor means can be compared — and the means of observed sum scores, if every item in the score is invariant. <b>Strict</b>: the residual variances are equal — only then do the variances, reliabilities and standardized differences of sum scores compare like with like.</p>
-          <p>Each rung is a restricted version of the one below, so you compare neighbours: a drop in CFI of more than .010 says the new equalities do not hold (Cheung & Rensvold, 2002; Chen, 2007, whom the course follows). If a few items break a rung, you may free them and keep the rest as anchors — <b>partial invariance</b> (Byrne, Shavelson & Muthén, 1989). With many groups, the alignment method looks for the pattern with the fewest differences (Asparouhov & Muthén, 2014).</p>
+          <p>Each rung is a restricted version of the one below, so you compare neighbours: a drop in CFI of more than .010 says the new equalities do not hold (Cheung & Rensvold, 2002; Chen, 2007, whom η Lab follows). If a few items break a rung, you may free them and keep the rest as anchors — <b>partial invariance</b> (Byrne, Shavelson & Muthén, 1989). With many groups, the alignment method looks for the pattern with the fewest differences (Asparouhov & Muthén, 2014).</p>
         </Explain>
       </Beat>
 
@@ -206,10 +206,10 @@ export function S11TwoRulers({ model }: { model: YourModel }) {
       </Beat>
 
       <Beat kind="yours" title={`Is ${constructName(model)} the same ruler everywhere?`}>
-        <Yours task={{ id: 'd4-ladder', label: 'Today’s task: the ladder across the Benelux' }}>
+        <Yours task={{ id: 'd4-ladder', label: 'The day’s task: the ladder across the Benelux' }}>
           {yours ? (
             <>
-              <p>Compared across {g.on ? `${g.names.length} groups (${g.names.filter(Boolean).join(', ')})` : 'two groups'}, your model climbs the ladder with {yours.rungs.map(r => `df ${r.df}`).join(' → ')}.{!g.on && ' Switch on ⇄ Groups in the studio to choose your groups — and estimate the ladder on the course data or your own.'}</p>
+              <p>Compared across {g.on ? `${g.names.length} groups (${g.names.filter(Boolean).join(', ')})` : 'two groups'}, your model climbs the ladder with {yours.rungs.map(r => `df ${r.df}`).join(' → ')}.{!g.on && ' Switch on ⇄ Groups in the studio to choose your groups — and estimate the ladder on the ESS data or your own.'}</p>
               <p className="verdict">Before you look at the numbers, write down which items might be read differently in your groups — and why. Free only those you can explain.</p>
             </>
           ) : <p>Your model has no factor with items yet. Draw one in the studio; then ⇄ Groups sets up the ladder for it.</p>}

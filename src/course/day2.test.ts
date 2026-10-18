@@ -1,4 +1,4 @@
-// Day 2 as built: the task's story must hold on the course data, the logbook must see changes,
+// Day 2 as built: the task's story must hold on the ESS data, the logbook must see changes,
 // and the task's strict checks must open and close as the learner works.
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
@@ -53,7 +53,7 @@ test('the task walks forward only when its strict checks pass', () => {
   assert.equal(currentStep(task, c), 4);                                       // compare
   assert.equal(currentStep(task, ctx(d, a, { [key]: 'Both items ask about preserving what is given.' }, 1)), 5);
   assert.equal(currentStep(task, ctx(d, { ...a, r: 'done' }, { [key]: 'Both items ask about preserving what is given.' }, 1)), task.steps.length);
-  assert.match(logComments(c.changes, c.reasons), /# changes against the course model[\s\S]*nature and tradition/);
+  assert.match(logComments(c.changes, c.reasons), /# changes against the example model[\s\S]*nature and tradition/);
   // keeping the model is valid too — with a reason
   assert.equal(currentStep(task, ctx(base, { ...a, keep: 'No shared wording; the index alone is not a reason.' })), 4);
 });

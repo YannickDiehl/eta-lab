@@ -1,4 +1,4 @@
-// Day 4 · the course's figures, made interactive (part 1): the observed item means per country,
+// Day 4 · the slide figures, made interactive (part 1): the observed item means per country,
 // the invariance levels (worksheet Day 4), the baseline models per country and the item
 // response lines — the "two rulers" — under the metric, scalar and partial models.
 import { useState } from 'react';

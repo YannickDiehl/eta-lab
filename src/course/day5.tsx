@@ -1,5 +1,5 @@
 // Day 5's own parts besides the script: the project step (will you compare means — and what does
-// that require; the reporting checklist for the measurement model) and the self-check of week 1.
+// that require; the reporting checklist for the measurement model) and the self-check of Part 1.
 import { useEffect } from 'react';
 import { Choose } from '../components/ui.tsx';
 import { Eta } from '../eta/Eta.tsx';

@@ -98,7 +98,7 @@ Estimation runs in a web worker (`estimate.worker.ts`).
 - `src/components/ui.tsx` — the shared rhythm (Beat, Choose, Predict, Explain, Formula, Yours).
 - `src/eta/Eta.tsx` — the course character η.
 - `src/state.ts` — two workspaces, stored only in the browser: *My project* (the learner's own
-  model, read by the stations) and *Course exercise* (course models and tasks), plus the answers to
+  model, read by the stations) and *Exercises* (example models and tasks), plus the answers to
   the daily project steps.
 
 Deployment: pushing to `main` runs `.github/workflows/pages.yml` (test, build, publish to GitHub Pages).

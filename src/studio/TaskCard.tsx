@@ -9,7 +9,7 @@ import { currentStep, type Task, type TaskContext } from './tasks.ts';
 
 /** Changes and their reasons — in the card's decision step and in Results. */
 export function Logbook({ changes, reasons, onReason, compact }: { changes: Change[]; reasons: Record<string, string>; onReason: (key: string, text: string) => void; compact?: boolean }) {
-  if (!changes.length) return compact ? null : <p className="hint">No changes against the course model yet. Every parameter you add or remove appears here and asks for one sentence of reason.</p>;
+  if (!changes.length) return compact ? null : <p className="hint">No changes against the example model yet. Every parameter you add or remove appears here and asks for one sentence of reason.</p>;
   return (
     <ul className="logbook">
       {changes.map(c => {
@@ -51,7 +51,7 @@ export function TaskCard({ task, ctx, setAnswer, onReason, onKeepCourse, onClose
   return (
     <section className="task-card" aria-label={`Task: ${task.title}`}>
       <header>
-        <small>Day {task.day} · course exercise</small>
+        <small>Day {task.day} · exercise</small>
         <div className="task-x">
           {onRestart && <button onClick={() => { if (window.confirm('Start this task over? Your answers and changes to the model are cleared.')) onRestart(); }} aria-label="Start the task over" title="Start over">↺</button>}
           <button onClick={() => setFolded(true)} aria-label="Fold the task away" title="Fold away">–</button>
@@ -93,12 +93,12 @@ export function TaskCard({ task, ctx, setAnswer, onReason, onKeepCourse, onClose
                   {s.decide && (
                     ctx.changes.length
                       ? <Logbook changes={ctx.changes} reasons={ctx.reasons} onReason={onReason} />
-                      : <label className="ts-keep">{s.keepLabel ?? 'Or keep the course model, because…'}
+                      : <label className="ts-keep">{s.keepLabel ?? 'Or keep the example model, because…'}
                           <textarea rows={2} value={ctx.answers.keep ?? ''} onChange={e => setAnswer('keep', e.target.value)} placeholder="One sentence: why no parameter should be added." />
                           <small>{(ctx.answers.keep ?? '').trim().length < MIN_REASON ? `at least ${MIN_REASON} characters` : '✓'}</small>
                         </label>
                   )}
-                  {s.action === 'keep-course-model' && <button className="tool" onClick={onKeepCourse} disabled={ctx.snapshots > 0}>{ctx.snapshots > 0 ? '✓ Kept for comparison' : 'Keep the course model for comparison'}</button>}
+                  {s.action === 'keep-course-model' && <button className="tool" onClick={onKeepCourse} disabled={ctx.snapshots > 0}>{ctx.snapshots > 0 ? '✓ Kept for comparison' : 'Keep the example model for comparison'}</button>}
                   {s.action === 'confirm-r' && (
                     <label className="chk"><input type="checkbox" checked={ctx.answers.r === 'done'} onChange={e => setAnswer('r', e.target.checked ? 'done' : '')} /> I ran it in R and the ML numbers match</label>
                   )}

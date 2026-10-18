@@ -2,9 +2,9 @@
 //   QuestionModel   which model answers this research question?
 //   OneFramework    regression, path analysis, factor analysis, MIMIC and full SEM as one diagram
 //   ReadDiagram     name every symbol of a path diagram
-//   MatrixQuiz      which of lavaan's matrices holds this arrow? (the real model of Week 2)
+//   MatrixQuiz      which of lavaan's matrices holds this arrow? (the real model of Part 2)
 //   ProcessLoop     the steps of every analysis, each with its lavaan function and its decision
-//   CausalityCheck  the three conditions of causality on three claims from the course data
+//   CausalityCheck  the three conditions of causality on three claims from the ESS data
 //   OmittedVariable how a forgotten common cause changes — even reverses — an effect
 import { useState, type ReactNode } from 'react';
 import type { MapData } from './widgets.tsx';
@@ -52,7 +52,7 @@ type Shape = 'lat' | 'obs' | null;
 const METHODS: { id: string; label: string; e1: Shape; e2: Shape; x: boolean; items1: boolean; items2: boolean; xe1: boolean; e1e2: boolean; xe2: boolean; cov: boolean; names: [string, string]; code: string; mats: string; says: string }[] = [
   { id: 'reg', label: 'regression', e1: null, e2: 'obs', x: true, items1: false, items2: false, xe1: false, e1e2: false, xe2: true, cov: false, names: ['', 'y'], code: 'y ~ x', mats: 'beta (and psi for the variances)', says: 'One observed cause, one observed effect — a structural model without measurement. Analysis of variance is the same with groups as x.' },
   { id: 'path', label: 'path analysis', e1: 'obs', e2: 'obs', x: true, items1: false, items2: false, xe1: true, e1e2: true, xe2: true, cov: false, names: ['m', 'y'], code: 'm ~ x\ny ~ m + x', mats: 'beta, psi', says: 'Several regressions at once, with a mediator: Wright’s path analysis. Still every variable is measured without error.' },
-  { id: 'cfa', label: 'factor analysis', e1: 'lat', e2: 'lat', x: false, items1: true, items2: true, xe1: false, e1e2: false, xe2: false, cov: true, names: ['η₁', 'η₂'], code: 'ETA1 =~ y1 + y2 + y3\nETA2 =~ y4 + y5 + y6', mats: 'lambda, theta, psi', says: 'Only measurement: constructs, their items and their correlation — Week 1.' },
+  { id: 'cfa', label: 'factor analysis', e1: 'lat', e2: 'lat', x: false, items1: true, items2: true, xe1: false, e1e2: false, xe2: false, cov: true, names: ['η₁', 'η₂'], code: 'ETA1 =~ y1 + y2 + y3\nETA2 =~ y4 + y5 + y6', mats: 'lambda, theta, psi', says: 'Only measurement: constructs, their items and their correlation — Part 1.' },
   { id: 'mimic', label: 'MIMIC', e1: 'lat', e2: null, x: true, items1: true, items2: false, xe1: true, e1e2: false, xe2: false, cov: false, names: ['η₁', ''], code: 'ETA1 =~ y1 + y2 + y3\nETA1 ~ x', mats: 'lambda, theta, psi, beta', says: 'A measured construct and an observed cause: group differences in a latent variable (Day 7).' },
   { id: 'sem', label: 'full SEM', e1: 'lat', e2: 'lat', x: true, items1: true, items2: true, xe1: true, e1e2: true, xe2: true, cov: false, names: ['η₁', 'η₂'], code: 'ETA1 =~ y1 + y2 + y3\nETA2 =~ y4 + y5 + y6\nETA1 ~ x\nETA2 ~ ETA1 + x', mats: 'lambda, theta, psi, beta — all of them', says: 'Measurement and structure together: every method above is a special case of this one.' },
 ];
@@ -162,7 +162,7 @@ export function MatrixQuiz({ d }: { d: MapData | null }) {
   return (
     <div className="card mini-task quiz">
       <p className="q"><span className="mt-tag">Your turn · {i + 1} of {ROUNDS.length}</span>In which of lavaan’s matrices is <b>{R.q}</b> (highlighted)?</p>
-      <svg viewBox="0 0 520 280" className="fig-svg" role="img" aria-label={`Path diagram of the Week 2 model; highlighted: ${R.q}`} style={{ color: 'var(--ink)' }}>
+      <svg viewBox="0 0 520 280" className="fig-svg" role="img" aria-label={`Path diagram of the Part 2 model; highlighted: ${R.q}`} style={{ color: 'var(--ink)' }}>
         {ARROW}
         {LEFT1.map((t, k) => { const y = 22 + k * 32; return <g key={t}><Line a={[T1[0] - 38, T1[1] + (k - 1.5) * 8]} b={[96, y]} cls={on(`l-${t}`)} /><Obs x={60} y={y} t={t} w={70} /></g>; })}
         {LEFT2.map((t, k) => { const y = 178 + k * 32; return <g key={t}><Line a={[T2[0] - 38, T2[1] + (k - 1) * 8]} b={[96, y]} cls={on(`l-${t}`)} /><Obs x={60} y={y} t={t} w={70} /></g>; })}
@@ -216,7 +216,7 @@ const CLAIMS: { claim: string; answers: string[]; why: string[] }[] = [
   {
     claim: 'Universalist values make people more open to immigration (ESS 2004, one survey).',
     answers: ['unclear', 'yes', 'unclear'],
-    why: ['Values and attitudes were asked in the same interview. That values come first is a theoretical argument (values form early and are stable), not a fact of the design.', 'SEM tests it: in Week 2’s model the effect of UNIV on ALLOW is 0.44, far from 0.', 'Education, for example, could raise both universalism and openness. Unless it is in the model, its effect hides in the arrow.'],
+    why: ['Values and attitudes were asked in the same interview. That values come first is a theoretical argument (values form early and are stable), not a fact of the design.', 'SEM tests it: in the model of Part 2 the effect of UNIV on ALLOW is 0.44, far from 0.', 'Education, for example, could raise both universalism and openness. Unless it is in the model, its effect hides in the arrow.'],
   },
   {
     claim: 'Education raises universalist values.',
@@ -226,7 +226,7 @@ const CLAIMS: { claim: string; answers: string[]; why: string[] }[] = [
   {
     claim: 'Openness to immigration makes people universalist.',
     answers: ['unclear', 'yes', 'unclear'],
-    why: ['The same survey as the first claim: the time order is just as open — in either direction.', 'The same correlation as the first claim. The association cannot tell which way the arrow points.', 'As for the first claim. The two models fit equally well — equivalent models (Week 2).'],
+    why: ['The same survey as the first claim: the time order is just as open — in either direction.', 'The same correlation as the first claim. The association cannot tell which way the arrow points.', 'As for the first claim. The two models fit equally well — equivalent models (Part 2).'],
   },
 ];
 export function CausalityCheck() {

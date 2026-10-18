@@ -1,4 +1,4 @@
-// Every course template reads cleanly, is estimable in lavaan's terms, and keeps its special features.
+// Every example template reads cleanly, is estimable in lavaan's terms, and keeps its special features.
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { analyse, fromLavaan, interactions, toLavaan } from '../model/diagram.ts';

@@ -4,7 +4,7 @@ import { analyse } from '../model/diagram.ts';
 import { doneSet, type ProjectSteps, type Track, type YourModel } from '../state.ts';
 import { DAYS, readiness } from './days.ts';
 
-// The authors: η Lab grew out of their course materials.
+// The authors: η Lab grew out of their teaching materials.
 const AUTHORS = [
   { name: 'Peter Schmidt', focus: 'University of Giessen · theory, measurement and comparison across countries', color: 'var(--latent)' },
   { name: 'Daniel Seddig', focus: 'KFN Hanover · structural models, panel data and cross-cultural comparability', color: 'var(--obs)' },
@@ -32,7 +32,7 @@ export function Home({ project, steps, setTrack }: { project: YourModel; steps: 
         <div>
           <span className="kicker">Structural equation modeling with R and lavaan</span>
           <h1>Ten days from a construct to your own model</h1>
-          <p>Week 1 builds measurement models — confirmatory factor analysis and measurement invariance. Week 2 connects them into structural models.</p>
+          <p>Part 1 builds measurement models — confirmatory factor analysis and measurement invariance. Part 2 connects them into structural models.</p>
           <p>Each day has an interactive script to work through, a task in the studio, the same model in R and one step in your own project — in four moves:</p>
           <p style={{ marginTop: 12 }}><a className="btn primary" href="#/day/0">Start with Day 0: setup and basics →</a> <a className="btn" href="#/map">The map of SEM: the big picture</a></p>
         </div>
@@ -40,14 +40,14 @@ export function Home({ project, steps, setTrack }: { project: YourModel; steps: 
 
       <div className="moves home-moves">
         <div className="card move"><span className="shape e" aria-hidden="true" /><b>Understand</b><span>Stations: a question to guess, a sandbox to play with, η’s explanation, the formula with your numbers.</span></div>
-        <div className="card move"><span className="shape r" aria-hidden="true" /><b>Try it</b><span>The day’s course model in the studio, with a task that asks for decisions, not clicks.</span></div>
+        <div className="card move"><span className="shape r" aria-hidden="true" /><b>Try it</b><span>The day’s example model in the studio, with a task that asks for decisions, not clicks.</span></div>
         <div className="card move"><span className="shape y" aria-hidden="true" /><b>Your project</b><span>One small step in your own model — with or without data yet.</span></div>
         <div className="card move"><span className="shape f" aria-hidden="true" /><b>In R</b><span>The same model in lavaan, with the numbers you should get.</span></div>
       </div>
 
       {[0, 1, 2].map(w => (
         <section key={w} className="home-week">
-          <h2>{w === 0 ? 'Before you start' : `Week ${w} · ${w === 1 ? 'Confirmatory factor analysis' : 'Structural equation models'}`}</h2>
+          <h2>{w === 0 ? 'Before you start' : `Part ${w} · ${w === 1 ? 'Confirmatory factor analysis' : 'Structural equation models'}`}</h2>
           <div className="day-grid">
             {DAYS.filter(d => d.week === w).map(d => {
               const r = readiness(d);
@@ -70,7 +70,7 @@ export function Home({ project, steps, setTrack }: { project: YourModel; steps: 
           <h2>Your project</h2>
           <p>{project.diagram.nodes.length
             ? <>{project.question ? <i>“{project.question}”</i> : 'No research question written yet.'} · {a.s.latent.length} factor{a.s.latent.length === 1 ? '' : 's'}, {a.p} variables, df {a.df}.</>
-            : 'Bring your own question — or pick one from the ESS. Each day adds one step; your project never waits for the course, and the course never waits for it.'}</p>
+            : 'Bring your own question — or pick one from the ESS. Each day adds one step; your project never waits for the days, and the days never wait for it.'}</p>
           <p className="hint">{doneSteps} of 10 steps done{next ? <> · next: <a href={`#/day/${next.n}#project`}>Day {next.n} — {next.project.title.toLowerCase()}</a></> : ' · ready to report'}</p>
           <a className="btn primary" href="#/model" onClick={() => setTrack('project')}>Open your project in the studio →</a>
         </div>

@@ -476,7 +476,7 @@ pre.syntax.live .fresh { background: var(--sun); border-radius: 3px; animation: 
 .chk { display: inline-flex; align-items: center; gap: 6px; font-size: 14px; color: var(--soft); cursor: pointer; }
 .chk input { accent-color: var(--link); width: 16px; height: 16px; }
 
-/* ===================================================================== the course: days, start page */
+/* ===================================================================== the days, start page */
 .stations > li > a.planned { color: var(--muted); font-weight: 650; }
 .stations .soon { margin-left: auto; width: 9px; height: 9px; border-radius: 50%; border: 2px dashed var(--muted); }
 .day-stations { list-style: none; margin: 4px 0 6px 18px; padding: 0 0 0 10px; border-left: 2px solid var(--grid); display: grid; gap: 2px; }
@@ -518,7 +518,6 @@ a.item-card:hover { transform: translateY(1px); box-shadow: 0 2px 0 var(--ink); 
 .item-card.planned .ic-title { color: var(--soft); }
 .ic-top { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
 .ic-num { font: 800 13px var(--f-body); background: var(--latent); border: 2px solid var(--ink); border-radius: 8px; padding: 1px 7px; }
-.ic-min { font-size: 12.5px; color: var(--muted); margin-left: auto; }
 .ic-title { font: 650 20px var(--f-display); line-height: 1.15; }
 .ic-blurb { font-size: 14.5px; color: var(--soft); }
 .badge { display: inline-block; font: 800 11px var(--f-body); letter-spacing: .06em; text-transform: uppercase; padding: 2px 8px; border-radius: 999px; border: 1.5px solid var(--ink); background: var(--card); color: var(--ink); }
@@ -811,7 +810,7 @@ a.item-card:hover { transform: translateY(1px); box-shadow: 0 2px 0 var(--ink); 
    table box), so their columns stay aligned */
 @media (max-width: 760px) { .script .rp-table { display: block; overflow-x: auto; } }
 
-/* ===================================================================== Day 0 · before the course */
+/* ===================================================================== Day 0 · before you start */
 .d0-check { padding: 12px 18px; margin: 0 0 10px; }
 .d0-check ol { list-style: none; margin: 4px 0 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 6px; }
 .d0-check li a { display: block; padding: 6px 10px; border-radius: 10px; border: 2px solid var(--grid); text-decoration: none; color: var(--soft); font-weight: 700; font-size: 14px; }
@@ -1294,14 +1293,6 @@ pre.pipe code { display: block; }
   .mtmm-grid { overflow-x: auto; font-size: 10px; }
 }
 
-/* the plan of a scripted day */
-.today { margin: 18px 0 8px; padding: 16px 18px; }
-.today h2 { margin: 0 0 8px; font-size: 1.1rem; }
-.today h3 { margin: 6px 0 4px; font-size: .85rem; text-transform: uppercase; letter-spacing: .04em; color: var(--muted, #667); }
-.today ul { margin: 0 0 6px; padding-left: 18px; }
-.today li { margin: 2px 0; }
-.today li.hint { font-size: .9em; }
-.today-cols { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 6px 22px; }
 /* the day rail carries the map strip's labels: measurement 1–5, structure 6–10 */
 .day-rail li { position: relative; }
 .day-rail li > small { position: absolute; left: 0; top: -15px; font-size: 10.5px; font-weight: 800; color: var(--muted); white-space: nowrap; }
@@ -1317,7 +1308,3 @@ pre.pipe code { display: block; }
 .person > i { display: grid; place-items: center; flex: none; width: 44px; height: 44px; border-radius: 50%; border: 2px solid var(--ink); font: 800 15px var(--f-body); font-style: normal; color: var(--ink); }
 .person > span { display: grid; gap: 2px; font-size: 14px; color: var(--soft); }
 .person > span b { font-size: 16px; color: var(--ink); }
-.today-class { list-style: none; padding-left: 0 !important; }
-.today-class li { display: grid; grid-template-columns: 52px 1fr; gap: 8px; padding: 3px 0; }
-.today-class li.brk { color: var(--muted); }
-.today-class .tc-t { font: 700 13px var(--f-mono); padding-top: 2px; }

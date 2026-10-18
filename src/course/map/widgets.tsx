@@ -1,7 +1,7 @@
 // The map of SEM · the smaller pieces: why latent variables (attenuation), where SEM comes from
-// (a timeline with two roots), what it can model (a gallery that is also the course map), the
+// (a timeline with two roots), what it can model (a gallery that is also the map of η Lab), the
 // grammar of path diagrams, the matrices of the full model with lavaan's real output, and the
-// strip that shows each course day its place on the map.
+// strip that shows each day its place on the map.
 import { useEffect, useState, type ReactNode } from 'react';
 import { Predict, Tex } from '../../components/ui.tsx';
 import type { EstData } from './estimation.tsx';
@@ -50,7 +50,7 @@ export function WhyLatent() {
           <p className="hint">Reliability is the share of an item’s or a score’s variance that is the construct (Day 1, the start). Spearman described this “attenuation” in 1904 — and how to correct for it.</p>
         </div>
       </div>}
-      {open && <p className="why-real"><b>In the course data</b> (Day 2): tradition/conformity and universalism correlate <b>.58 as factors</b>, but only <b>.35 as sum scores</b>. A regression of sum scores would underestimate the relationship by 40 %.</p>}
+      {open && <p className="why-real"><b>In the ESS data</b> (Day 2): tradition/conformity and universalism correlate <b>.58 as factors</b>, but only <b>.35 as sum scores</b>. A regression of sum scores would underestimate the relationship by 40 %.</p>}
     </div>
   );
 }
@@ -66,9 +66,9 @@ const HISTORY: { year: string; who: string; what: string; gain: string; root: 'p
   { year: '1967–69', who: 'Karl G. Jöreskog', what: 'A fast, reliable way to compute the ML estimates (1967) — and confirmatory factor analysis (1969): the researcher specifies which loadings are zero, and tests it.', gain: 'Testing a measurement theory instead of exploring.', root: 'psy' },
   { year: '1972–73', who: 'Jöreskog · Keesling · Wiley', what: 'The two roots join: factor models for the measurement, simultaneous equations for the structure. LISREL — linear structural relations.', gain: 'Effects between constructs, corrected for measurement error.', root: 'sem' },
   { year: '1980s–1990', who: 'Peter Bentler · Bengt Muthén · Michael Browne', what: 'EQS (1985) and new fit indices (CFI, 1990); estimators for categorical (Muthén, 1984) and non-normal data (Browne, 1984; Satorra & Bentler, 1988).', gain: 'SEM for data that are not normal or not continuous (Day 2).', root: 'sem' },
-  { year: '1996–2000', who: 'Arbuckle · Muthén · Yuan & Bentler', what: 'Full-information ML for missing data (1996), WLSMV for ordinal items (1997), robust ML (MLR, 2000).', gain: 'The estimators this course uses (Day 2).', root: 'sem' },
+  { year: '1996–2000', who: 'Arbuckle · Muthén · Yuan & Bentler', what: 'Full-information ML for missing data (1996), WLSMV for ordinal items (1997), robust ML (MLR, 2000).', gain: 'The estimators η Lab uses (Day 2).', root: 'sem' },
   { year: '1998', who: 'Linda & Bengt Muthén', what: 'Mplus: a generalized latent variable framework — categorical, multilevel, mixtures.', gain: 'One program for almost every latent variable model.', root: 'sem' },
-  { year: '2012', who: 'Yves Rosseel', what: 'lavaan: SEM free and open in R — the software of this course.', gain: 'SEM for everyone with R, and reproducible.', root: 'sem' },
+  { year: '2012', who: 'Yves Rosseel', what: 'lavaan: SEM free and open in R — the software used in η Lab.', gain: 'SEM for everyone with R, and reproducible.', root: 'sem' },
   { year: '2024–25', who: 'Julian Karch', what: 'lavaangui: drawing lavaan models in the browser.', gain: 'From the diagram to the syntax by drawing.', root: 'sem' },
 ];
 export function Timeline() {
@@ -84,12 +84,12 @@ export function Timeline() {
           </li>
         ))}
       </ol>
-      <p className="hint">After the course slides (Day 1) and Tarka (2018), “An overview of structural equation modeling: its beginnings, historical development, usefulness and controversies in the social sciences”.</p>
+      <p className="hint">After the slides of the Essex SEM course (2024, Day 1) and Tarka (2018), “An overview of structural equation modeling: its beginnings, historical development, usefulness and controversies in the social sciences”.</p>
     </div>
   );
 }
 
-// ---------------------------------------------------------------- 3 · the gallery = the course map
+// ---------------------------------------------------------------- 3 · the gallery = the map of η Lab
 type N = { id: string; t: 'l' | 'o'; x: number; y: number; label?: string };
 type E = { a: string; b: string; t?: 'cov' | 'dash'; label?: string };
 function Mini({ nodes, edges }: { nodes: N[]; edges: E[] }) {
@@ -161,7 +161,7 @@ export function Grammar() {
               <tr><td><svg width="44" height="26" aria-hidden="true"><circle cx="22" cy="13" r="10" fill="var(--card)" stroke="var(--ink)" strokeWidth="1.6" /><text x="22" y="17" textAnchor="middle" fontSize="11">ε</text></svg></td><td><b>error</b> — everything in an item that is not its factor</td></tr>
               <tr><td><svg width="44" height="26" aria-hidden="true"><path d="M8 18 L22 5 L36 18 Z" fill="var(--card)" stroke="var(--ink)" strokeWidth="1.6" /><text x="22" y="16" textAnchor="middle" fontSize="9">1</text></svg></td><td><b>constant</b> — for means and intercepts (Day 1, step 8)</td></tr>
               <tr><td><svg width="44" height="26" aria-hidden="true"><path d="M14 22 C 6 2 38 2 30 22" fill="none" stroke="var(--ink)" strokeWidth="1.6" markerEnd="url(#gr-a)" /></svg></td><td><b>variance</b> — a curved arrow from a variable back to itself (ψ for a factor)</td></tr>
-              <tr><td><svg width="44" height="26" aria-hidden="true"><text x="6" y="17" fontSize="12" fontWeight="700">ζ</text><line x1="16" y1="13" x2="38" y2="13" stroke="var(--ink)" strokeWidth="1.6" markerEnd="url(#gr-a)" /></svg></td><td><b>disturbance</b> ζ — what the causes of a latent variable leave unexplained (Week 2)</td></tr>
+              <tr><td><svg width="44" height="26" aria-hidden="true"><text x="6" y="17" fontSize="12" fontWeight="700">ζ</text><line x1="16" y1="13" x2="38" y2="13" stroke="var(--ink)" strokeWidth="1.6" markerEnd="url(#gr-a)" /></svg></td><td><b>disturbance</b> ζ — what the causes of a latent variable leave unexplained (Part 2)</td></tr>
               <tr><td><svg width="44" height="26" aria-hidden="true"><line x1="4" y1="13" x2="38" y2="13" stroke="var(--ink)" strokeWidth="1.6" markerEnd="url(#gr-a)" /><text x="20" y="9" textAnchor="middle" fontSize="10" fontWeight="700">1</text></svg></td><td><b>fixed value</b> — a number on an arrow is not estimated: the 1 gives a factor its unit</td></tr>
             </tbody>
           </table>
@@ -178,7 +178,7 @@ export function Grammar() {
           <pre className="syntax"><code>{rel.code}</code></pre>
         </div>
       </div>
-      <p className="hint">After the course slides (Day 1): correlation, one-directional path, feedback — and no relation. In a path diagram, what you do not draw is an assumption too.</p>
+      <p className="hint">After the slides of the Essex SEM course (2024, Day 1): correlation, one-directional path, feedback — and no relation. In a path diagram, what you do not draw is an assumption too.</p>
     </div>
   );
 }
@@ -189,7 +189,7 @@ const LISREL: { lisrel: string; lavaan: string; what: string }[] = [
   { lisrel: 'Θε, Θδ', lavaan: 'theta', what: 'error variances and covariances of the items' },
   { lisrel: 'Φ (exogenous), Ψ (residuals)', lavaan: 'psi', what: '(co)variances of the factors, or of what the structural part leaves unexplained' },
   { lisrel: 'B, Γ', lavaan: 'beta', what: 'regressions among the factors (B: of endogenous on endogenous, Γ: on exogenous)' },
-  { lisrel: 'τ (intercepts), κ / α (means)', lavaan: 'nu, alpha', what: 'intercepts τ of the items and means κ of the factors (course notation, Days 1 and 5)' },
+  { lisrel: 'τ (intercepts), κ / α (means)', lavaan: 'nu, alpha', what: 'intercepts τ of the items and means κ of the factors (notation used here, Days 1 and 5)' },
 ];
 function RealGrid({ m, name }: { m: Mat; name: string }) {
   const lower = name === 'psi' || name === 'theta';   // symmetric: show the lower triangle only
@@ -210,13 +210,13 @@ export function FullModelMatrices({ d }: { d: MapData | null }) {
   return (
     <div className="fig">
       <table className="rp-table left">
-        <thead><tr><th>LISREL (course slides)</th><th>lavaan</th><th>holds</th></tr></thead>
+        <thead><tr><th>LISREL (notation used here)</th><th>lavaan</th><th>holds</th></tr></thead>
         <tbody>{LISREL.map(r => <tr key={r.lavaan}><td>{r.lisrel}</td><td><code>{r.lavaan}</code></td><td>{r.what}</td></tr>)}</tbody>
       </table>
       <p className="hint">LISREL separates exogenous (ξ, x) from endogenous (η, y) variables and so needs eight matrices; lavaan calls every latent variable η and needs fewer. The model is the same.</p>
       <div className="seg" role="group" aria-label="Model">
         <button aria-pressed={which === 'cfa'} onClick={() => setWhich('cfa')}>Day 2: two factors</button>
-        <button aria-pressed={which === 'sem'} onClick={() => setWhich('sem')}>Week 2: values → allow</button>
+        <button aria-pressed={which === 'sem'} onClick={() => setWhich('sem')}>Part 2: values → allow</button>
       </div>
       <pre className="syntax"><code>{which === 'cfa'
         ? `trco_univ_fit %>% lavInspect(what = "est")`
@@ -234,10 +234,10 @@ export function FullModelMatrices({ d }: { d: MapData | null }) {
         <summary><span className="shape d" aria-hidden="true" /><span><small>Go deeper</small>The equations of the full model</span></summary>
         <div className="deeper-body">
           <div className="sc-formula"><Tex block>{'\\text{measurement: } y = \\tau + \\Lambda\\eta + \\varepsilon \\qquad \\text{structure: } \\eta = \\kappa + B\\eta + \\zeta'}</Tex></div>
-          <p className="hint">τ are the item intercepts (lavaan: <code>nu</code>), κ the latent means or intercepts (lavaan: <code>alpha</code>). The course keeps ν for the thresholds of ordinal items (Day 2, section 9).</p>
+          <p className="hint">τ are the item intercepts (lavaan: <code>nu</code>), κ the latent means or intercepts (lavaan: <code>alpha</code>). η Lab keeps ν for the thresholds of ordinal items (Day 2, section 9).</p>
           <p>Solving the structure for η and putting it into the measurement part gives the covariance matrix the whole model implies:</p>
           <div className="sc-formula"><Tex block>{'\\Sigma(\\theta) = \\Lambda\\,(I - B)^{-1}\\,\\Psi\\,(I - B)^{-1\\,\\prime}\\,\\Lambda^{\\prime} + \\Theta'}</Tex></div>
-          <p>Without regressions among the factors, B = 0, (I − B)⁻¹ = I, and the formula shrinks to the CFA of the workshop above: Σ = ΛΨΛ′ + Θ. Week 2 adds B — the rest is the same machinery.</p>
+          <p>Without regressions among the factors, B = 0, (I − B)⁻¹ = I, and the formula shrinks to the CFA of the workshop above: Σ = ΛΨΛ′ + Θ. Part 2 adds B — the rest is the same machinery.</p>
         </div>
       </details>
     </div>

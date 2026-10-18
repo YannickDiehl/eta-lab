@@ -1,7 +1,7 @@
 // Station 13's sandbox: X → M → Y with standardized variables. The paths set the
 // population; n sets the standard errors. The indirect effect a·b gets a delta-method
 // (Sobel) interval and a Monte Carlo interval (Preacher & Selig, 2012) — the two disagree
-// exactly when the product is skewed, which is why the course reports bootstrap intervals.
+// exactly when the product is skewed, which is why η Lab reports bootstrap intervals.
 import { normals, rng } from '../math/stats.ts';
 
 export interface Paths { a: number; b: number; c: number; n: number }   // c: the direct effect c′

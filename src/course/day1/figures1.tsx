@@ -1,7 +1,7 @@
-// Day 1 · the course's figures, made interactive (part 1): classic test theory, the formal
+// Day 1 · the figures, made interactive (part 1): classic test theory, the formal
 // measurement model, reflective vs. formative, and the two ways to scale a latent variable.
-// Each one follows the layout of the course figure it replaces (figs/*.png in the course
-// scripts): the latent variable on the left, its indicators on the right, errors outside.
+// Each one follows the layout of the static figure it replaces (figs/*.png in the earlier
+// course scripts): the latent variable on the left, its indicators on the right, errors outside.
 import { useMemo, useState } from 'react';
 import { Tex } from '../../components/ui.tsx';
 import { correlation, normals, rng } from '../../math/stats.ts';

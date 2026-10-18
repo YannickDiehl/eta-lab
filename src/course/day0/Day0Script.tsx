@@ -1,8 +1,8 @@
-// Day 0 · before you start (about 3–4 hours at your own pace). Everything Day 1 assumes: R and the course packages (checked against a number
-// R must print), the ESS data (checked the same way), the values the course measures, the
-// course's R idioms, the statistics a CFA builds on, a first project question, and a self-test.
+// Day 0 · before you start. Everything Day 1 assumes: R and the packages (checked against a number
+// R must print), the ESS data (checked the same way), the values measured here, the
+// R idioms used here, the statistics a CFA builds on, a first project question, and a self-test.
 // Every part ends with something to do and a right answer, not with a self-declared tick.
-// Setup and data steps follow the course's own instructions, revised after a didactic review.
+// Setup and data steps follow the earlier Essex course instructions, revised after a didactic review.
 import { useEffect, useState, type ReactNode } from 'react';
 import { Eta } from '../../eta/Eta.tsx';
 import { groupsFor, loadCourseData, type CourseData } from '../../data/course.ts';
@@ -58,13 +58,13 @@ ESS2 <- read_spss(
   drop.labels = T
   )
 
-# the course data, one file per country:
+# the ESS data, one file per country:
 # the Netherlands (Days 1–3), with Belgium and Luxembourg (Days 4–5)
 NL2 <- ESS2 %>% filter(cntry == "NL")
 BE2 <- ESS2 %>% filter(cntry == "BE")
 LU2 <- ESS2 %>% filter(cntry == "LU")
 
-# saved with the original ESS coding; every course day reverses the items after reading
+# saved with the original ESS coding; each day's script reverses the items after reading
 write_spss(NL2, "NL2.sav")
 write_spss(BE2, "BE2.sav")
 write_spss(LU2, "LU2.sav")
@@ -94,7 +94,7 @@ const IDIOMS: [string, string, string][] = [
 
 const QUIZ: QuizItem[] = [
   { q: 'R prints 85.306 for the setup check. What does that tell you?', options: ['The installation works: lavaan estimated a model.', 'The model fits badly.', 'Nothing — any number is fine.'], answer: 0, why: 'The number is the χ² of a known model; if R prints it, lavaan and its dependencies work.', review: '#/day/0#setup' },
-  { q: 'In the ESS file, before reversing, imptrad = 1 means …', options: ['a missing answer', '“not like me at all”', '“very much like me”'], answer: 2, why: 'The PVQ items run from 1 “very much like me” to 6 “not like me at all” — the course reverses them with rec(rec = "rev").', review: '#/day/0#values' },
+  { q: 'In the ESS file, before reversing, imptrad = 1 means …', options: ['a missing answer', '“not like me at all”', '“very much like me”'], answer: 2, why: 'The PVQ items run from 1 “very much like me” to 6 “not like me at all” — the code reverses them with rec(rec = "rev").', review: '#/day/0#values' },
   { q: 'What does NL2 %>% select(imptrad, ipfrule) %>% frq(imptrad) do?', options: ['Takes NL2, keeps two columns, and then counts the answers to imptrad.', 'Selects respondents who answered imptrad.', 'Recodes imptrad.'], answer: 0, why: 'The pipe reads “and then”: select keeps columns, frq counts.', review: '#/day/0#r' },
   { q: 'Two items have a covariance of 0.40 and variances of 1.00 and 1.60. Their correlation is …', options: ['.40', '.25', '.32'], answer: 2, why: <>r = cov / (SD of x · SD of y) = 0.40 / (√1.00 · √1.60) = 0.40 / 1.265 = .32.</>, review: '#/day/0#stats' },
   { q: 'You multiply all answers of y by 2. What changes?', options: ['The correlation with x', 'The covariance with x and the regression slope b', 'Nothing'], answer: 1, why: 'Covariance and unstandardized slope are in the units of y; correlation and β have no units.', review: '#/day/0#stats' },
@@ -102,7 +102,7 @@ const QUIZ: QuizItem[] = [
   { q: 'Tradition and conformity belong to which higher-order value?', options: ['Openness to change', 'Self-transcendence', 'Conservation'], answer: 2, why: 'Tradition, conformity and security form conservation — opposite openness to change.', review: '#/day/0#values' },
   { q: 'In a regression with one predictor, the standardized slope β equals …', options: ['the covariance', 'the correlation r', 'R²'], answer: 1, why: 'With one predictor, β = r; R² = r².', review: '#/day/0#stats' },
   { q: 'Your own data: what should you know before Day 2?', options: ['The answer format of the items and how many answers are missing', 'Only the sample size', 'Nothing yet'], answer: 0, why: 'Day 2 chooses the estimator from exactly these two facts.', review: '#/day/0#project' },
-  { q: 'Why does the course reverse the value items with rec(rec = "rev")?', options: ['Because lavaan cannot read the original coding', 'So that higher values mean “more important” — easier to read, and the direction all course models assume', 'To remove the missing answers'], answer: 1, why: 'In the ESS, 1 means “very much like me”. Reversed, a higher number means the value is more important to the person.', review: '#/day/0#r' },
+  { q: 'Why does the code reverse the value items with rec(rec = "rev")?', options: ['Because lavaan cannot read the original coding', 'So that higher values mean “more important” — easier to read, and the direction all models here assume', 'To remove the missing answers'], answer: 1, why: 'In the ESS, 1 means “very much like me”. Reversed, a higher number means the value is more important to the person.', review: '#/day/0#r' },
 ];
 
 const TROUBLE: [string, string][] = [
@@ -116,10 +116,10 @@ const TROUBLE: [string, string][] = [
   ['lavaan warns about “empty cases”', 'Normal with missing = "fiml.x" (from Day 1 on): respondents who answered none of the model’s items are left out. The warning names them.'],
 ];
 
-function Sec({ id, n, title, minutes, goal, children }: { id: string; n: string; title: string; minutes?: string; goal: string; children: ReactNode }) {
+function Sec({ id, n, title, goal, children }: { id: string; n: string; title: string; goal: string; children: ReactNode }) {
   return (
     <section id={id} className="sc-step">
-      <header><span className="sc-n">{n}</span><h2>{title}</h2>{minutes && <span className="hint" style={{ margin: 0 }}>about {minutes} min</span>}</header>
+      <header><span className="sc-n">{n}</span><h2>{title}</h2></header>
       <p className="sc-goal"><b>After this part</b> {goal}</p>
       {children}
     </section>
@@ -134,9 +134,9 @@ export function Day0Script({ step, set, project, updateProject }: {
   useEffect(() => { loadCourseData().then(setData).catch(() => setData(null)); }, []);
   const near = (v: string | undefined, x: number, tol: number) => { const n = Number((v ?? '').replace(',', '.')); return (v ?? '').trim() !== '' && Math.abs(n - x) <= tol; };
   const checks = [
-    { id: 'setup', label: 'R and the course packages work', ok: near(step.chi, 85.306, 0.005) },
+    { id: 'setup', label: 'R and the packages work', ok: near(step.chi, 85.306, 0.005) },
     { id: 'data', label: 'The ESS data are prepared', ok: near(step.rows, 1881, 0) && near(step.rowsbl, 3413, 0) && near(step.mean2, 4.159, 0.005) },
-    { id: 'values', label: 'The values the course measures', ok: step.values === 'yes' },
+    { id: 'values', label: 'The values measured here', ok: step.values === 'yes' },
     { id: 'r', label: 'The R you need', ok: near(step.validn, 1851, 0) },
     { id: 'stats', label: 'Variance, covariance, correlation', ok: step.stats === 'yes' },
     { id: 'project', label: 'A first project question', ok: (project.question ?? '').trim().length > 10 },
@@ -159,8 +159,8 @@ export function Day0Script({ step, set, project, updateProject }: {
       <div id="welcome" className="card sc-intro">
         <Eta size={60} mood="curious" />
         <div>
-          <p><b>Before the course.</b> About three to four hours, at your own pace, in the two weeks before Day 1 — most of it in parts 1 and 2. You will install R and the course packages, prepare the ESS data, meet the values we will measure, refresh the R and the statistics the course builds on, and write down a first question for your own project.</p>
-          <p>Once the setup is done, read <a href="#/map">the map of SEM</a> (about ninety minutes): why structural equation models exist, what they can model, and how they work inside — the big picture before Day 1.</p>
+          <p><b>Before you start.</b> At your own pace, before Day 1. You will install R and the packages, prepare the ESS data, meet the values we will measure, refresh the R and the statistics η Lab builds on, and write down a first question for your own project.</p>
+          <p>Once the setup is done, read <a href="#/map">the map of SEM</a>: why structural equation models exist, what they can model, and how they work inside — the big picture before Day 1.</p>
           <p>Along the way, R prints a few numbers. Type them into the boxes: then you — and η Lab — know that everything works.</p>
           <p className="hint">Stuck? The <a href="#/day/0#problems">common problems</a> at the end of this page cover most setups. Your progress, models and logbook are saved in this browser only: another browser, a private window or deleting your browsing data starts from zero. They leave the browser only through a link or a file you share.</p>
         </div>
@@ -171,12 +171,12 @@ export function Day0Script({ step, set, project, updateProject }: {
         <ol>{checks.map(c => <li key={c.id} className={c.ok ? 'ok' : ''}><a href={`#/day/0#${c.id}`}>{c.ok ? '✓' : '○'} {c.label}</a></li>)}</ol>
       </div>
 
-      <Sec id="setup" n="1" title="R, RStudio and the course packages" minutes="30–60" goal="R, RStudio and all course packages run on your computer — proven by one number.">
+      <Sec id="setup" n="1" title="R, RStudio and the packages" goal="R, RStudio and all packages run on your computer — proven by one number.">
         <ol className="d0-steps">
           <li><b>Install R</b> from <a href="https://cran.r-project.org" target="_blank" rel="noreferrer">cran.r-project.org</a> — the current version (4.5 or newer). Already have R? RStudio prints the version in the console when it starts; if it is older than 4.5, install the new one. Windows: choose “base”. Mac: choose the installer for your processor — Apple silicon (M1, M2, …) → “arm64”, Intel → “x86_64”.</li>
           <li><b>Install RStudio Desktop</b> from <a href="https://posit.co/download/rstudio-desktop/" target="_blank" rel="noreferrer">posit.co</a>.</li>
-          <li><b>Create a project</b> in RStudio: File → New Project → New Directory → New Project, e.g. <code>sem-course</code>. RStudio creates a folder with a file <code>sem-course.Rproj</code>. <b>All course files go into this folder.</b> You know it worked when <i>sem-course</i> appears at the top right of RStudio. Next time, open the project by double-clicking <code>sem-course.Rproj</code>: R then finds the files without long paths.</li>
-          <li><b>Install the packages</b> the course uses — once. Copy the code below, click into the console (the window with the <code>&gt;</code> prompt), paste it (Ctrl+V, on a Mac Cmd+V) and press Enter. This takes several minutes; it is finished when the prompt <code>&gt;</code> appears again.
+          <li><b>Create a project</b> in RStudio: File → New Project → New Directory → New Project, e.g. <code>sem-lab</code>. RStudio creates a folder with a file <code>sem-lab.Rproj</code>. <b>All files go into this folder.</b> You know it worked when <i>sem-lab</i> appears at the top right of RStudio. Next time, open the project by double-clicking <code>sem-lab.Rproj</code>: R then finds the files without long paths.</li>
+          <li><b>Install the packages</b> used here — once. Copy the code below, click into the console (the window with the <code>&gt;</code> prompt), paste it (Ctrl+V, on a Mac Cmd+V) and press Enter. This can take a while; it is finished when the prompt <code>&gt;</code> appears again.
             <ul>
               <li>Windows asks about a “personal library”? Answer “yes”.</li>
               <li>R asks whether to install packages “from sources” that need compilation? Answer “no”.</li>
@@ -191,10 +191,10 @@ export function Day0Script({ step, set, project, updateProject }: {
         <Code code={CHECK} />
         <p className="hint">While the packages load, R prints many messages, some in red — for example that a function “masks” another one, or that a package could be updated. That is normal. Only a line that begins with <b>Error</b> means that something did not work.</p>
         <NumberCheck label={'fitMeasures(check, "chisq")'} expect={85.306} tol={0.005} value={step.chi ?? ''} onChange={v => set({ chi: v })} unit="lavaan works" />
-        <p className="hint">Optional: lavaangui is a graphical interface for lavaan that runs in the browser at <a href="https://lavaangui.org" target="_blank" rel="noreferrer">lavaangui.org</a>. In the course you will mostly draw models in η Lab itself.</p>
+        <p className="hint">Optional: lavaangui is a graphical interface for lavaan that runs in the browser at <a href="https://lavaangui.org" target="_blank" rel="noreferrer">lavaangui.org</a>. Here you will mostly draw models in η Lab itself.</p>
       </Sec>
 
-      <Sec id="data" n="2" title="The ESS data" minutes="20–30" goal="the course files NL2.sav, BE2.sav and LU2.sav are in your project folder — proven by three numbers.">
+      <Sec id="data" n="2" title="The ESS data" goal="the files NL2.sav, BE2.sav and LU2.sav are in your project folder — proven by three numbers.">
         <ol className="d0-steps">
           <li><b>Register</b> at the <a href="https://ess.sikt.no" target="_blank" rel="noreferrer">ESS Data Portal</a> — free for non-commercial use. You get an email: confirm it, then log in.</li>
           <li><b>Get the file</b>, step by step:
@@ -206,7 +206,7 @@ export function Day0Script({ step, set, project, updateProject }: {
             </ol>
             Check it: run <code>list.files()</code> in the console. You should see <code>ESS2.sav</code> in the list.
           </li>
-          <li><b>Prepare the course files.</b> Paste this code into a new script and run it as before (Ctrl/Cmd+A, then Ctrl/Cmd+Enter). Reading the big file takes a minute. Afterwards <code>NL2.sav</code>, <code>BE2.sav</code> and <code>LU2.sav</code> appear in the Files pane (lower right). Type the three numbers R prints at the end:</li>
+          <li><b>Prepare the data files.</b> Paste this code into a new script and run it as before (Ctrl/Cmd+A, then Ctrl/Cmd+Enter). Reading the big file takes a moment. Afterwards <code>NL2.sav</code>, <code>BE2.sav</code> and <code>LU2.sav</code> appear in the Files pane (lower right). Type the three numbers R prints at the end:</li>
         </ol>
         <Code code={DATA} />
         <div className="ncheck-row">
@@ -214,27 +214,27 @@ export function Day0Script({ step, set, project, updateProject }: {
           <NumberCheck label="nrow(BE2) + nrow(LU2)" expect={3413} tol={0} value={step.rowsbl ?? ''} onChange={v => set({ rowsbl: v })} unit="1,778 Belgian and 1,635 Luxembourgish respondents" hint="check the country filters, and that you read the round 2 file" />
           <NumberCheck label="mean of ipfrule, reversed" expect={4.159} tol={0.005} value={step.mean2 ?? ''} onChange={v => set({ mean2: v })} unit="the reversal worked" />
         </div>
-        <p className="hint">The three saved files keep the original ESS coding: every course day reverses the value items right after reading them. The ESS data never enter η Lab — the app holds only means, covariances and frequency tables; your analyses in R run on your own copy.</p>
+        <p className="hint">The three saved files keep the original ESS coding: each day’s script reverses the value items right after reading them. The ESS data never enter η Lab — the app holds only means, covariances and frequency tables; your analyses in R run on your own copy.</p>
       </Sec>
 
-      <Sec id="values" n="3" title="The values the course measures" minutes="20" goal="you know how the ESS asks about values, which values the course uses, and why they are recoded.">
-        <p>The course data come from the European Social Survey. Its human values module follows Schwartz’s theory of basic human values: ten values on a circle, measured with 21 short portraits of a person. Each respondent says how much this person is like them:</p>
+      <Sec id="values" n="3" title="The values measured here" goal="you know how the ESS asks about values, which values η Lab uses, and why they are recoded.">
+        <p>The data come from the European Social Survey. Its human values module follows Schwartz’s theory of basic human values: ten values on a circle, measured with 21 short portraits of a person. Each respondent says how much this person is like them:</p>
         <div className="card pvq-item">
           <p className="q">“Tradition is important to him. He tries to follow the customs handed down by his religion or his family.”</p>
           <p className="hint" style={{ margin: '0 0 6px' }}>How much like you is this person? (Women see the same portrait with “her” and “she”.)</p>
           <ol className="pvq-scale">{['Very much like me', 'Like me', 'Somewhat like me', 'A little like me', 'Not like me', 'Not like me at all'].map((l, i) => <li key={l}><b>{i + 1}</b>{l}</li>)}</ol>
-          <p className="hint" style={{ margin: '6px 0 0' }}>In the data this item is <code>imptrad</code>. Note the direction: <b>1 = very much like me</b>. That is why the course reverses all value items, so that a higher number means “more important” (part 4).</p>
+          <p className="hint" style={{ margin: '6px 0 0' }}>In the data this item is <code>imptrad</code>. Note the direction: <b>1 = very much like me</b>. That is why we reverse all value items, so that a higher number means “more important” (part 4).</p>
         </div>
         <p>Day 1 starts with two neighbours on the circle — tradition and conformity, two items each.</p>
         <ValuesCircle />
-        <p>The second block of the course measures attitudes toward immigration: whether people would <b>allow</b> immigrants of the same or a different ethnic group, or from poorer countries, to come and live in the country — and whether they see immigration as good for the economy, the cultural life and the country (<b>effects</b>). From Day 6 on, values explain these attitudes. The allow items, too, run “backwards”: 1 = allow many, 4 = allow none.</p>
+        <p>The second block of variables measures attitudes toward immigration: whether people would <b>allow</b> immigrants of the same or a different ethnic group, or from poorer countries, to come and live in the country — and whether they see immigration as good for the economy, the cultural life and the country (<b>effects</b>). From Day 6 on, values explain these attitudes. The allow items, too, run “backwards”: 1 = allow many, 4 = allow none.</p>
         <MiniTask question="Which higher-order value lies opposite conservation on the circle?" options={['Self-transcendence', 'Openness to change', 'Self-enhancement']} answer={1}
           done={step.values === 'yes'} onRight={() => set({ values: 'yes' })}
           explain="Right: tradition, conformity and security (conservation) sit opposite self-direction, stimulation and hedonism (openness to change). People who value one usually value the other less." />
       </Sec>
 
-      <Sec id="r" n="4" title="The R you need" minutes="30" goal="you can read the few R lines the course uses every day, and run one yourself.">
-        <p>The course does not need much R — but it uses the same handful of functions every day. Here they are, first on a toy table, then on the real data.</p>
+      <Sec id="r" n="4" title="The R you need" goal="you can read the few R lines η Lab uses every day, and run one yourself.">
+        <p>η Lab does not need much R — but it uses the same handful of functions every day. Here they are, first on a toy table, then on the real data.</p>
         <PipelineToy />
         <ReverseItem />
         <p className="hint">For reference — no need to learn the table now; Days 1 and 2 use each line, and you can always come back here.</p>
@@ -247,14 +247,14 @@ export function Day0Script({ step, set, project, updateProject }: {
         </div>
       </Sec>
 
-      <Sec id="stats" n="5" title="Variance, covariance, correlation — and what a CFA explains" minutes="30" goal="you can read a covariance and a correlation matrix, and you know why a CFA starts from it.">
-        <p>Everything in the course is built on three quantities. The <b>variance</b> is how much one variable spreads. The <b>covariance</b> is how much two variables spread together, in their own units. The <b>correlation</b> is the covariance without units, between −1 and 1. A regression slope is the covariance divided by the predictor’s variance.</p>
+      <Sec id="stats" n="5" title="Variance, covariance, correlation — and what a CFA explains" goal="you can read a covariance and a correlation matrix, and you know why a CFA starts from it.">
+        <p>Everything that follows is built on three quantities. The <b>variance</b> is how much one variable spreads. The <b>covariance</b> is how much two variables spread together, in their own units. The <b>correlation</b> is the covariance without units, between −1 and 1. A regression slope is the covariance divided by the predictor’s variance.</p>
         <MiniTask question="Guess first: the answers to y spread twice as much as before (every value doubled). What happens to the correlation of x and y?" options={['It doubles', 'It stays the same', 'It halves']} answer={1}
           done={step.guess === 'yes'} onRight={() => set({ guess: 'yes' })}
           explain="It stays the same: the correlation has no units. The covariance and the slope b double. Check it below with the slider “SD of y”." />
         <CovarianceExplainer />
-        <p>For several items, the variances and covariances form the <b>covariance matrix S</b>. It is what every model in this course has to explain: a CFA reproduces it with a few loadings and error variances, and the matrix the model implies, Σ(θ), should come as close to S as possible.</p>
-        {nl ? <WhatSEMSees stats={nl} items={ITEMS4} /> : <p className="hint">Loading the course data…</p>}
+        <p>For several items, the variances and covariances form the <b>covariance matrix S</b>. It is what every model in η Lab has to explain: a CFA reproduces it with a few loadings and error variances, and the matrix the model implies, Σ(θ), should come as close to S as possible.</p>
+        {nl ? <WhatSEMSees stats={nl} items={ITEMS4} /> : <p className="hint">Loading the ESS data…</p>}
         {pairOptions.length > 0 && (
           <MiniTask question="Switch to the correlations R. Which pair of items correlates most strongly?" options={pairOptions.map(p => `${p.a} and ${p.b}`)} answer={1}
             done={step.stats === 'yes'} onRight={() => set({ stats: 'yes' })}
@@ -265,8 +265,8 @@ export function Day0Script({ step, set, project, updateProject }: {
         <SymbolCard />
       </Sec>
 
-      <Sec id="project" n="6" title="Your project: a first question" minutes="20" goal="you have written down the starting point of your own SEM project.">
-        <p>Over the two weeks you develop your own SEM project — with your data, or with the ESS. Today, only the starting point. A question of one sentence is enough: the checklist above ticks as soon as you have written it.</p>
+      <Sec id="project" n="6" title="Your project: a first question" goal="you have written down the starting point of your own SEM project.">
+        <p>Over the days you develop your own SEM project — with your data, or with the ESS. Here, only the starting point. A question of one sentence is enough: the checklist above ticks as soon as you have written it.</p>
         <div className="card project-step">
           <label className="ps-field">Your research question
             <textarea rows={2} value={project.question} onChange={e => updateProject({ question: e.target.value })} placeholder="e.g. Do people who value tradition oppose immigration — and is that the same in all countries?" />
@@ -293,7 +293,7 @@ export function Day0Script({ step, set, project, updateProject }: {
         </div>
       </Sec>
 
-      <Sec id="selftest" n="7" title="Self-test" minutes="10" goal="you know whether you are ready for Day 1 — and which part to look at again if not.">
+      <Sec id="selftest" n="7" title="Self-test" goal="you know whether you are ready for Day 1 — and which part to look at again if not.">
         <SelfTest items={QUIZ} onScore={n => set({ score: String(n) })} />
       </Sec>
 

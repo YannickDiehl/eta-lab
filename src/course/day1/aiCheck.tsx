@@ -22,7 +22,7 @@ values_fit <- cfa(
     'UNIV ~ ipeqopt + … regresses UNIV on its items instead of measuring it: lavaan stops, because UNIV is neither in the data nor defined by =~. A reflective measurement model needs =~ (the arrows run from the factor to the items).',
     'TRCO ~~ 0*UNIV forbids the correlation the diagram draws; delete the line (lavaan lets factors covary by default).',
     'imptrad ~~ impenv is an error covariance the diagram does not draw. Day 2 meets it again as the largest modification index — and asks for a reason about the items before anyone frees it.',
-    'A fifth point, not about the diagram: estimator = "ML" ignores the course’s MLR with missing = "fiml.x" — for skewed items with missing answers, and without FIML lavaan drops every incomplete respondent.',
+    'A fifth point, not about the diagram: estimator = "ML" ignores the MLR with missing = "fiml.x" used here — for skewed items with missing answers, and without FIML lavaan drops every incomplete respondent.',
   ],
 };
 
