@@ -6,9 +6,9 @@ import { DAYS, readiness } from './days.ts';
 
 // The authors: η Lab grew out of their teaching materials.
 const AUTHORS = [
-  { name: 'Peter Schmidt', focus: 'University of Giessen · theory, measurement and comparison across countries', color: 'var(--latent)' },
   { name: 'Daniel Seddig', focus: 'KFN Hanover · structural models, panel data and cross-cultural comparability', color: 'var(--obs)' },
-  { name: 'Yannick Diehl', focus: 'R, lavaan and η Lab', color: 'var(--err)' },
+  { name: 'Peter Schmidt', focus: 'University of Giessen · theory, measurement and comparison across countries', color: 'var(--latent)' },
+  { name: 'Yannick Diehl', focus: 'University of Marburg · R, lavaan and η Lab', color: 'var(--err)' },
 ];
 
 const STATE_LABEL = { ready: 'ready', partly: 'partly built', planned: 'planned' } as const;
