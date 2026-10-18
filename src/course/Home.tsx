@@ -6,9 +6,9 @@ import { DAYS, readiness } from './days.ts';
 
 // The authors: η Lab grew out of their teaching materials.
 const AUTHORS = [
-  { name: 'Daniel Seddig', focus: 'KFN Hanover · structural models, panel data and cross-cultural comparability', color: 'var(--obs)' },
-  { name: 'Peter Schmidt', focus: 'University of Giessen · theory, measurement and comparison across countries', color: 'var(--latent)' },
-  { name: 'Yannick Diehl', focus: 'University of Marburg · R, lavaan and η Lab', color: 'var(--err)' },
+  { name: 'Daniel Seddig', color: 'var(--obs)' },
+  { name: 'Peter Schmidt', color: 'var(--latent)' },
+  { name: 'Yannick Diehl', color: 'var(--err)' },
 ];
 
 const STATE_LABEL = { ready: 'ready', partly: 'partly built', planned: 'planned' } as const;
@@ -82,7 +82,7 @@ export function Home({ project, steps, setTrack }: { project: YourModel; steps: 
           {AUTHORS.map(t => (
             <div key={t.name} className="card person">
               <i style={{ background: t.color }} aria-hidden="true">{t.name.split(' ').map(w => w[0]).join('')}</i>
-              <span><b>{t.name}</b>{t.focus}</span>
+              <span><b>{t.name}</b></span>
             </div>
           ))}
         </div>
