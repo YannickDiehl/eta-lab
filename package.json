@@ -1,0 +1,27 @@
+{
+  "name": "eta-lab",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "description": "η Lab — an interactive sandbox for structural equation modeling (Essex Summer School 2027)",
+  "scripts": {
+    "dev": "vite --host 127.0.0.1 --port ${PORT:-5180}",
+    "build": "tsc --noEmit && vite build",
+    "preview": "vite preview --host 127.0.0.1 --port 5180",
+    "test": "node --import tsx --test src/math/*.test.ts src/model/*.test.ts src/studio/*.test.ts src/stations/*.test.ts src/course/*.test.ts"
+  },
+  "dependencies": {
+    "katex": "^0.19.0",
+    "react": "^19.2.8",
+    "react-dom": "^19.2.8"
+  },
+  "devDependencies": {
+    "@types/node": "^26.5.0",
+    "@types/react": "^19.2.18",
+    "@types/react-dom": "^19.2.7",
+    "@vitejs/plugin-react": "^6.1.1",
+    "tsx": "^4.23.13",
+    "typescript": "^7.0.2",
+    "vite": "^8.2.2"
+  }
+}

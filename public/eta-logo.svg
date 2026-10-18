@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="88" height="136" viewBox="4 25 88 136" role="img" aria-label="η, the course character">
+  <title>η</title>
+  <g fill="none" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M18,61 Q27,49 31,63 L31,112" stroke="#2a2440" stroke-width="25"/>
+    <path d="M31,76 C34,57 46,50 57,50 C71,50 76,61 76,76 L76,148" stroke="#2a2440" stroke-width="25"/>
+    <path d="M18,61 Q27,49 31,63 L31,112" stroke="#b9adff" stroke-width="19"/>
+    <path d="M31,76 C34,57 46,50 57,50 C71,50 76,61 76,76 L76,148" stroke="#b9adff" stroke-width="19"/>
+    <path d="M38,70 C41,60 48,56 56,56" stroke="#ffffff" stroke-opacity=".55" stroke-width="4"/>
+  </g>
+  <circle cx="45" cy="41" r="10.5" fill="#fff" stroke="#2a2440" stroke-width="2.6"/>
+  <circle cx="66" cy="39" r="10.5" fill="#fff" stroke="#2a2440" stroke-width="2.6"/>
+  <circle cx="47" cy="42" r="4.6" fill="#2a2440"/>
+  <circle cx="68" cy="40" r="4.6" fill="#2a2440"/>
+</svg>

@@ -1,0 +1,66 @@
+{
+  "labels": {
+    "imptrad": "Tradition is important to them; they follow the customs handed down by religion or family.",
+    "ipfrule": "They believe people should do what they are told and follow rules at all times.",
+    "ipbhprp": "It is important to them always to behave properly.",
+    "ipmodst": "It is important to them to be humble and modest."
+  },
+  "datasets": [
+    {
+      "id": "gb2014",
+      "label": "Great Britain · ESS 2014",
+      "n": 1780,
+      "items": ["imptrad", "ipfrule", "ipbhprp", "ipmodst"],
+      "S": [
+        [1, 0.2905, 0.3224, 0.1706],
+        [0.2905, 1, 0.3876, 0.1397],
+        [0.3224, 0.3876, 1, 0.2657],
+        [0.1706, 0.1397, 0.2657, 1]
+      ],
+      "means": [2.858, 3.376, 2.635, 2.656],
+      "sds": [1.44, 1.43, 1.287, 1.247]
+    },
+    {
+      "id": "de2014",
+      "label": "Germany · ESS 2014",
+      "n": 2671,
+      "items": ["imptrad", "ipfrule", "ipbhprp", "ipmodst"],
+      "S": [
+        [1, 0.2653, 0.2962, 0.1429],
+        [0.2653, 1, 0.3803, 0.1882],
+        [0.2962, 0.3803, 1, 0.2345],
+        [0.1429, 0.1882, 0.2345, 1]
+      ],
+      "means": [2.972, 3.567, 2.928, 2.605],
+      "sds": [1.372, 1.401, 1.305, 1.195]
+    },
+    {
+      "id": "nl2004",
+      "label": "Netherlands · ESS 2004",
+      "n": 1835,
+      "items": ["imptrad", "ipfrule", "ipbhprp", "ipmodst"],
+      "S": [
+        [1, 0.329, 0.4205, 0.2487],
+        [0.329, 1, 0.4622, 0.3093],
+        [0.4205, 0.4622, 1, 0.3456],
+        [0.2487, 0.3093, 0.3456, 1]
+      ],
+      "means": [4.231, 4.156, 4.281, 3.748],
+      "sds": [1.253, 1.203, 1.131, 1.296]
+    },
+    {
+      "id": "nl2023",
+      "label": "Netherlands · ESS 2023",
+      "n": 1654,
+      "items": ["imptrad", "ipfrule", "ipbhprp", "ipmodst"],
+      "S": [
+        [1, 0.2359, 0.2391, 0.101],
+        [0.2359, 1, 0.3928, 0.2427],
+        [0.2391, 0.3928, 1, 0.2478],
+        [0.101, 0.2427, 0.2478, 1]
+      ],
+      "means": [3.968, 3.55, 4.046, 4.105],
+      "sds": [1.269, 1.303, 1.195, 1.173]
+    }
+  ]
+}
